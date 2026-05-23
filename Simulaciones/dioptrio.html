@@ -46,26 +46,49 @@ canvas{width:100%;border-radius:var(--radius);display:block;cursor:crosshair;bac
 .info{font-size:.78rem;color:var(--text2);line-height:1.5;margin-top:.5rem}
 </style>
 </head>
-<body>
-<div class="app" id="appRoot">
-<h1>🔮 Dióptrio Esférico</h1>
-<p class="subtitle">Simulación interactiva · Refracción en superficie esférica, trazado de rayos y fórmulas</p>
+<body><div class="app" id="appRoot">
+<h1>🔮 Dióptrio Esférico y Plano</h1>
+<p class="subtitle">Simulación interactiva · Refracción en superficies refractantes y teoría óptica paraxial</p>
 <div class="grid">
 <div class="card ctrl">
+<h2>Tipo de Dióptrio</h2>
+<select id="diopterType" style="margin-bottom:0.8rem">
+  <option value="convexo">Esférico Convexo (r > 0)</option>
+  <option value="concavo">Esférico Cóncavo (r < 0)</option>
+  <option value="plano">Plano (r → ∞)</option>
+</select>
+
+<h2>Ejemplos de la Teoría</h2>
+<select id="theoryExample" style="margin-bottom:0.8rem">
+  <option value="custom">-- Personalizado --</option>
+  <option value="ex18">Ejemplo 4-18: Varilla de vidrio en Aire</option>
+  <option value="ex19">Ejemplo 4-19: Varilla de vidrio en Agua</option>
+  <option value="ex20">Ejemplo 4-20: Superficie cóncava</option>
+  <option value="ex21">Ejemplo 4-21: El ojo del pez (Pecera)</option>
+  <option value="ex_pool">Ejemplo clásico: Moneda en la piscina</option>
+</select>
+
+<div id="exampleCard" class="info" style="display:none;background:rgba(30,41,59,0.5);padding:10px;border-radius:8px;border:1px solid var(--border);margin-bottom:0.8rem;font-size:0.75rem;line-height:1.4">
+</div>
+
 <h2>Controles</h2>
 <label>n₁ (medio objeto): <span class="val" id="n1Val">1.00</span></label>
 <input type="range" id="n1slider" min="1.00" max="2.50" step="0.01" value="1.00">
 <label>n₂ (medio imagen): <span class="val" id="n2Val">1.50</span></label>
 <input type="range" id="n2slider" min="1.00" max="2.50" step="0.01" value="1.50">
-<label>Radio de curvatura R: <span class="val" id="rVal">150</span></label>
-<input type="range" id="Rslider" min="50" max="400" step="5" value="150">
-<label>Altura del objeto h: <span class="val" id="hVal">50</span></label>
-<input type="range" id="Hslider" min="10" max="120" step="5" value="50">
-<div class="btn-row" style="margin-top:6px">
+<div id="rCtrl">
+<label>Radio de curvatura |r|: <span class="val" id="rVal">15.0</span> cm</label>
+<input type="range" id="rslider" min="1.0" max="50.0" step="0.5" value="15.0">
+</div>
+<label>Distancia objeto p: <span class="val" id="pVal">20.0</span> cm</label>
+<input type="range" id="pslider" min="1.0" max="100.0" step="0.5" value="20.0">
+<label>Altura del objeto h: <span class="val" id="hVal">3.0</span> cm</label>
+<input type="range" id="hslider" min="0.5" max="10.0" step="0.1" value="3.0">
+<div class="btn-row" style="margin-top:8px">
 <button class="btn" id="btnReset">↺ Reiniciar</button>
 <button class="btn" id="btnSnap">📷 Captura</button>
 </div>
-<div class="zoom-ctrl" style="margin-top:4px">
+<div class="zoom-ctrl" style="margin-top:6px">
 <button class="btn" id="btnZin">+</button>
 <span class="val" id="zoomVal">100%</span>
 <button class="btn" id="btnZout">−</button>
@@ -78,25 +101,22 @@ canvas{width:100%;border-radius:var(--radius);display:block;cursor:crosshair;bac
 <div style="display:flex;flex-direction:column;gap:1rem">
 <div class="card"><h2>Diagrama de Rayos</h2>
 <canvas id="mc" height="500"></canvas>
-<p class="info" style="margin-top:6px">🖱️ Arrastra la punta de la flecha (objeto). Scroll para zoom.</p>
+<p class="info" style="margin-top:6px">🖱️ Arrastra la punta de la flecha (objeto) para modificar p y h de forma interactiva. Scroll para zoom.</p>
 </div>
 <div class="two-col">
-<div class="card"><h2>Fórmulas del Dióptrio</h2>
-<div class="formula-box" id="f1"></div>
-<div class="formula-box" id="f2"></div>
-<div class="formula-box" id="f3"></div>
-<div class="formula-box" id="f4"></div>
+<div class="card"><h2>Cálculo Paso a Paso (Teoría)</h2>
+<div id="stepSolver" style="margin-top:0.5rem"></div>
 </div>
 <div class="card"><h2>Propiedades de la Imagen</h2>
 <div id="imgProps"></div>
-<h2>Convención de Signos</h2>
-<div class="info">
-<b>R > 0:</b> centro de curvatura en el lado de transmisión<br>
-<b>R < 0:</b> centro de curvatura en el lado del objeto<br>
-<b>s > 0:</b> objeto real (frente a la superficie)<br>
-<b>s' > 0:</b> imagen real (lado de transmisión)<br>
-<b>s' < 0:</b> imagen virtual (mismo lado que objeto)<br>
-<b>M > 0:</b> imagen derecha · <b>M < 0:</b> imagen invertida
+<h2>Convención de Signos (Teoría)</h2>
+<div class="info" style="line-height:1.5">
+<b>r > 0:</b> Convexo (centro en transmisión)<br>
+<b>r < 0:</b> Cóncavo (centro en incidencia)<br>
+<b>p > 0:</b> Objeto real (en incidencia)<br>
+<b>q > 0:</b> Imagen real (en transmisión)<br>
+<b>q < 0:</b> Imagen virtual (en incidencia)<br>
+<b>A > 0:</b> Imagen derecha · <b>A < 0:</b> Imagen invertida
 </div>
 </div>
 </div>
@@ -105,159 +125,497 @@ canvas{width:100%;border-radius:var(--radius);display:block;cursor:crosshair;bac
 </div>
 <script>
 const C=document.getElementById('mc'),X=C.getContext('2d');
-let zoom=1,panX=0,panY=0,objX=-200,objHpx=50,dragging=false;
+let zoom=1,panX=0,panY=0,draggingObj=false,draggingPan=false;
+let startX=0,startY=0;
 let W,H,OX,OY;
+let p_cm = 20.0;
+let h_cm = 3.0;
+let scaleDraw = 15; // default scale: pixels per cm
+
+const examples = {
+  ex18: {
+    title: "Ejemplo 4-18: Varilla de vidrio en el aire",
+    desc: "Una varilla de vidrio cilíndrica en el aire ($n_1 = 1.00$, $n_2 = 1.52$) con extremo semiesférico de radio $r = +2.00$ cm. Objeto a $p = 8.00$ cm a la izquierda. Se obtiene una <b>imagen real</b> en $q = +11.3$ cm con aumento $A = -0.929$ (invertida).",
+    n1: 1.00,
+    n2: 1.52,
+    type: "convexo",
+    r: 2.0,
+    p: 8.0,
+    h: 1.0,
+    scale: 35
+  },
+  ex19: {
+    title: "Ejemplo 4-19: Varilla de vidrio sumergida en agua",
+    desc: "La misma varilla del ejemplo anterior sumergida en agua ($n_1 = 1.33$, $n_2 = 1.52$). Al reducirse la potencia refractiva, no se logran enfocar los rayos y se forma una <b>imagen virtual</b> en $q = -21.3$ cm con aumento $A = +2.32$ (derecha).",
+    n1: 1.33,
+    n2: 1.52,
+    type: "convexo",
+    r: 2.0,
+    p: 8.0,
+    h: 1.0,
+    scale: 35
+  },
+  ex20: {
+    title: "Ejemplo 4-20: Superficie cóncava",
+    desc: "Varilla de vidrio ($n_2 = 1.50$) en el aire con extremo cóncavo de radio $r = -4.00$ cm. Objeto de altura $h = 3.0$ mm a $p = 16.0$ cm. Se obtiene una <b>imagen virtual</b> en $q = -8.00$ cm con aumento $A = +0.333$ (derecha y reducida a $1.0$ mm).",
+    n1: 1.00,
+    n2: 1.50,
+    type: "concavo",
+    r: 4.0,
+    p: 16.0,
+    h: 2.0,
+    scale: 18
+  },
+  ex21: {
+    title: "Ejemplo 4-21: El ojo del pez (Pecera esférica)",
+    desc: "Un pez dentro de una pecera de agua ($n_2 = 1.33$) observa un gato a $p = 50.0$ cm en el aire ($n_1 = 1.00$). Radio de la pecera $r = +40.0$ cm (convexo para la luz entrante). Se forma una <b>imagen virtual</b> en $q \\approx -113.2$ cm, con aumento $A = +1.70$. ¡El pez ve al gato un 70% más grande!",
+    n1: 1.00,
+    n2: 1.33,
+    type: "convexo",
+    r: 40.0,
+    p: 50.0,
+    h: 6.0,
+    scale: 3.5
+  },
+  ex_pool: {
+    title: "Ejemplo clásico: Moneda en la piscina",
+    desc: "Un objeto sumergido en agua ($n_1 = 1.33$) a profundidad real $p = 8.00$ cm se observa desde el aire ($n_2 = 1.00$) a través de una superficie plana ($r \\to \\infty$). Se obtiene una <b>imagen virtual</b> en $q = -6.00$ cm (profundidad aparente de $3/4$ de la real) con aumento $A = +1.00$.",
+    n1: 1.33,
+    n2: 1.00,
+    type: "plano",
+    r: 10.0,
+    p: 8.0,
+    h: 3.0,
+    scale: 35
+  }
+};
+
 function el(id){return document.getElementById(id)}
 
-el('n1slider').oninput=update; el('n2slider').oninput=update;
-el('Rslider').oninput=update; el('Hslider').oninput=update;
-el('btnReset').onclick=function(){objX=-200;zoom=1;panX=0;panY=0;
-  el('n1slider').value=1;el('n2slider').value=1.5;el('Rslider').value=150;el('Hslider').value=50;update()};
-el('btnSnap').onclick=function(){html2canvas(el('appRoot'),{backgroundColor:'#0a0e1a'}).then(function(c){
-  var a=document.createElement('a');a.download='dioptrio_captura.png';a.href=c.toDataURL();a.click()})};
+function formatDecimal(val) {
+  if (val === Infinity || val === -Infinity) return "\\infty";
+  if (isNaN(val)) return "N/A";
+  var s = val.toFixed(5);
+  if (s.indexOf('.') !== -1) {
+    s = s.replace(/0+$/, ''); // remove trailing zeros
+    s = s.replace(/\.$/, ''); // remove trailing decimal point
+  }
+  return s.replace('.', '{,}');
+}
+
+function toLaTexNum(val, dec) {
+  if (val === Infinity || val === -Infinity) return "\\infty";
+  if (isNaN(val)) return "N/A";
+  var s = val.toFixed(dec !== undefined ? dec : 2);
+  return s.replace('.', '{,}');
+}
+
+function renderInlineMath(element) {
+  var html = element.innerHTML;
+  var regex = /\$([^\$]+)\$/g;
+  html = html.replace(regex, function(match, formula) {
+    try {
+      return katex.renderToString(formula, {throwOnError: false, displayMode: false});
+    } catch(e) {
+      console.error(e);
+      return match;
+    }
+  });
+  element.innerHTML = html;
+}
+
+// Event listeners
+el('n1slider').oninput=update; 
+el('n2slider').oninput=update;
+el('rslider').oninput=function() { el('theoryExample').value='custom'; el('exampleCard').style.display='none'; update(); };
+el('pslider').oninput=function() { el('theoryExample').value='custom'; el('exampleCard').style.display='none'; update(); };
+el('hslider').oninput=function() { el('theoryExample').value='custom'; el('exampleCard').style.display='none'; update(); };
+el('diopterType').onchange=function() { el('theoryExample').value='custom'; el('exampleCard').style.display='none'; update(); };
+
+el('theoryExample').onchange=function(){
+  var exKey = this.value;
+  if(exKey !== 'custom') {
+    var ex = examples[exKey];
+    el('n1slider').value = ex.n1;
+    el('n2slider').value = ex.n2;
+    el('diopterType').value = ex.type;
+    el('rslider').value = ex.r;
+    el('pslider').value = ex.p;
+    el('hslider').value = ex.h;
+    scaleDraw = ex.scale;
+    
+    el('exampleCard').innerHTML = `<b>${ex.title}</b><p style="margin-top:4px">${ex.desc}</p>`;
+    renderInlineMath(el('exampleCard'));
+    el('exampleCard').style.display = 'block';
+  } else {
+    el('exampleCard').style.display = 'none';
+  }
+  update();
+};
+
+el('btnReset').onclick=function(){
+  el('theoryExample').value = 'custom';
+  el('exampleCard').style.display = 'none';
+  el('n1slider').value = 1.00;
+  el('n2slider').value = 1.50;
+  el('diopterType').value = 'convexo';
+  el('rslider').value = 15.0;
+  el('pslider').value = 20.0;
+  el('hslider').value = 3.0;
+  zoom = 1; panX = 0; panY = 0; scaleDraw = 15;
+  update();
+};
+
+el('btnSnap').onclick=function(){
+  html2canvas(el('appRoot'),{backgroundColor:'#0a0e1a'}).then(function(c){
+    var a=document.createElement('a');a.download='dioptrio_captura.png';a.href=c.toDataURL();a.click();
+  });
+};
+
 el('btnZin').onclick=function(){zoom=Math.min(zoom*1.2,5);update()};
 el('btnZout').onclick=function(){zoom=Math.max(zoom/1.2,0.3);update()};
 el('btnZrst').onclick=function(){zoom=1;panX=0;panY=0;update()};
 
-function resize(){C.width=C.parentElement.clientWidth-40;C.height=500;W=C.width;H=C.height;OX=W*0.45;OY=H/2;update()}
+function resize(){
+  C.width=C.parentElement.clientWidth-40;
+  C.height=500;
+  W=C.width;
+  H=C.height;
+  OX=W*0.45;
+  OY=H/2;
+  update();
+}
 window.addEventListener('resize',resize);
-window.addEventListener('DOMContentLoaded',function(){resize();renderFormulas()});
+window.addEventListener('DOMContentLoaded',resize);
 
-function getPos(e){var r=C.getBoundingClientRect();
+function getPos(e){
+  var r=C.getBoundingClientRect();
   var cx=(e.clientX||e.touches[0].clientX)-r.left;
   var cy=(e.clientY||e.touches[0].clientY)-r.top;
-  return{x:(cx-OX-panX)/zoom,y:(cy-OY-panY)/zoom}}
-C.addEventListener('mousedown',function(e){var p=getPos(e);
-  var dx=p.x-objX,dy=p.y-(-objHpx);
-  if(Math.sqrt(dx*dx+dy*dy)<25){dragging=true;C.style.cursor='grabbing'}});
-C.addEventListener('mousemove',function(e){if(!dragging)return;var p=getPos(e);
-  objX=Math.min(-15,p.x);objHpx=Math.max(10,Math.abs(p.y));
-  el('Hslider').value=Math.round(objHpx);update()});
-C.addEventListener('mouseup',function(){dragging=false;C.style.cursor='crosshair'});
-C.addEventListener('mouseleave',function(){dragging=false;C.style.cursor='crosshair'});
-C.addEventListener('wheel',function(e){e.preventDefault();
-  var f=e.deltaY<0?1.1:0.9;zoom=Math.max(0.3,Math.min(5,zoom*f));update()},{passive:false});
-C.addEventListener('touchstart',function(e){if(e.touches.length===1){var p=getPos(e);
-  var dx=p.x-objX,dy=p.y-(-objHpx);if(Math.sqrt(dx*dx+dy*dy)<35){dragging=true;e.preventDefault()}}});
-C.addEventListener('touchmove',function(e){if(!dragging)return;e.preventDefault();var p=getPos(e);
-  objX=Math.min(-15,p.x);objHpx=Math.max(10,Math.abs(p.y));el('Hslider').value=Math.round(objHpx);update()});
-C.addEventListener('touchend',function(){dragging=false});
+  return {cx: cx, cy: cy, x:(cx-OX-panX)/zoom, y:(cy-OY-panY)/zoom};
+}
 
-// Physics: n1/s + n2/s' = (n2-n1)/R
-function calcDiopter(n1,n2,R,s){
-  var denom=(n2-n1)/R - n1/s;
-  if(Math.abs(denom)<1e-6) return{sp:Infinity,M:Infinity,atLimit:true};
-  var sp=n2/denom;
-  var M=-(n1*sp)/(n2*s);
-  var real=sp>0;
-  return{sp:sp,M:M,hi:M*objHpx,real:real,atLimit:false};
+C.addEventListener('mousedown',function(e){
+  var p=getPos(e);
+  var obj_screen_x = -p_cm * scaleDraw;
+  var obj_screen_y = -h_cm * scaleDraw;
+  var dx=p.x-obj_screen_x, dy=p.y-obj_screen_y;
+  if(Math.sqrt(dx*dx+dy*dy) < 25 / zoom){
+    draggingObj=true;
+    C.style.cursor='grabbing';
+  } else {
+    draggingPan=true;
+    startX = p.cx;
+    startY = p.cy;
+    C.style.cursor='move';
+  }
+});
+
+C.addEventListener('mousemove',function(e){
+  var p=getPos(e);
+  if(draggingObj){
+    p_cm = Math.max(1.0, Math.min(100.0, -p.x / scaleDraw));
+    h_cm = Math.max(0.5, Math.min(10.0, Math.abs(p.y / scaleDraw)));
+    
+    el('pslider').value = p_cm.toFixed(1);
+    el('hslider').value = h_cm.toFixed(1);
+    
+    el('theoryExample').value = 'custom';
+    el('exampleCard').style.display = 'none';
+    update();
+  } else if(draggingPan){
+    panX += (p.cx - startX);
+    panY += (p.cy - startY);
+    startX = p.cx;
+    startY = p.cy;
+    update();
+  }
+});
+
+C.addEventListener('mouseup',function(){
+  draggingObj=false;
+  draggingPan=false;
+  C.style.cursor='crosshair';
+});
+C.addEventListener('mouseleave',function(){
+  draggingObj=false;
+  draggingPan=false;
+  C.style.cursor='crosshair';
+});
+C.addEventListener('wheel',function(e){
+  e.preventDefault();
+  var f=e.deltaY<0?1.1:0.9;
+  zoom=Math.max(0.3,Math.min(5,zoom*f));
+  update();
+},{passive:false});
+
+C.addEventListener('touchstart',function(e){
+  if(e.touches.length===1){
+    var p=getPos(e);
+    var obj_screen_x = -p_cm * scaleDraw;
+    var obj_screen_y = -h_cm * scaleDraw;
+    var dx=p.x-obj_screen_x, dy=p.y-obj_screen_y;
+    if(Math.sqrt(dx*dx+dy*dy) < 35 / zoom){
+      draggingObj=true;
+      e.preventDefault();
+    } else {
+      draggingPan=true;
+      startX = p.cx;
+      startY = p.cy;
+    }
+  }
+});
+
+C.addEventListener('touchmove',function(e){
+  if(e.touches.length===1){
+    var p=getPos(e);
+    if(draggingObj){
+      e.preventDefault();
+      p_cm = Math.max(1.0, Math.min(100.0, -p.x / scaleDraw));
+      h_cm = Math.max(0.5, Math.min(10.0, Math.abs(p.y / scaleDraw)));
+      
+      el('pslider').value = p_cm.toFixed(1);
+      el('hslider').value = h_cm.toFixed(1);
+      
+      el('theoryExample').value = 'custom';
+      el('exampleCard').style.display = 'none';
+      update();
+    } else if(draggingPan){
+      e.preventDefault();
+      panX += (p.cx - startX);
+      panY += (p.cy - startY);
+      startX = p.cx;
+      startY = p.cy;
+      update();
+    }
+  }
+});
+C.addEventListener('touchend',function(){
+  draggingObj=false;
+  draggingPan=false;
+});
+
+// Physics: n1/p + n2/q = (n2-n1)/r
+function calcDiopter(n1,n2,r,p,type){
+  if(type==='plano'){
+    var q = -(n2/n1)*p;
+    var A = 1.0;
+    return {q:q, A:A, f:Infinity, fp:Infinity, real:false, atLimit:false};
+  }
+  var dn = n2 - n1;
+  var f = (n1*r)/dn;
+  var fp = (n2*r)/dn;
+  
+  var rhs = dn/r;
+  var lhs = n1/p;
+  var denom = rhs - lhs;
+  
+  if(Math.abs(denom)<1e-6){
+    return {q:Infinity, A:Infinity, f:f, fp:fp, real:false, atLimit:true};
+  }
+  
+  var q = n2 / denom;
+  var A = -(n1*q)/(n2*p);
+  var real = q > 0;
+  return {q:q, A:A, f:f, fp:fp, real:real, atLimit:false};
 }
 
 // Drawing helpers
-function toS(x,y){return{x:OX+panX+x*zoom,y:OY+panY+y*zoom}}
+function toS(x,y){return {x:OX+panX+x*zoom, y:OY+panY+y*zoom}}
+
 function drawLine(x1,y1,x2,y2,col,w,dash){
-  var a=toS(x1,y1),b=toS(x2,y2);
+  var a=toS(x1*scaleDraw, y1*scaleDraw), b=toS(x2*scaleDraw, y2*scaleDraw);
   X.strokeStyle=col;X.lineWidth=w||2;X.setLineDash(dash||[]);
-  X.beginPath();X.moveTo(a.x,a.y);X.lineTo(b.x,b.y);X.stroke();X.setLineDash([])}
-function drawDash(x1,y1,x2,y2,col,w){drawLine(x1,y1,x2,y2,col,w||1,[6,4])}
+  X.beginPath();X.moveTo(a.x,a.y);X.lineTo(b.x,b.y);X.stroke();X.setLineDash([]);
+}
+
+function drawDash(x1,y1,x2,y2,col,w){
+  drawLine(x1,y1,x2,y2,col,w||1,[6,4]);
+}
+
 function drawArrow(x1,y1,x2,y2,col,w){
   drawLine(x1,y1,x2,y2,col,w);
-  var a=toS(x2,y2),b=toS(x1,y1);
-  var ang=Math.atan2(a.y-b.y,a.x-b.x),sz=10;
+  var a=toS(x2*scaleDraw, y2*scaleDraw), b=toS(x1*scaleDraw, y1*scaleDraw);
+  var ang=Math.atan2(a.y-b.y,a.x-b.x), sz=10;
   X.fillStyle=col;X.beginPath();X.moveTo(a.x,a.y);
   X.lineTo(a.x-sz*Math.cos(ang-0.4),a.y-sz*Math.sin(ang-0.4));
   X.lineTo(a.x-sz*Math.cos(ang+0.4),a.y-sz*Math.sin(ang+0.4));
-  X.closePath();X.fill()}
+  X.closePath();X.fill();
+}
+
 function drawPt(x,y,col,r,label,ox,oy){
-  var p=toS(x,y);X.beginPath();X.arc(p.x,p.y,(r||5)*zoom,0,Math.PI*2);X.fillStyle=col;X.fill();
-  if(label){X.fillStyle=col;X.font='bold 12px Inter';X.textAlign='center';
-    X.fillText(label,p.x+(ox||0),p.y+(oy||-12))}}
+  var p=toS(x*scaleDraw, y*scaleDraw);
+  X.beginPath();X.arc(p.x,p.y,(r||5)*zoom,0,Math.PI*2);X.fillStyle=col;X.fill();
+  if(label){
+    X.fillStyle=col;X.font='bold 12px Inter';X.textAlign='center';
+    X.fillText(label,p.x+(ox||0),p.y+(oy||-12));
+  }
+}
 
-// Draw spherical surface
-function drawSurface(R){
-  var arcH=Math.min(H*0.8/zoom,Math.abs(R)*1.6);
-  var halfAng=Math.asin(Math.min(arcH/(2*Math.abs(R)),0.95));
-  var steps=80;
-  // Surface at x=0, center of curvature at x=R
-  X.strokeStyle='rgba(200,210,230,0.9)';X.lineWidth=3;X.beginPath();
-  for(var i=0;i<=steps;i++){
-    var a=-halfAng+2*halfAng*i/steps;
-    var px=R-R*Math.cos(a), py=R*Math.sin(a);
-    var s=toS(px,py);
-    if(i===0)X.moveTo(s.x,s.y);else X.lineTo(s.x,s.y)}
+// Ray-surface intersections
+function intersectSphere(x0, y0, dx, dy, r) {
+  var x0r = x0 - r;
+  var a = dx * dx + dy * dy;
+  var b = 2 * (x0r * dx + y0 * dy);
+  var c = x0r * x0r + y0 * y0 - r * r;
+  var disc = b * b - 4 * a * c;
+  if (disc < 0) return null;
+  var sqrtD = Math.sqrt(disc);
+  var t1 = (-b - sqrtD) / (2 * a);
+  var t2 = (-b + sqrtD) / (2 * a);
+  
+  var candidates = [];
+  [t1, t2].forEach(function(t) {
+    if (t > 0) {
+      var cx = x0 + t * dx;
+      var cy = y0 + t * dy;
+      // Condition to be on the physical hemisphere: sign(r) * (x - r) <= 0
+      if ((cx - r) * r <= 0) {
+        candidates.push({x: cx, y: cy, t: t});
+      }
+    }
+  });
+  
+  if (candidates.length === 0) return null;
+  candidates.sort(function(a, b) { return a.t - b.t; });
+  return {x: candidates[0].x, y: candidates[0].y};
+}
+
+function intersectBoundary(x0, y0, dx, dy, r, type) {
+  if (type === 'plano') {
+    if (Math.abs(dx) < 1e-6) return null;
+    var t = -x0 / dx;
+    if (t <= 0) return null;
+    return {x: 0, y: y0 + t * dy};
+  }
+  return intersectSphere(x0, y0, dx, dy, r);
+}
+
+function getSurfaceX(y, r, type) {
+  if (type === 'plano') return 0;
+  if (Math.abs(y) >= Math.abs(r)) return r; // clip
+  var sign = r >= 0 ? 1 : -1;
+  return r - sign * Math.sqrt(r * r - y * y);
+}
+
+function drawSurface(r, type) {
+  if (type === 'plano') {
+    X.strokeStyle = 'rgba(200,210,230,0.9)';
+    X.lineWidth = 3;
+    X.beginPath();
+    var topPt = toS(0, -H / (2 * zoom));
+    var botPt = toS(0, H / (2 * zoom));
+    X.moveTo(topPt.x, topPt.y);
+    X.lineTo(botPt.x, botPt.y);
+    X.stroke();
+    
+    X.strokeStyle = 'rgba(148,163,184,0.25)';
+    X.lineWidth = 1;
+    for (var yVal = -H / (2 * zoom * scaleDraw); yVal < H / (2 * zoom * scaleDraw); yVal += 15 / scaleDraw) {
+      var sPt = toS(0, yVal * scaleDraw);
+      X.beginPath();
+      X.moveTo(sPt.x, sPt.y);
+      X.lineTo(sPt.x + 6, sPt.y - 5);
+      X.stroke();
+    }
+    return;
+  }
+  
+  var arcH = Math.min(H * 0.8 / (zoom * scaleDraw), Math.abs(r) * 1.6);
+  var halfAng = Math.asin(Math.min(arcH / (2 * Math.abs(r)), 0.95));
+  var steps = 80;
+  
+  X.strokeStyle = 'rgba(200,210,230,0.9)';
+  X.lineWidth = 3;
+  X.beginPath();
+  for (var i = 0; i <= steps; i++) {
+    var a = -halfAng + 2 * halfAng * i / steps;
+    var px = r - r * Math.cos(a);
+    var py = r * Math.sin(a);
+    var s = toS(px * scaleDraw, py * scaleDraw);
+    if (i === 0) X.moveTo(s.x, s.y);
+    else X.lineTo(s.x, s.y);
+  }
   X.stroke();
-  // hatching
-  X.strokeStyle='rgba(148,163,184,0.25)';X.lineWidth=1;
-  for(var i=0;i<=steps;i+=4){
-    var a=-halfAng+2*halfAng*i/steps;
-    var px=R-R*Math.cos(a),py=R*Math.sin(a);
-    var s=toS(px,py);
-    X.beginPath();X.moveTo(s.x,s.y);X.lineTo(s.x+6,s.y-5);X.stroke()}
+  
+  X.strokeStyle = 'rgba(148,163,184,0.25)';
+  X.lineWidth = 1;
+  for (var i = 0; i <= steps; i += 4) {
+    var a = -halfAng + 2 * halfAng * i / steps;
+    var px = r - r * Math.cos(a);
+    var py = r * Math.sin(a);
+    var s = toS(px * scaleDraw, py * scaleDraw);
+    X.beginPath();
+    X.moveTo(s.x, s.y);
+    X.lineTo(s.x + 6 * (r >= 0 ? 1 : -1), s.y - 5);
+    X.stroke();
+  }
 }
 
-// Refract a ray at the spherical surface
-// Given incoming ray from (rx,ry) hitting surface at (hx,hy), compute refracted direction
-function refractAtSurface(rx,ry,hx,hy,R,n1,n2){
-  // Normal at hit point: from center C=(R,0) to hit point
-  var nx=hx-R, ny=hy-0;
-  var nl=Math.sqrt(nx*nx+ny*ny); nx/=nl; ny/=nl;
-  // Incident direction
-  var dx=hx-rx, dy=hy-ry;
-  var dl=Math.sqrt(dx*dx+dy*dy); dx/=dl; dy/=dl;
-  // Make normal point against incident ray
-  var dot=dx*nx+dy*ny;
-  if(dot>0){nx=-nx;ny=-ny;dot=-dot}
-  // Snell: n1*sin(theta1)=n2*sin(theta2)
-  var ratio=n1/n2;
-  var disc=1-ratio*ratio*(1-dot*dot);
-  if(disc<0) return null; // total internal reflection
-  var cosT2=Math.sqrt(disc);
-  var tx=ratio*dx+(ratio*dot+cosT2)*(-nx);  // Wait, let me redo
-  // Actually: t = ratio*d + (ratio*cos_i - cos_t)*n
-  // where n points from medium2 to medium1 (against incoming ray)
-  var tx2=ratio*dx+(ratio*(-dot)-cosT2)*nx;
-  var ty2=ratio*dy+(ratio*(-dot)-cosT2)*ny;
-  var tl=Math.sqrt(tx2*tx2+ty2*ty2);tx2/=tl;ty2/=tl;
-  return{dx:tx2,dy:ty2};
-}
-
-// Find intersection of ray from (rx,ry) in direction (dx,dy) with sphere centered at (R,0) radius |R|
-function hitSphere(rx,ry,ddx,ddy,R){
-  var cx=R,cy=0,rad=Math.abs(R);
-  var ox=rx-cx,oy=ry-cy;
-  var a2=ddx*ddx+ddy*ddy;
-  var b2=2*(ox*ddx+oy*ddy);
-  var c2=ox*ox+oy*oy-rad*rad;
-  var disc=b2*b2-4*a2*c2;
-  if(disc<0)return null;
-  var sq=Math.sqrt(disc);
-  var t1=(-b2-sq)/(2*a2), t2=(-b2+sq)/(2*a2);
-  var t=t1>0.1?t1:(t2>0.1?t2:null);
-  if(t===null)return null;
-  return{x:rx+ddx*t,y:ry+ddy*t,t:t};
+function drawRefractedRay(hitX, hitY, imgX, imgY, color) {
+  var dx = imgX - hitX;
+  var dy = imgY - hitY;
+  var len = Math.sqrt(dx*dx + dy*dy);
+  if (len < 1e-4) return;
+  var ux = dx / len;
+  var uy = dy / len;
+  
+  var ext = 1000;
+  if (imgX > hitX) {
+    // Real image
+    drawArrow(hitX, hitY, hitX + ux * ext, hitY + uy * ext, color, 2);
+  } else {
+    // Virtual image: goes away from the virtual point
+    var vx = hitX - imgX;
+    var vy = hitY - imgY;
+    var vlen = Math.sqrt(vx*vx + vy*vy);
+    if (vlen > 0) {
+      vx /= vlen;
+      vy /= vlen;
+      drawArrow(hitX, hitY, hitX + vx * ext, hitY + vy * ext, color, 2);
+      drawDash(hitX, hitY, imgX, imgY, color + '77', 1.5);
+    }
+  }
 }
 
 function update(){
   var n1=parseFloat(el('n1slider').value);
   var n2=parseFloat(el('n2slider').value);
-  var R=parseInt(el('Rslider').value);
-  objHpx=parseInt(el('Hslider').value);
+  var type=el('diopterType').value;
+  var rawR = parseFloat(el('rslider').value);
+  
+  if (type === 'plano') {
+    el('rCtrl').style.display = 'none';
+  } else {
+    el('rCtrl').style.display = 'block';
+    var labelElement = el('rCtrl').querySelector('label');
+    labelElement.innerHTML = `Radio de curvatura r: <span class="val" id="rVal">${type === 'convexo' ? '+' : '-'}${rawR.toFixed(1)}</span> cm`;
+  }
+  
+  var r_val = type === 'convexo' ? rawR : (type === 'concavo' ? -rawR : Infinity);
+  
+  if(!draggingObj) {
+    p_cm = parseFloat(el('pslider').value);
+    h_cm = parseFloat(el('hslider').value);
+  }
+  
   el('n1Val').textContent=n1.toFixed(2);
-  el('n2Val').textContent=n2.toFixed(2);
-  el('rVal').textContent=R;
-  el('hVal').textContent=objHpx;
+  el('n2Val').textContent=n2.textContent=n2.toFixed(2);
+  if (type !== 'plano') {
+    el('rVal').textContent=(type === 'convexo' ? '+' : '-') + rawR.toFixed(1);
+  }
+  el('pVal').textContent=p_cm.toFixed(1);
+  el('hVal').textContent=h_cm.toFixed(1);
   el('zoomVal').textContent=Math.round(zoom*100)+'%';
 
-  var s=Math.abs(objX); // object distance (positive)
-  var res=calcDiopter(n1,n2,R,s);
+  var res = calcDiopter(n1, n2, r_val, p_cm, type);
 
   // Clear & draw background
-  C.width=C.width;
+  C.width=C.width; // Clear
   var bg=X.createRadialGradient(OX,OY,50,OX,OY,W);
   bg.addColorStop(0,'#0f1629');bg.addColorStop(1,'#060a14');
   X.fillStyle=bg;X.fillRect(0,0,W,H);
 
-  // Media shading
   var sv=toS(0,0);
   // Left medium (n1) - subtle blue tint
   X.fillStyle='rgba(99,102,241,0.04)';
@@ -271,164 +629,264 @@ function update(){
   X.fillStyle='rgba(6,182,212,0.5)';X.fillText('n₂ = '+n2.toFixed(2),sv.x+70*zoom,30);
 
   // Grid
-  X.strokeStyle='rgba(148,163,184,0.06)';X.lineWidth=1;
   var gs=50*zoom;
+  X.strokeStyle='rgba(148,163,184,0.05)';X.lineWidth=1;
   for(var gx=OX%gs;gx<W;gx+=gs){X.beginPath();X.moveTo(gx,0);X.lineTo(gx,H);X.stroke()}
   for(var gy=OY%gs;gy<H;gy+=gs){X.beginPath();X.moveTo(0,gy);X.lineTo(W,gy);X.stroke()}
 
   // Optical axis
-  drawLine(-W,0,W,0,'rgba(148,163,184,0.25)',1);
+  drawLine(-W/scaleDraw,0,W/scaleDraw,0,'rgba(148,163,184,0.25)',1);
   var axP=toS(0,0);
   X.fillStyle='rgba(148,163,184,0.3)';X.font='10px Inter';X.textAlign='left';
   X.fillText('Eje óptico',axP.x+10,axP.y+14);
 
-  // Spherical surface
-  drawSurface(R);
+  // Draw surface
+  drawSurface(r_val, type);
 
-  // Mark V (vertex at 0,0) and C (center of curvature at R,0)
+  // Vértice and Centro
   drawPt(0,0,'#e2e8f0',4,'V',0,-14);
-  drawPt(R,0,'#f87171',4,'C',0,-14);
-
-  // Focal points: f1 = n1*R/(n2-n1), f2 = n2*R/(n2-n1)
-  var dn=n2-n1;
-  var f1,f2;
-  if(Math.abs(dn)>0.001){
-    f1=n1*R/dn; // object focal length (front)
-    f2=n2*R/dn; // image focal length (back)
-    drawPt(-f1,0,'#f59e0b',5,'F₁',-2,-14);
-    drawPt(f2,0,'#fb923c',5,'F₂',2,-14);
+  if (type !== 'plano') {
+    drawPt(r_val,0,'#f87171',4,'C',0,-14);
+    // Draw focal points
+    if (res.f !== Infinity && !isNaN(res.f)) {
+      drawPt(-res.f,0,'#f59e0b',5,'F',-2,-14);
+    }
+    if (res.fp !== Infinity && !isNaN(res.fp)) {
+      drawPt(res.fp,0,'#fb923c',5,'F\'',2,-14);
+    }
   }
 
   // Object arrow
-  drawArrow(objX,0,objX,-objHpx,'#4ade80',2.5);
-  drawPt(objX,-objHpx,'#4ade80',4,'Objeto',0,-14);
+  drawArrow(-p_cm,0,-p_cm,-h_cm,'#4ade80',2.5);
+  drawPt(-p_cm,-h_cm,'#4ade80',4,'Objeto',0,-14);
 
-  // === RAY TRACING ===
-  if(!res.atLimit){
-    var sp=res.sp, M=res.M;
-    var imgX=sp, imgY=-res.hi; // image position
-    var tipX=objX, tipY=-objHpx;
-
-    // RAY 1: Parallel to axis from object tip → hits surface → refracts through F2
-    // Hits surface where y=tipY on the sphere
-    var hit1=hitSphere(tipX,tipY,1,0,R);
-    if(hit1){
-      drawLine(tipX,tipY,hit1.x,hit1.y,'#f97316',2);
-      var ref1=refractAtSurface(tipX,tipY,hit1.x,hit1.y,R,n1,n2);
-      if(ref1){
-        var ext=500;
-        drawArrow(hit1.x,hit1.y,hit1.x+ref1.dx*ext,hit1.y+ref1.dy*ext,'#f97316',2);
-        if(!res.real){
-          // extend backwards for virtual image
-          drawDash(hit1.x,hit1.y,hit1.x-ref1.dx*ext,hit1.y-ref1.dy*ext,'rgba(249,115,22,0.25)',1);
+  // RAY TRACING
+  var q = res.q;
+  var A = res.A;
+  var imgH = h_cm * A;
+  
+  // Ray 1: Parallel to axis, hits at (hitX1, -h_cm)
+  var hitX1 = getSurfaceX(-h_cm, r_val, type);
+  var hitY1 = -h_cm;
+  
+  // Ray 2: Directed towards center C(r_val, 0)
+  var hitX2, hitY2;
+  if (type !== 'plano') {
+    var dx2 = r_val - (-p_cm);
+    var dy2 = 0 - (-h_cm);
+    var pt2 = intersectBoundary(-p_cm, -h_cm, dx2, dy2, r_val, type);
+    if (pt2) {
+      hitX2 = pt2.x;
+      hitY2 = pt2.y;
+    } else {
+      hitY2 = -h_cm * (r_val / (p_cm + r_val));
+      hitX2 = getSurfaceX(hitY2, r_val, type);
+    }
+  } else {
+    var pt2 = intersectBoundary(-p_cm, -h_cm, p_cm, h_cm * 0.5, r_val, type);
+    if (pt2) {
+      hitX2 = pt2.x;
+      hitY2 = pt2.y;
+    } else {
+      hitY2 = -h_cm * 0.5;
+      hitX2 = 0;
+    }
+  }
+  
+  // Ray 3: Directed towards vertex V(0,0)
+  var hitX3 = 0;
+  var hitY3 = 0;
+  
+  // Draw incident rays (solid from object to surface)
+  drawLine(-p_cm, -h_cm, hitX1, hitY1, '#f97316', 2);
+  drawLine(-p_cm, -h_cm, hitX2, hitY2, '#a855f7', 2);
+  drawLine(-p_cm, -h_cm, hitX3, hitY3, '#06b6d4', 2);
+  
+  // Draw refracted rays
+  if (res.atLimit) {
+    var fp = res.fp;
+    var slope = h_cm / fp;
+    
+    [ {x: hitX1, y: hitY1, col: '#f97316'},
+      {x: hitX2, y: hitY2, col: '#a855f7'},
+      {x: hitX3, y: hitY3, col: '#06b6d4'}
+    ].forEach(function(r) {
+      var ext = 1000;
+      var rx = r.x + ext;
+      var ry = r.y + ext * slope;
+      drawArrow(r.x, r.y, rx, ry, r.col, 2);
+      
+      // If virtual (diverging, fp < 0), draw virtual extension to the left
+      if (fp < 0) {
+        drawDash(r.x, r.y, r.x - ext, r.y - ext * slope, r.col + '77', 1.5);
+      }
+    });
+  } else {
+    if (q !== Infinity && !isNaN(q)) {
+      drawRefractedRay(hitX1, hitY1, q, -imgH, '#f97316');
+      drawRefractedRay(hitX2, hitY2, q, -imgH, '#a855f7');
+      drawRefractedRay(hitX3, hitY3, q, -imgH, '#06b6d4');
+      
+      // Image arrow
+      if (Math.abs(q) < 500) {
+        var imgCol = res.real ? '#fbbf24' : 'rgba(251,191,36,0.6)';
+        if (!res.real) {
+          X.setLineDash([6,4]);
+          drawArrow(q, 0, q, -imgH, imgCol, 2.5);
+          X.setLineDash([]);
+        } else {
+          drawArrow(q, 0, q, -imgH, imgCol, 2.5);
         }
+        var lo = (-imgH) < 0 ? -14 : 18;
+        drawPt(q, -imgH, imgCol, 5, 'Imagen', 0, lo);
       }
-    }
-
-    // RAY 2: From tip through center of curvature (no refraction - hits normal)
-    var dx2=R-tipX, dy2=0-tipY;
-    var len2=Math.sqrt(dx2*dx2+dy2*dy2);
-    var hit2=hitSphere(tipX,tipY,dx2/len2,dy2/len2,R);
-    if(hit2){
-      drawLine(tipX,tipY,hit2.x,hit2.y,'#a855f7',2);
-      // This ray hits surface along normal, so it continues straight
-      drawArrow(hit2.x,hit2.y,hit2.x+dx2/len2*500,hit2.y+dy2/len2*500,'#a855f7',2);
-    }
-
-    // RAY 3: From tip aimed at vertex → refracts using small angle (like thin prism)
-    var dx3=0-tipX, dy3=0-tipY;
-    var len3=Math.sqrt(dx3*dx3+dy3*dy3);
-    drawLine(tipX,tipY,0,0,'#06b6d4',2);
-    // At vertex, normal is along x-axis. Use Snell's law
-    var sinI=Math.abs(tipY)/Math.sqrt(tipX*tipX+tipY*tipY);
-    var sinR2=n1*sinI/n2;
-    if(Math.abs(sinR2)<=1){
-      var angI=Math.atan2(-tipY,-tipX); // angle of incoming ray
-      // For small angles at vertex, refracted angle from axis
-      var angR=Math.asin(sinR2);
-      // Direction: the ray bends toward axis if n2>n1
-      var refAng;
-      if(tipY<0){ // object above axis
-        refAng=angR; // goes down-right
-        var rdx=Math.cos(refAng), rdy=Math.sin(refAng);
-      } else {
-        refAng=-angR;
-        var rdx=Math.cos(refAng), rdy=Math.sin(refAng);
-      }
-      // More precise: use actual Snell refraction at vertex
-      var ref3=refractAtSurface(tipX,tipY,0,0,R,n1,n2);
-      if(ref3){
-        drawArrow(0,0,ref3.dx*500,ref3.dy*500,'#06b6d4',2);
-        if(!res.real){
-          drawDash(0,0,-ref3.dx*500,-ref3.dy*500,'rgba(6,182,212,0.25)',1);
-        }
-      }
-    }
-
-    // Image arrow
-    if(Math.abs(sp)<2000){
-      var imgCol=res.real?'#fbbf24':'rgba(251,191,36,0.6)';
-      if(!res.real){
-        X.setLineDash([6,4]);drawArrow(imgX,0,imgX,imgY,imgCol,2.5);X.setLineDash([]);
-      } else {
-        drawArrow(imgX,0,imgX,imgY,imgCol,2.5);
-      }
-      var lo=imgY<0?-14:18;
-      drawPt(imgX,imgY,imgCol,5,'Imagen',0,lo);
     }
   }
 
   // Legend
   X.font='11px Inter';X.textAlign='left';var ly=H-60;
-  X.fillStyle='#f97316';X.fillRect(10,ly,20,3);X.fillText('Rayo paralelo al eje',36,ly+4);
-  X.fillStyle='#a855f7';X.fillRect(10,ly+16,20,3);X.fillText('Rayo por centro C',36,ly+20);
-  X.fillStyle='#06b6d4';X.fillRect(10,ly+32,20,3);X.fillText('Rayo por vértice',36,ly+36);
+  X.fillStyle='#f97316';X.fillRect(10,ly,20,3);X.fillText('Rayo paralelo',36,ly+4);
+  X.fillStyle='#a855f7';X.fillRect(10,ly+16,20,3);X.fillText(type==='plano'?'Rayo secundario':'Rayo por centro C',36,ly+20);
+  X.fillStyle='#06b6d4';X.fillRect(10,ly+32,20,3);X.fillText('Rayo por vértice V',36,ly+36);
 
   // Results panel
-  var h='';
-  h+='<div class="data-row"><span class="data-label">n₁</span><span class="data-val">'+n1.toFixed(2)+'</span></div>';
-  h+='<div class="data-row"><span class="data-label">n₂</span><span class="data-val">'+n2.toFixed(2)+'</span></div>';
-  h+='<div class="data-row"><span class="data-label">R</span><span class="data-val">'+R+' u</span></div>';
-  if(Math.abs(dn)>0.001){
-    h+='<div class="data-row"><span class="data-label">f₁ (objeto)</span><span class="data-val">'+(n1*R/dn).toFixed(1)+' u</span></div>';
-    h+='<div class="data-row"><span class="data-label">f₂ (imagen)</span><span class="data-val">'+(n2*R/dn).toFixed(1)+' u</span></div>';
+  var hHtml='';
+  hHtml+='<div class="data-row"><span class="data-label">n₁</span><span class="data-val">'+n1.toFixed(2)+'</span></div>';
+  hHtml+='<div class="data-row"><span class="data-label">n₂</span><span class="data-val">'+n2.toFixed(2)+'</span></div>';
+  if(type!=='plano') hHtml+='<div class="data-row"><span class="data-label">Radio r</span><span class="data-val">'+(r_val > 0 ? '+' : '')+r_val.toFixed(1)+' cm</span></div>';
+  else hHtml+='<div class="data-row"><span class="data-label">Radio r</span><span class="data-val">∞ (plano)</span></div>';
+  
+  if(type!=='plano' && res.f !== Infinity && !isNaN(res.f)){
+    hHtml+='<div class="data-row"><span class="data-label">f (objeto)</span><span class="data-val">'+(res.f > 0 ? '+' : '')+res.f.toFixed(1)+' cm</span></div>';
+    hHtml+='<div class="data-row"><span class="data-label">f\' (imagen)</span><span class="data-val">'+(res.fp > 0 ? '+' : '')+res.fp.toFixed(1)+' cm</span></div>';
   }
-  h+='<div class="data-row"><span class="data-label">s (objeto)</span><span class="data-val">'+s.toFixed(1)+' u</span></div>';
-  if(!res.atLimit&&Math.abs(res.sp)<9999){
-    h+='<div class="data-row"><span class="data-label">s\' (imagen)</span><span class="data-val">'+res.sp.toFixed(1)+' u</span></div>';
-    h+='<div class="data-row"><span class="data-label">M (aumento)</span><span class="data-val">'+res.M.toFixed(3)+'</span></div>';
-    h+='<div class="data-row"><span class="data-label">h\' (alt. img)</span><span class="data-val">'+(res.M*objHpx).toFixed(1)+' u</span></div>';
+  hHtml+='<div class="data-row"><span class="data-label">p (objeto)</span><span class="data-val">'+p_cm.toFixed(1)+' cm</span></div>';
+  if(!res.atLimit && Math.abs(res.q)<9999){
+    hHtml+='<div class="data-row"><span class="data-label">q (imagen)</span><span class="data-val">'+(res.q > 0 ? '+' : '')+res.q.toFixed(1)+' cm</span></div>';
+    hHtml+='<div class="data-row"><span class="data-label">A (aumento)</span><span class="data-val">'+(res.A > 0 ? '+' : '')+res.A.toFixed(3)+'</span></div>';
+    hHtml+='<div class="data-row"><span class="data-label">h\' (alt. img)</span><span class="data-val">'+(h_cm*res.A > 0 ? '+' : '')+(h_cm*res.A).toFixed(2)+' cm</span></div>';
   }
-  el('results').innerHTML=h;
+  el('results').innerHTML=hHtml;
 
   // Status
   var msg='';
   if(res.atLimit) msg='<span class="badge badge-inf">∞ Imagen en el infinito</span>';
-  else if(res.real) msg='<span class="badge badge-real">✓ Imagen Real</span><br>Imagen '+(Math.abs(res.M)>1?'aumentada':'reducida')+', '+(res.M<0?'invertida':'derecha');
-  else msg='<span class="badge badge-virtual">◇ Imagen Virtual</span><br>Imagen '+(Math.abs(res.M)>1?'aumentada':'reducida')+', '+(res.M>0?'derecha':'invertida');
+  else if(res.real) msg='<span class="badge badge-real">✓ Imagen Real</span><br>Imagen '+(Math.abs(res.A)>1?'aumentada':'reducida')+', '+(res.A<0?'invertida':'derecha');
+  else msg='<span class="badge badge-virtual">◇ Imagen Virtual</span><br>Imagen '+(Math.abs(res.A)>1?'aumentada':'reducida')+', '+(res.A>0?'derecha':'invertida');
   el('statusMsg').innerHTML=msg;
 
   // Image properties
   var ip='';
-  if(!res.atLimit&&Math.abs(res.sp)<9999){
+  if(!res.atLimit && Math.abs(res.q)<9999){
     ip+='<div class="data-row"><span class="data-label">Naturaleza</span><span class="data-val">'+(res.real?'Real':'Virtual')+'</span></div>';
-    ip+='<div class="data-row"><span class="data-label">Orientación</span><span class="data-val">'+(res.M<0?'Invertida':'Derecha')+'</span></div>';
-    ip+='<div class="data-row"><span class="data-label">Tamaño</span><span class="data-val">'+(Math.abs(res.M)>1.01?'Aumentada':Math.abs(res.M)<0.99?'Reducida':'Igual')+'</span></div>';
-    ip+='<div class="data-row"><span class="data-label">|M|</span><span class="data-val">'+Math.abs(res.M).toFixed(3)+'</span></div>';
-    ip+='<div class="data-row"><span class="data-label">Posición s\'</span><span class="data-val">'+(res.sp>0?'Transmisión (real)':'Incidencia (virtual)')+'</span></div>';
+    ip+='<div class="data-row"><span class="data-label">Orientación</span><span class="data-val">'+(res.A<0?'Invertida':'Derecha')+'</span></div>';
+    ip+='<div class="data-row"><span class="data-label">Tamaño</span><span class="data-val">'+(Math.abs(res.A)>1.01?'Aumentada':Math.abs(res.A)<0.99?'Reducida':'Igual')+'</span></div>';
+    ip+='<div class="data-row"><span class="data-label">|A|</span><span class="data-val">'+Math.abs(res.A).toFixed(3)+'</span></div>';
+    ip+='<div class="data-row"><span class="data-label">Posición q</span><span class="data-val">'+(res.q>0?'Transmisión (real)':'Incidencia (virtual)')+'</span></div>';
   } else if(res.atLimit){
     ip+='<div class="data-row"><span class="data-label">Imagen</span><span class="data-val">En el infinito</span></div>';
   }
   el('imgProps').innerHTML=ip;
+
+  // Step solver KaTeX rendering
+  renderStepSolver(n1, n2, r_val, p_cm, h_cm, res, type);
 }
 
-function renderFormulas(){
-  try{
-    katex.render('\\frac{n_1}{s}+\\frac{n_2}{s\'}=\\frac{n_2-n_1}{R}',el('f1'),{displayMode:true,throwOnError:false});
-    katex.render('M=-\\frac{n_1\\,s\'}{n_2\\,s}=\\frac{h\'}{h}',el('f2'),{displayMode:true,throwOnError:false});
-    katex.render('f_1=\\frac{n_1 R}{n_2-n_1}\\qquad f_2=\\frac{n_2 R}{n_2-n_1}',el('f3'),{displayMode:true,throwOnError:false});
-    katex.render('s\'=\\frac{n_2\\,s\\,R}{(n_2-n_1)\\,s-n_1\\,R}',el('f4'),{displayMode:true,throwOnError:false});
-  }catch(e){}
+function renderStepSolver(n1, n2, r, p, h, res, type) {
+  var sDiv = el('stepSolver');
+  if (!sDiv) return;
+  sDiv.innerHTML = ''; // Clear
+  
+  var html = '';
+  
+  if (type === 'plano') {
+    var n1Str = toLaTexNum(n1, 2);
+    var n2Str = toLaTexNum(n2, 2);
+    var pStr = toLaTexNum(p, 2);
+    var qStr = toLaTexNum(res.q, 2);
+    var hStr = toLaTexNum(h, 2);
+    var hpStr = toLaTexNum(h * res.A, 2);
+    var aumStr = toLaTexNum(res.A, 3);
+    
+    var substEq = `q = -\\left(\\frac{${n2Str}}{${n1Str}}\\right) \\cdot ${pStr}`;
+    var resEq = `q = ${qStr}\\text{ cm} \\quad \\textbf{(Imagen virtual)}`;
+    var aumEq = `A = -\\frac{n_1\\,q}{n_2\\,p} = -\\frac{${n1Str} \\cdot (${qStr})}{${n2Str} \\cdot ${pStr}} = ${aumStr}`;
+    var hEq = `h' = A \\cdot h = (${aumStr}) \\cdot ${hStr}\\text{ cm} = ${hpStr}\\text{ cm}`;
+    
+    html += '<div style="margin-bottom:0.8rem"><b>1. Ecuación fundamental ($r \\to \\infty$):</b><div class="formula-box" id="step1"></div></div>';
+    html += '<div style="margin-bottom:0.8rem"><b>2. Sustitución de valores:</b><div class="formula-box" id="step2"></div></div>';
+    html += '<div style="margin-bottom:0.8rem"><b>3. Resultado de la posición de la imagen ($q$):</b><div class="formula-box" id="step3"></div></div>';
+    html += '<div style="margin-bottom:0.8rem"><b>4. Aumento lateral ($A$):</b><div class="formula-box" id="step4"></div></div>';
+    html += '<div style="margin-bottom:0.8rem"><b>5. Altura de la imagen ($h\'$):</b><div class="formula-box" id="step5"></div></div>';
+    
+    sDiv.innerHTML = html;
+    
+    try {
+      katex.render("q = -\\left(\\frac{n_2}{n_1}\\right)p", el('step1'), {displayMode:true, throwOnError:false});
+      katex.render(substEq, el('step2'), {displayMode:true, throwOnError:false});
+      katex.render(resEq, el('step3'), {displayMode:true, throwOnError:false});
+      katex.render(aumEq, el('step4'), {displayMode:true, throwOnError:false});
+      katex.render(hEq, el('step5'), {displayMode:true, throwOnError:false});
+    } catch(e) { console.error(e); }
+  } else {
+    var dn = n2 - n1;
+    var lhs = n1 / p;
+    var rhs = dn / r;
+    var diff = rhs - lhs;
+    
+    var n1Str = toLaTexNum(n1, 2);
+    var n2Str = toLaTexNum(n2, 2);
+    var rStr = toLaTexNum(r, 2);
+    var pStr = toLaTexNum(p, 2);
+    var qStr = toLaTexNum(res.q, 2);
+    var hStr = toLaTexNum(h, 2);
+    var hpStr = toLaTexNum(h * res.A, 2);
+    var aumStr = toLaTexNum(res.A, 3);
+    
+    var step1Str = "\\frac{n_1}{p} + \\frac{n_2}{q} = \\frac{n_2 - n_1}{r}";
+    var step2Str = `\\frac{${n1Str}}{${pStr}} + \\frac{${n2Str}}{q} = \\frac{${n2Str} - ${n1Str}}{${rStr}}`;
+    
+    var lhsStr = formatDecimal(lhs);
+    var rxS = formatDecimal(rhs);
+    var diffStr = formatDecimal(diff);
+    
+    var step3Str = `${lhsStr} + \\frac{${n2Str}}{q} = ${rxS}`;
+    
+    var step4Str, step5Str;
+    if (res.atLimit) {
+      step4Str = `\\frac{${n2Str}}{q} = ${rxS} - ${lhsStr} = 0 \\implies q \\to \\infty`;
+      step5Str = "\\text{Imagen en el infinito}";
+    } else {
+      step4Str = `\\frac{${n2Str}}{q} = ${rxS} - ${lhsStr} = ${diffStr}\\text{ cm}^{-1}`;
+      step5Str = `q = \\frac{${n2Str}}{${diffStr}} = ${qStr}\\text{ cm} \\quad \\textbf{(${res.real ? 'Imagen real' : 'Imagen virtual'})}`;
+    }
+    
+    var step6Str = `A = -\\frac{n_1\\,q}{n_2\\,p} = -\\frac{${n1Str} \\cdot (${qStr})}{${n2Str} \\cdot ${pStr}} = ${aumStr}`;
+    var step7Str = `h' = A \\cdot h = (${aumStr}) \\cdot ${hStr}\\text{ cm} = ${hpStr}\\text{ cm}`;
+    
+    html += '<div style="margin-bottom:0.8rem"><b>1. Ecuación fundamental del dioptrio:</b><div class="formula-box" id="step1"></div></div>';
+    html += '<div style="margin-bottom:0.8rem"><b>2. Sustitución de valores numéricos:</b><div class="formula-box" id="step2"></div></div>';
+    html += '<div style="margin-bottom:0.8rem"><b>3. Reducción aritmética de términos:</b><div class="formula-box" id="step3"></div></div>';
+    html += '<div style="margin-bottom:0.8rem"><b>4. Despeje final de $q$:</b><div class="formula-box" id="step4"></div><div class="formula-box" id="step5"></div></div>';
+    html += '<div style="margin-bottom:0.8rem"><b>5. Aumento lateral ($A$) y altura final ($h\'$):</b><div class="formula-box" id="step6"></div><div class="formula-box" id="step7"></div></div>';
+    
+    sDiv.innerHTML = html;
+    
+    try {
+      katex.render(step1Str, el('step1'), {displayMode:true, throwOnError:false});
+      katex.render(step2Str, el('step2'), {displayMode:true, throwOnError:false});
+      katex.render(step3Str, el('step3'), {displayMode:true, throwOnError:false});
+      katex.render(step4Str, el('step4'), {displayMode:true, throwOnError:false});
+      katex.render(step5Str, el('step5'), {displayMode:true, throwOnError:false});
+      if (!res.atLimit) {
+        katex.render(step6Str, el('step6'), {displayMode:true, throwOnError:false});
+        katex.render(step7Str, el('step7'), {displayMode:true, throwOnError:false});
+      } else {
+        el('step6').innerHTML = 'N/A';
+        el('step7').innerHTML = 'N/A';
+      }
+    } catch(e) { console.error(e); }
+  }
 }
 </script>
 </body>
