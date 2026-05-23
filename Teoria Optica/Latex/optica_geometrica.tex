@@ -1,0 +1,989 @@
+\documentclass[12pt, a4paper]{article}
+
+% === PAQUETES ESENCIALES ===
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{textcomp}
+\newcommand{\grado}{$^{\circ}$}
+\usepackage{longtable}
+
+% === COLORES PERSONALIZADOS ===
+\definecolor{azuloscuro}{RGB}{0,70,140}
+\definecolor{naranja}{RGB}{220,100,0}
+\definecolor{verdeclaro}{RGB}{0,130,80}
+\definecolor{grisclaro}{RGB}{240,240,245}
+
+% === ENTORNOS ACADÉMICOS ===
+\theoremstyle{definition}
+\newtheorem{definicion}{Definición}[section]
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{ejemplo}{Ejemplo}[section]
+\newtheorem{observacion}{Observación}[section]
+
+% === COMANDO PARA NOTAS ===
+\newcommand{\nota}[1]{\medskip\noindent\colorbox{grisclaro}{\parbox{0.95\linewidth}{\textit{#1}}}\medskip}
+
+% === DOCUMENTO ===
+\title{\textbf{Óptica Geométrica}\\[0.5em]
+\large Transcripción, síntesis y desarrollo matemático}
+\author{[Transcripción y síntesis generada a partir de material de curso]}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Este documento recoge, transcribe y sintetiza el contenido de un curso de Óptica Geométrica
+estructurado en once grandes bloques temáticos. Se parte de los fundamentos conceptuales de la
+propagación de la luz —naturaleza ondulatoria, corpuscular y cuántica— para avanzar hacia las
+leyes que gobiernan la reflexión y la refracción. Se presentan los experimentos históricos
+canónicos que permitieron medir la velocidad de la luz (Römer, Fizeau-Foucault, Michelson) y
+los marcos teóricos que la explican (Maxwell, Einstein, Huygens-Fresnel). El documento incluye
+la ley de Snell con su derivación y aplicaciones (reflexión total interna, profundidad aparente,
+joya oculta, cuarto de cilindro, cilindro transparente), la construcción geométrica del rayo
+refractado, y varios problemas resueltos con demostración matemática rigurosa sobre reflexión
+en espejos planos. Se respeta fielmente el contenido original, añadiendo síntesis analíticas
+al cierre de cada sección que conectan los conceptos entre sí y con el panorama contemporáneo
+de la óptica.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Óptica Geométrica: Fundamentos}
+\label{sec:optica_geometrica}
+% ============================================================
+
+La luz es una radiación electromagnética de longitud de onda comprendida entre \(400\) y
+\(700\,\text{nm}\). En este sentido, la propagación de la luz en los diversos medios y la
+interacción con la materia debería estudiarse como una particularización de las ondas
+electromagnéticas.
+
+No obstante, la propagación se rige por leyes geométricas simples que, en general, no dependen
+de la longitud de onda ni de la intensidad de radiación.
+
+\subsection{El Concepto de Rayo}
+
+Para la Óptica Geométrica, la luz se propaga mediante el concepto de \textit{rayos} en línea
+recta en medios uniformes. Estos rayos están relacionados exclusivamente por las \textbf{leyes
+de reflexión y refracción (Snell)}.
+
+\nota{``Para que la óptica geométrica sea válida, las dimensiones de los objetos deben ser
+mucho mayores que la longitud de onda de la luz.''}
+
+\textit{\textbf{Síntesis.}} La óptica geométrica es una aproximación de largo alcance de la
+óptica ondulatoria: válida cuando \(\lambda \ll d\) (dimensión característica del obstáculo o
+apertura). En este régimen, la difracción es despreciable y los rayos se comportan como líneas
+geométricas. Esta simplificación es sorprendentemente poderosa: explica espejos, lentes,
+instrumentos ópticos y gran parte de la óptica cotidiana, sin necesidad de recurrir a la
+naturaleza ondulatoria de la luz.
+
+% ============================================================
+\section{Naturaleza de la Luz}
+\label{sec:naturaleza_luz}
+% ============================================================
+
+La luz presenta una naturaleza compleja y complementaria: actúa como \textbf{onda} o como
+\textbf{partícula} dependiendo de cómo la observemos. A nivel histórico se formularon dos
+teorías iniciales:
+
+\subsection{Teoría Corpuscular}
+
+\textbf{Isaac Newton (1642--1727)} postuló que las fuentes emiten pequeñas partículas que
+viajan en línea recta. Esto explicaba la reflexión y el viaje en el vacío, pero fallaba en
+explicar fenómenos como la interferencia o la difracción.
+
+\subsection{Teoría Ondulatoria}
+
+\textbf{Christiaan Huygens (1629--1695)} postuló:
+
+\begin{enumerate}[label=\arabic*.]
+  \item La luz se debe a vibraciones periódicas.
+  \item La luz monocromática está formada por vibraciones sinusoidales.
+  \item En el vacío viaja a rapidez constante \(c \approx 3 \times 10^8\,\text{m/s}\).
+  \item Se caracteriza por \(\lambda = c/f\).
+  \item Su intensidad es proporcional al cuadrado de la amplitud.
+\end{enumerate}
+
+\nota{Conclusión: La luz posee una naturaleza dual. Se comporta como onda o partícula,
+según el experimento.}
+
+\textit{\textbf{Síntesis.}} La dualidad onda-partícula no es una contradicción lógica sino
+una manifestación de la mecánica cuántica: la luz no es ni onda clásica ni partícula clásica,
+sino un campo cuántico cuyas excitaciones (fotones) exhiben ambos comportamientos según la
+observación. La teoría corpuscular de Newton explicaba bien la reflexión especular y la
+propagación rectilínea, mientras que la teoría ondulatoria de Huygens predecía correctamente
+la interferencia y la difracción. La síntesis definitiva llegó con la electrodinámica cuántica
+(QED) de Feynman, Schwinger y Tomonaga en el siglo XX.
+
+% ============================================================
+\section{Teoría Electromagnética}
+\label{sec:teoria_em}
+% ============================================================
+
+Tras aceptar que la luz es una onda, quedaba sin esclarecer: ¿qué es lo que vibra? Se supuso
+la existencia del ``éter'', pero traía enormes contradicciones.
+
+En 1864, \textbf{James Clerk Maxwell} reemplazó esa teoría mecánica por la electromagnética:
+la luz es propagación de campos eléctricos y magnéticos perpendiculares entre sí y a la
+dirección de propagación.
+
+\begin{definicion}[Espectro Electromagnético]
+La luz visible es solo una pequeñísima parte de las ondas electromagnéticas, las cuales NO
+necesitan soporte material para viajar (pueden propagarse en el vacío).
+\end{definicion}
+
+El espectro electromagnético abarca desde ondas de radio (\(\lambda \sim 10^2\,\text{m}\))
+hasta rayos gamma (\(\lambda \sim 10^{-12}\,\text{m}\)), pasando por microondas, infrarrojo,
+visible (\(400\text{--}700\,\text{nm}\)), ultravioleta y rayos X.
+
+Años después, \textbf{Heinrich Hertz} verificó la existencia de radioondas y demostró que la
+luz difería en su frecuencia. Sin embargo, los mismos experimentos mostraron el
+\textbf{efecto fotoeléctrico}, imposible de explicar mediante la teoría ondulatoria.
+
+\textit{\textbf{Síntesis.}} Las ecuaciones de Maxwell unificaron electricidad, magnetismo y
+óptica en un único formalismo, prediciendo que la velocidad de la luz en el vacío es
+\(c = 1/\sqrt{\varepsilon_0 \mu_0}\). Esta predicción fue confirmada experimentalmente con
+gran precisión. El valor exacto adoptado hoy es \(c = 299\,792\,458\,\text{m/s}\), definido
+por convención desde 1983.
+
+% ============================================================
+\section{La Naturaleza Cuántica}
+\label{sec:naturaleza_cuantica}
+% ============================================================
+
+Para el efecto fotoeléctrico, la energía de los electrones emitidos no dependía de la
+intensidad de la luz, sino de su \textit{frecuencia}. \textbf{Albert Einstein (1905)} lo
+resolvió basándose en la hipótesis de Max Planck.
+
+\subsection{Fotones o Cuantos de Energía}
+
+La luz está formada por un haz de pequeños corpúsculos llamados \textbf{fotones}. A diferencia
+del modelo de Newton, estos fotones concentran la energía de la onda:
+
+\begin{equation}
+  E = h \cdot f
+  \label{eq:energia_foton}
+\end{equation}
+
+donde \(h = 6.626 \times 10^{-34}\,\text{J}\cdot\text{s}\) es la constante de Planck.
+
+Este descubrimiento confirma la naturaleza \textbf{dual} onda-partícula de la luz, y rechaza
+definitivamente la existencia del éter luminífero.
+
+\nota{¿Cómo medir \(c\)? El primer intento fue de Galileo con linternas desde colinas. Su
+intento falló: el limitante principal era el tiempo de reacción frente a la enorme rapidez
+de la luz.}
+
+\textit{\textbf{Síntesis.}} La ecuación \(E = hf\) es el puente entre la descripción
+ondulatoria (frecuencia \(f\)) y la corpuscular (energía cuantizada del fotón). Un fotón de
+luz visible con \(\lambda = 500\,\text{nm}\) tiene una energía de apenas
+\(\sim 4 \times 10^{-19}\,\text{J}\), lo que ilustra por qué los efectos cuánticos de la luz
+son imperceptibles en la escala macroscópica, pero dominan en la interacción con la materia a
+escala atómica.
+
+% ============================================================
+\section{El Experimento de Römer}
+\label{sec:romer}
+% ============================================================
+
+En 1676, el astrónomo danés \textbf{Olaus Römer}, trabajando en París bajo el mando de
+Cassini, realizaba observaciones detalladas de los eclipses de Ío, la luna magmática galileana
+de Júpiter, de gran actividad geométrica y una perfecta constancia orbital de
+\(\approx 42.5\,\text{h}\).
+
+\subsection{El Retraso Misterioso}
+
+Römer notó algo desconcertante: cuando la Tierra se movía alejándose de Júpiter, los eclipses
+de Ío sufrían un constante retraso. Cuando la Tierra estaba en su punto más lejano, los
+eclipses se diferían hasta \textbf{22 minutos}.
+
+Römer concluyó que el retraso era simplemente el tiempo que tardaba la luz en atravesar la
+distancia adicional del diámetro de la órbita de la Tierra (\(\approx 300\,000\,000\,\text{km}\)):
+
+\begin{equation}
+  c \approx \frac{300\,000\,000\,\text{km}}{22 \times 60\,\text{s}} \approx 227\,000\,\text{km/s}
+  \label{eq:c_romer}
+\end{equation}
+
+Cassini rechazó la idea (creían que \(c = \infty\)). Tuvieron que pasar años para que James
+Bradley corroborara este límite universal mediante un mecanismo distinto: la aberración estelar.
+
+\nota{La simulación espacial asociada muestra cómo la luz que viaja de Ío a la Tierra tiene
+que recorrer mayor distancia cuando la Tierra está en B comparado con A. Ese recorrido
+``extra'' produce el retraso apreciado por Römer.}
+
+\textit{\textbf{Síntesis.}} Aunque el valor de Römer difería en un \(\sim 25\%\) del valor
+actual (por las imprecisiones en la distancia Tierra-Sol conocida en su época), su método fue
+revolucionario: demostró por primera vez que la luz tiene velocidad finita, contradiciendo la
+creencia dominante. El método de Römer es un ejemplo paradigmático del uso de la astronomía
+como laboratorio de física fundamental.
+
+% ============================================================
+\section{El Experimento de Fizeau-Foucault}
+\label{sec:fizeau}
+% ============================================================
+
+En 1849, el físico francés \textbf{Hippolyte Fizeau} logró medir la velocidad de la luz
+mediante una experiencia hecha en la Tierra. Hizo pasar un haz luminoso entre dos dientes
+consecutivos de una rueda dentada. Este haz se reflejaba en un espejo situado a cierta
+distancia y volvía siguiendo la misma trayectoria. La rueda giraba con velocidad angular
+variable.
+
+Cuando el rayo reflejado pasaba precisamente a través de la abertura siguiente, el tiempo que
+tarda la rueda en girar el ángulo comprendido entre dos huecos sucesivos (un diente), es igual
+al tiempo empleado por la luz en recorrer la distancia hasta el espejo y volver.
+
+Obtuvo un valor de \(3.13 \times 10^8\,\text{m/s}\), ligeramente superior al valor aceptado en
+la actualidad que para el vacío es \(3 \times 10^8\,\text{m/s}\).
+
+En el mismo año, su colaborador \textbf{Léon Foucault} mejoró el método, sustituyendo la rueda
+por un \textit{espejo giratorio}. Además, midió la velocidad de la luz en el agua, confirmando
+que la luz es \textbf{menor en el agua que en el aire}. Esto supuso el reconocimiento de la
+teoría ondulatoria frente a la corpuscular de Newton, que predecía lo contrario.
+
+\textit{\textbf{Síntesis.}} El experimento de Fizeau fue el primero en medir \(c\) sin recurrir
+a distancias astronómicas. La confirmación de Foucault de que \(c_{\text{agua}} < c_{\text{aire}}\)
+fue un golpe decisivo contra la mecánica newtoniana de la luz: en el modelo corpuscular,
+los corpúsculos debían acelerarse al entrar en un medio más denso (para explicar la refracción),
+prediciendo velocidades mayores en el agua, exactamente lo opuesto a lo observado.
+
+% ============================================================
+\section{El Experimento de Michelson}
+\label{sec:michelson}
+% ============================================================
+
+Pocas mediciones llevadas a cabo por el hombre han sido tan precisas como la medida de la
+velocidad de la luz. El premio Nobel se dio en 1907 a \textbf{Albert Michelson}, quien realizó
+una medición extremadamente cuidadosa mejorando el método de Foucault con mejores instrumentos
+y mayor tamaño. Colocó un espejo de ocho caras (octágono).
+
+\subsection{Principio del Método}
+
+\textbf{Albert A. Michelson (1879)} utilizó un espejo octagonal giratorio. Un haz de luz se
+refleja en la cara A del octágono, viaja \(35.4\,\text{km}\) hasta un espejo lejano y retorna
+a la cara G. Si el octágono gira exactamente \(\mathbf{1/8}\) de vuelta durante el viaje de ida
+y vuelta de la luz, la cara G estará perfectamente alineada para reflejar el haz verticalmente
+hacia el telescopio L. Midiendo la velocidad de rotación necesaria, se calcula \(c\).
+
+La luz de una fuente intensa se refleja en el lado A del espejo octagonal hacia un espejo curvo
+a varios kilómetros. El espejo lejano la regresa a la superficie G. Dado que el octágono está
+girando, solo un impulso de luz breve incide a la vez. Si el espejo da vueltas con la velocidad
+apropiada, el impulso reflejado regresa cuando la superficie F está exactamente en el lugar
+apropiado para reflejarlo hacia el observador. Cuando se cumple esta condición, el tiempo
+necesario para recorrer la distancia total es 1/8 del tiempo requerido para dar una vuelta
+entera. La velocidad \(c\) puede calcularse a partir de esta rapidez de giro.
+
+\textit{\textbf{Síntesis.}} Michelson obtuvo \(c = 299\,796\,\text{km/s}\), con una precisión
+sin precedentes para la época. Sus experimentos sucesivos (incluyendo el famoso experimento
+Michelson-Morley de 1887, diseñado para detectar el éter) no solo midieron \(c\) con extrema
+exactitud, sino que al no detectar variación alguna de \(c\) con la dirección del movimiento
+terrestre, sentaron las bases experimentales de la Relatividad Especial de Einstein (1905).
+
+% ============================================================
+\section{Las Leyes de Snell}
+\label{sec:snell}
+% ============================================================
+
+La ley de Snell (para la refracción) es una fórmula para calcular el ángulo de refracción de
+la luz al atravesar la separación entre dos medios con índice de refracción distinto. El nombre
+proviene del matemático neerlandés Willebrord Snel van Royen (1580--1626). Aunque formulada
+para explicar luz, se aplica a todo tipo de ondas.
+
+\subsection{Enunciado de las Leyes}
+
+\begin{itemize}
+  \item El rayo incidente, el rayo reflejado, el rayo refractado y la normal se encuentran en
+        un mismo plano, llamado ``plano de incidencia''.
+  \item El ángulo de incidencia es igual al ángulo de reflexión (\(i = r\)).
+  \item La razón del seno del ángulo de incidencia al seno del ángulo de refracción es una
+        constante igual al cociente de las velocidades de ambos medios:
+\end{itemize}
+
+\begin{equation}
+  \frac{\sin\theta_1}{\sin\theta_2} = \frac{v_1}{v_2} = \frac{n_2}{n_1}
+  \label{eq:snell}
+\end{equation}
+
+o equivalentemente:
+\begin{equation}
+  n_1 \sin\theta_1 = n_2 \sin\theta_2
+  \label{eq:snell2}
+\end{equation}
+
+\subsection{Índices de Refracción}
+
+El índice de refracción \(n\) de un medio se define como la razón entre la velocidad de la luz
+en el vacío \(c\) y la velocidad de la luz en dicho medio \(v\):
+
+\begin{equation}
+  n = \frac{c}{v}
+  \label{eq:indice_refraccion}
+\end{equation}
+
+Varía según la naturaleza del medio material y es una propiedad óptica intrínseca de gran
+importancia. A continuación se presentan algunos valores representativos:
+
+\begin{center}
+\begin{tabular}{@{}lc@{}}
+\toprule
+\textbf{Material} & \textbf{Índice de refracción} \\
+\midrule
+Vacío             & 1 \\
+Aire (*)          & 1.0002926 \\
+Helio (*)         & 1.000036 \\
+Hidrógeno (*)     & 1.000132 \\
+Óxido de carbono (IV) & 1.00045 \\
+Agua (a 20\,°C)   & 1.333 \\
+Hielo             & 1.309 \\
+Diamante          & 2.417 \\
+Acetona           & 1.36 \\
+Cloroformo        & 1.48 \\
+Alcohol etílico   & 1.361 \\
+Acetaldehído      & 1.35 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+{\small (*) Medido en condiciones normales de presión y temperatura.}
+
+\subsection{Casos de Refracción}
+
+La ley de Snell \(n_1 \sin\theta_1 = n_2 \sin\theta_2\) permite analizar tres casos fundamentales:
+
+\subsubsection*{Caso 1: De medio rápido a medio lento (\(n_1 < n_2\))}
+
+Cuando la luz pasa de un medio con \textbf{menor} índice de refracción (más rápido, como el
+aire) a uno con \textbf{mayor} índice (más lento, como el agua o el vidrio), el rayo refractado
+\textbf{se acerca a la normal}: \(r' < i\). Esto ocurre porque \(n_2 > n_1\) implica
+\(\sin(r') < \sin(i)\), y por tanto \(r' < i\). \textit{Ejemplo}: un rayo de luz que pasa del
+aire (\(n \approx 1\)) al vidrio (\(n \approx 1.5\)).
+
+\subsubsection*{Caso 2: De medio lento a medio rápido (\(n_1 > n_2\))}
+
+Inversamente, cuando la luz viaja de un medio más denso (mayor \(n\)) hacia uno menos denso
+(menor \(n\)), recobra velocidad y el rayo \textbf{se aleja de la normal}, obteniéndose
+\(r' > i\). \textit{Ejemplo}: un rayo de luz que sale del agua (\(n \approx 1.33\)) hacia el
+aire (\(n \approx 1\)). Este caso es crucial porque puede generar la reflexión total interna.
+
+\subsubsection*{Caso 3: Incidencia normal (\(i = 0^{\circ}\))}
+
+Si el rayo incide perpendicularmente a la superficie (\(i = 0^{\circ}\)), entonces \(\sin(0) = 0\),
+y por tanto \(r' = 0^{\circ}\). El rayo atraviesa la interfaz \textbf{sin desviarse}, aunque sí cambia
+su velocidad de propagación.
+
+% ============================================================
+\section{Reflexión Total Interna}
+\label{sec:reflexion_total}
+% ============================================================
+
+Ocurre exclusivamente en el Caso 2 (\(n_1 > n_2\)): cuando el ángulo de incidencia alcanza un
+valor tal que el rayo refractado rasaría la superficie (\(r' = 90^{\circ}\)), se define el
+\textbf{ángulo crítico} \(i_c\). Para ángulos \(i > i_c\), no hay rayo refractado y toda la
+luz se refleja internamente:
+
+\begin{equation}
+  \sin(i_c) = \frac{n_2}{n_1}
+  \label{eq:angulo_critico}
+\end{equation}
+
+\nota{Ejemplo: agua (\(n \approx 4/3\)) hacia aire (\(n \approx 1\)):
+\(i_c = \sin^{-1}(3/4) \approx 48.38^{\circ}\). Esto explica por qué un pez ve un ``cono de luz''
+al mirar hacia arriba.}
+
+\textit{\textbf{Síntesis.}} La reflexión total interna es la base de las fibras ópticas
+modernas: la luz se propaga a lo largo de un núcleo de vidrio o plástico de alto índice
+rodeado de un revestimiento de índice menor, rebotando sin pérdidas a lo largo de kilómetros.
+Esta tecnología sustenta la infraestructura de internet de alta velocidad y las comunicaciones
+transcontinentales actuales.
+
+% ============================================================
+\section{Principio de Huygens-Fresnel}
+\label{sec:huygens}
+% ============================================================
+
+Es un método de análisis aplicado a problemas de propagación de ondas, llamado así en honor a
+los físicos \textbf{Christiaan Huygens} y \textbf{Augustin-Jean Fresnel}.
+
+\begin{definicion}[Principio de Huygens]
+Todo punto de un frente de onda inicial puede considerarse como una \textbf{fuente de ondas
+esféricas secundarias} que se expanden en todas las direcciones con la misma velocidad,
+frecuencia y longitud de onda que el frente de onda del que proceden.
+\end{definicion}
+
+Esto permite explicar fenómenos como la reflexión, la refracción y la difracción. Por ejemplo:
+si dos cuartos se conectan con una puerta y se produce sonido, la persona al otro lado lo
+escuchará como si la puerta misma fuera la fuente.
+
+\subsection{Historia y Difracción}
+
+En 1678, Huygens propuso que cada punto alcanzado se vuelve fuente. Supuso que las secundarias
+viajan ``hacia adelante'', dando una explicación cualitativa de la propagación esférica lineal.
+Explicó refracción pero no pudo explicar por qué la luz se desvía al esquivar obstáculos.
+Posteriormente \textbf{Fresnel} aportaría el concepto definitivo para justificar estos patrones
+asombrosos: la \textbf{Difracción}.
+
+\subsection{Difracción y Simulación}
+
+La interferencia entre infinidades de frentes de ondas secundarias (distantes del frente central
+móvil) origina los máximos luminosos y mínimos (sombra) observables como franjas de difracción
+al pasar por rendijas estrechas. El mismo fenómeno ocurre cuando la luz pasa el borde de un
+obstáculo, aunque no es fácilmente detectable a simple vista debido a la corta longitud de onda
+de la luz visible frente al tamaño cotidiano de los objetos. El experimento de la \textbf{doble
+rendija} para evidenciar este comportamiento netamente ondulatorio.
+
+\subsubsection*{Principio de Huygens (1678)}
+
+Christiaan Huygens (1678) propuso que cada punto de un frente de onda actúa como
+\textbf{fuente de ondas esféricas secundarias} (wavelets). La envolvente de estas wavelets
+forma el nuevo frente de onda. Esto explica la reflexión (\(\theta_i = \theta_r\)) y la
+refracción (Ley de Snell: \(n_1 \sin\theta_i = n_2 \sin\theta_r\)) al pasar de un medio a otro.
+
+\textit{\textbf{Síntesis.}} El principio de Huygens-Fresnel establece el puente entre la
+óptica geométrica (rayos) y la óptica ondulatoria (frentes de onda): los rayos son siempre
+perpendiculares a los frentes de onda. La adición de la condición de interferencia por parte
+de Fresnel convirtió el principio cualitativo de Huygens en una herramienta cuantitativa que
+predice correctamente los patrones de difracción. Kirchhoff formalizó matemáticamente este
+principio en 1883 mediante la integral de difracción de Fresnel-Kirchhoff.
+
+% ============================================================
+\section{Construcción del Rayo Refractado}
+\label{sec:construccion_rayo}
+% ============================================================
+
+Un método visual y práctico para el rayo incidente \(PO\) consiste en:
+
+\begin{enumerate}
+  \item Desde \(O\) dibujar semicírculos de radios \(n_1\) y \(n_2\).
+  \item Prolongar el rayo \(PO\) hasta tocar el círculo \(n_1\) en el punto \(B\).
+  \item Trazar línea perpendicular a la superficie de separación desde \(B\) que corte el
+        círculo \(n_2\) en \(C\).
+  \item El rayo final \(OC\) es el rayo verdaderamente refractado.
+\end{enumerate}
+
+\textit{\textbf{Síntesis.}} Esta construcción geométrica es la versión visual de la ley de
+Snell y tiene una elegante interpretación ondulatoria: los radios \(n_1\) y \(n_2\) representan
+las velocidades de fase en cada medio (inversamente proporcionales al índice), y la
+perpendicularidad garantiza la conservación de la componente tangencial del vector de onda,
+que es precisamente lo que expresa la ley de Snell en términos de vectores de onda.
+
+% ============================================================
+\section{Problemas Resueltos: Reflexión en Espejos Planos}
+\label{sec:espejos}
+% ============================================================
+
+\subsection{Ejemplo 3.3: Longitud Mínima del Espejo}
+\label{sec:longitud_espejo}
+
+\begin{ejemplo}[Longitud del Espejo]
+Encontrar la longitud mínima \(h\) de un espejo necesaria para que una persona de altura \(H\)
+vea su reflexión completa.
+\end{ejemplo}
+
+\textbf{Solución:} La figura muestra los pies \(F\), los ojos \(E\), y la parte superior de la
+cabeza \(D\) de una persona. Para que la persona vea toda su altura, un rayo de luz (\(DAE\))
+debe salir de la parte superior de la cabeza, reflejarse en el espejo en \(A\), y entrar en sus
+ojos, mientras que otro rayo (\(FCE\)) debe salir de sus pies, reflejarse en el espejo en
+\(C\), y entrar en sus ojos.
+
+La persona verá una reflexión de toda su altura (incluyendo las imágenes virtuales de los puntos
+\(D\) y \(F\)), si la longitud del espejo es \(h = AC\) por lo menos.
+
+\subsubsection*{Demostración Geométrica}
+
+De la geometría de la figura (esquema geométrico del problema), vemos que:
+
+\begin{equation}
+  \overline{AB} = \frac{1}{2}\,\overline{DE}
+  \label{eq:AB}
+\end{equation}
+
+\begin{equation}
+  \overline{BC} = \frac{1}{2}\,\overline{EF}
+  \label{eq:BC}
+\end{equation}
+
+Entonces:
+\begin{align}
+  \overline{AC} &= \overline{AB} + \overline{BC} = \frac{1}{2}\,\overline{DE} +
+                   \frac{1}{2}\,\overline{EF} = \frac{1}{2}\left(\overline{DE} +
+                   \overline{EF}\right) = \frac{1}{2}\,\overline{DF}
+  \label{eq:AC}
+\end{align}
+
+Con \(h = \overline{AC}\) y \(H = \overline{DF}\) se obtiene finalmente:
+
+\begin{equation}
+  \boxed{h = \frac{1}{2}\,H}
+  \label{eq:h_espejo}
+\end{equation}
+
+\nota{La altura del espejo debe ser la mitad de la altura de la persona. Esto es
+independiente de la distancia a la que se ubique del espejo.}
+
+\subsection{Espejos Planos Intersectados: \(\beta = 180^{\circ} - 2\theta\)}
+\label{sec:espejos_intersectados}
+
+\begin{ejemplo}[Espejos Planos Intersectados]
+Consideremos dos superficies reflejantes de dos espejos planos que se intersecan a un ángulo
+\(\theta\) (\(0^{\circ} < \theta < 90^{\circ}\)). Si un rayo luminoso incide sobre el espejo horizontal,
+muestre que el rayo emergente intersectará el rayo incidente a un ángulo
+\(\beta = 180^{\circ} - 2\theta\).
+\end{ejemplo}
+
+\textbf{Solución:} En el triángulo \(\Delta ABC\) de la figura, la suma de los ángulos
+interiores debe ser \(180^{\circ}\), por lo cual:
+
+\begin{equation}
+  \theta + \phi + \alpha = 180^{\circ}
+  \label{eq:triangulo_ABC}
+\end{equation}
+
+Este resultado puede reescribirse como:
+
+\begin{equation}
+  \phi + \alpha = 180^{\circ} - \theta
+  \label{eq:phi_alpha}
+\end{equation}
+
+\subsubsection*{Desarrollo Matemático}
+
+Similarmente, en el triángulo \(\Delta BCD\), la suma de los ángulos internos también debe ser
+\(180^{\circ}\). Sabiendo que los ángulos en línea recta se complementan:
+
+\begin{equation}
+  (180^{\circ} - 2\phi) + (180^{\circ} - 2\alpha) + \beta = 180^{\circ}
+  \label{eq:triangulo_BCD}
+\end{equation}
+
+Despejando \(\beta\):
+
+\begin{align}
+  360^{\circ} - 2\phi - 2\alpha + \beta &= 180^{\circ} \nonumber \\
+  \beta &= 2(\phi + \alpha) - 180^{\circ}
+  \label{eq:beta_intermedio}
+\end{align}
+
+Sustituyendo el hallazgo anterior (\(\phi + \alpha = 180^{\circ} - \theta\)):
+
+\begin{align}
+  \beta &= 2(180^{\circ} - \theta) - 180^{\circ} \nonumber \\
+  \beta &= 360^{\circ} - 2\theta - 180^{\circ}
+  \label{eq:beta_desarrollo}
+\end{align}
+
+\begin{equation}
+  \boxed{\beta = 180^{\circ} - 2\theta}
+  \label{eq:beta_final}
+\end{equation}
+
+\nota{Este resultado muestra que el ángulo \(\beta\) entre el rayo incidente y el emergente
+depende exclusivamente del ángulo \(\theta\) entre los espejos, ¡no del ángulo de incidencia
+particular!}
+
+\subsection{Rayo Láser en Espejos Perpendiculares}
+\label{sec:laser_perpendicular}
+
+\begin{ejemplo}[Rayo Láser en Espejos Perpendiculares]
+Dos espejos planos se intersecan en ángulos rectos. Un rayo láser incide en el primero de ellos
+en un punto situado a \(a = 11.5\,\text{cm}\) de la intersección. ¿Para qué ángulo de
+incidencia en el primer espejo el rayo incidirá en el \textbf{punto medio} del segundo espejo
+(que mide \(28.0\,\text{cm}\) de largo) después de reflejarse en el primer espejo?
+\end{ejemplo}
+
+\textbf{Solución:} Con relación a la figura, la ley de reflexión de la luz en el punto \(A\)
+y las condiciones del problema requieren que:
+
+\begin{quote}
+El rayo debe recorrer una distancia horizontal \(a = 11.5\,\text{cm}\) y alcanzar el punto
+medio del segundo espejo, es decir, a una distancia vertical \(b = 28.0/2 = 14.0\,\text{cm}\).
+\end{quote}
+
+Por trigonometría, el ángulo de incidencia \(\theta\) se obtiene de:
+
+\begin{equation}
+  \tan\theta = \frac{a}{b} = \frac{11.5\,\text{cm}}{14\,\text{cm}} \approx 0.81242857
+  \label{eq:tan_theta}
+\end{equation}
+
+Aplicando la función inversa:
+
+\begin{equation}
+  \theta \approx \tan^{-1}(0.81242857)
+  \label{eq:theta_inv}
+\end{equation}
+
+\begin{equation}
+  \boxed{\theta \approx 39.4^{\circ}}
+  \label{eq:theta_laser}
+\end{equation}
+
+\nota{Observa que al ser espejos perpendiculares (90\grado), el rayo emergente sale paralelo al rayo
+incidente pero en dirección opuesta. ¡Esto es un retro-reflector!}
+
+% ============================================================
+\section{Problemas Resueltos: Refracción (Ley de Snell)}
+\label{sec:problemas_snell}
+% ============================================================
+
+\subsection{Ejemplo: Profundidad Aparente de un Pez}
+\label{sec:profundidad_aparente}
+
+\begin{ejemplo}[Profundidad Aparente]
+Un pez está a una profundidad \(d\) bajo el agua. Tome el índice de refracción del agua igual a
+\(4/3\). Muestre que cuando el pez es visto a un ángulo de refracción \(\theta_1\), la
+profundidad aparente del pez es:
+\begin{equation}
+  z = \frac{3\,d\,\cos\theta_1}{\sqrt{7 + 9\cos^2\theta_1}}
+  \label{eq:profundidad_aparente}
+\end{equation}
+\end{ejemplo}
+
+\textbf{Solución:} Con relación a la figura, el rayo que sale del pez hacia la superficie
+define dos distancias radiales: \(R\) (en agua) y \(r\) (aparente en aire). La distancia
+horizontal \(x\) es la misma para ambos triángulos:
+
+\begin{equation}
+  x = R\sin\theta_2 = r\sin\theta_1
+  \label{eq:distancia_horizontal}
+\end{equation}
+
+O bien:
+
+\begin{equation}
+  \frac{\sin\theta_2}{\sin\theta_1} = \frac{r}{R}
+  \label{eq:razon_senos}
+\end{equation}
+
+Por la ley de Snell, al pasar del agua al aire:
+
+\begin{equation}
+  \frac{\sin\theta_2}{\sin\theta_1} = \frac{n_{\text{aire}}}{n_{\text{agua}}} =
+  \frac{1}{4/3} = \frac{3}{4}
+  \label{eq:snell_agua_aire}
+\end{equation}
+
+Combinando estos resultados:
+
+\begin{equation}
+  \frac{r}{R} = \frac{3}{4}
+  \label{eq:r_R}
+\end{equation}
+
+\subsubsection*{Desarrollo Completo}
+
+Además, las componentes verticales nos dan la profundidad real \(d\) y la aparente \(z\):
+
+\begin{align}
+  z &= r\cos\theta_1 \qquad ; \qquad d = R\cos\theta_2
+  \label{eq:componentes_verticales}
+\end{align}
+
+Dividiendo:
+
+\begin{equation}
+  \frac{z}{d} = \frac{r\cos\theta_1}{R\cos\theta_2} = \frac{3}{4}\cdot\frac{\cos\theta_1}{\cos\theta_2}
+  \label{eq:z_d}
+\end{equation}
+
+Puesto que \(\dfrac{\sin\theta_1}{\sin\theta_2} = \dfrac{4}{3}\), tenemos
+\(\sin\theta_2 = \dfrac{3}{4}\sin\theta_1\). Elevando al cuadrado:
+
+\begin{equation}
+  \sin^2\theta_2 = \frac{9}{16}\sin^2\theta_1
+  \label{eq:sin2}
+\end{equation}
+
+Usando solamente cosenos (\(\cos^2\theta = 1 - \sin^2\theta\)):
+
+\begin{align}
+  \cos^2\theta_2 &= 1 - \frac{9}{16}\sin^2\theta_1 = 1 - \frac{9}{16}(1-\cos^2\theta_1) \nonumber \\
+  \cos^2\theta_2 &= \frac{7 + 9\cos^2\theta_1}{16} \nonumber \\
+  \cos\theta_2   &= \frac{\sqrt{7 + 9\cos^2\theta_1}}{4}
+  \label{eq:cos_theta2}
+\end{align}
+
+Finalmente, sustituyendo:
+
+\begin{equation}
+  \frac{z}{d} = \frac{3}{4}\cdot\frac{\cos\theta_1}{\dfrac{\sqrt{7+9\cos^2\theta_1}}{4}}
+              = \frac{3\cos\theta_1}{\sqrt{7+9\cos^2\theta_1}}
+  \label{eq:z_d_final}
+\end{equation}
+
+\begin{equation}
+  \boxed{z = \frac{3\,d\,\cos\theta_1}{\sqrt{7 + 9\cos^2\theta_1}}}
+  \label{eq:z_final}
+\end{equation}
+
+\nota{El pez siempre parece estar más cerca de la superficie de lo que realmente está. Esto
+explica por qué es tan difícil pescar con arpón sin experiencia.}
+
+\subsection{Ejemplo: Joya Oculta en Piscina}
+\label{sec:joya_piscina}
+
+\begin{ejemplo}[Joya Oculta en Piscina]
+Un ladrón esconde una joya preciosa, colocándola en la parte inferior de una piscina pública.
+Se coloca una balsa circular sobre la superficie del agua directamente por encima y centrada
+sobre la joya. La superficie del agua está en calma. La balsa, de diámetro \(d = 4.54\,\text{m}\),
+previene la joya de ser vista por cualquier observador desde encima del agua, ya sea en la balsa
+o en el lado de la piscina. ¿Cuál es la profundidad máxima \(h\) de la piscina para que la joya
+permanezca invisible?
+\end{ejemplo}
+
+\textbf{Solución:} El índice de refracción del agua es \(n = 4/3\). Para que la joya no sea
+visible es necesario que en el punto \(A\), el rayo refractado no salga de la superficie del
+agua. Aplicando la ley de Snell en el punto \(A\):
+
+\begin{equation}
+  n \cdot \sin i_c = 1 \cdot \sin 90^{\circ} = 1
+  \label{eq:snell_critico}
+\end{equation}
+
+\begin{equation}
+  \sin i_c = \frac{1}{n}
+  \label{eq:sin_ic}
+\end{equation}
+
+Pero de la geometría del triángulo joya-\(A\)-centro:
+
+\begin{equation}
+  \sin i_c = \frac{d/2}{\sqrt{h^2 + (d/2)^2}}
+  \label{eq:sin_ic_geo}
+\end{equation}
+
+Luego, igualando:
+
+\begin{equation}
+  \frac{d/2}{\sqrt{h^2 + (d/2)^2}} = \frac{1}{n} = \frac{3}{4}
+  \label{eq:igualando}
+\end{equation}
+
+Despejando \(h\):
+
+\begin{align}
+  \frac{d}{2} &= \frac{3}{4}\sqrt{h^2 + \frac{d^2}{4}} \nonumber \\
+  \left(\frac{d}{2}\right)^2 &= \frac{9}{16}\left(h^2 + \frac{d^2}{4}\right) \nonumber \\
+  \frac{d^2}{4} &= \frac{9h^2}{16} + \frac{9d^2}{64} \nonumber \\
+  \frac{d^2}{4} - \frac{9d^2}{64} &= \frac{9h^2}{16} \nonumber \\
+  \frac{16d^2 - 9d^2}{64} &= \frac{9h^2}{16} \nonumber \\
+  \frac{7d^2}{64} &= \frac{9h^2}{16} \implies h^2 = \frac{7d^2}{36}
+  \label{eq:h2}
+\end{align}
+
+\begin{equation}
+  \boxed{h = \frac{\sqrt{7}\,d}{6}}
+  \label{eq:h_joya}
+\end{equation}
+
+Reemplazando valores:
+
+\begin{equation}
+  h = \frac{\sqrt{7}\,(4.54\,\text{m})}{6} \approx 2.0\,\text{m}
+  \label{eq:h_joya_valor}
+\end{equation}
+
+\nota{La piscina debe tener como máximo 2.0 m de profundidad. Si fuera más profunda, la joya
+sería visible desde los bordes porque los rayos escaparían del cono de reflexión total.}
+
+\subsection{Ejemplo: Refracción en Cuarto de Cilindro}
+\label{sec:cuarto_cilindro}
+
+\begin{ejemplo}[Refracción en Cuarto de Cilindro]
+Un material que tiene un índice de refracción \(n\) está rodeado por vacío y tiene la forma de
+un cuarto de círculo de radio \(R\). Un rayo de luz paralelo a la base del material incide desde
+la izquierda a una distancia \(L\) por encima de la base y emerge desde el material a un ángulo
+\(\theta\). \textbf{Determine una expresión matemática para \(\sen\theta\)}.
+\end{ejemplo}
+
+\textbf{Solución -- Primera Frontera:} En la superficie curva de entrada (punto \(A\)), la
+normal \(N_1\) pasa directamente por el centro de curvatura \(O\). De la geometría de la figura,
+en el triángulo \(\Delta ABC\) conformado por el rayo refractado, encontramos la siguiente
+relación de ángulos, observando que la horizontal se alinea con el ángulo incidente:
+
+\begin{equation}
+  \theta_1 = i + r' \implies r' = \theta_1 - i
+  \label{eq:primera_frontera}
+\end{equation}
+
+\subsubsection*{Desarrollo Analítico}
+
+Aplicamos la ley de Snell al entrar (vacío \(n=1\) a material \(n\)):
+
+\begin{equation}
+  1\cdot\sin\theta_1 = n\cdot\sin r' = n\cdot\sin(\theta_1 - i)
+  \label{eq:snell_entrada}
+\end{equation}
+
+\begin{equation}
+  i = \theta_1 - \sin^{-1}\!\left(\frac{\sin\theta_1}{n}\right)
+  \label{eq:angulo_i}
+\end{equation}
+
+Aplicamos ahora Snell en la salida plana (punto \(B\)), con normal horizontal:
+
+\begin{equation}
+  n\cdot\sin i = 1\cdot\sin\theta \implies \sen\theta = n\cdot\sen\!\left[\theta_1 -
+  \sin^{-1}\!\left(\frac{\sen\theta_1}{n}\right)\right]
+  \label{eq:snell_salida}
+\end{equation}
+
+Expandiendo usando la resta de ángulos trigonométrica y sabiendo que
+\(\cos(\sin^{-1} u) = \sqrt{1-u^2}\), y sustituyendo
+\(\sin\theta_1 = \dfrac{L}{R}\) y \(\cos\theta_1 = \dfrac{\sqrt{R^2-L^2}}{R}\):
+
+\begin{align}
+  \sen\theta &= n\left[\left(\frac{L}{R}\right)\sqrt{1 - \left(\frac{L}{nR}\right)^2} -
+               \left(\frac{\sqrt{R^2-L^2}}{R}\right)\left(\frac{L}{nR}\right)\right] \nonumber \\
+  \sen\theta &= n\left[\frac{L}{R}\sqrt{\frac{n^2R^2 - L^2}{n^2R^2}} -
+               \frac{L\sqrt{R^2-L^2}}{nR^2}\right] \nonumber \\
+  \sen\theta &= \frac{L}{nR^2}\left[\sqrt{n^2R^2-L^2} - \sqrt{R^2-L^2}\right]
+  \label{eq:seno_theta}
+\end{align}
+
+Factorizando \(\dfrac{1}{nR^2}\) y simplificando:
+
+\begin{equation}
+  \boxed{\sen\theta = \frac{L}{R^2}\left(\sqrt{n^2R^2-L^2} - \sqrt{R^2-L^2}\right)}
+  \label{eq:seno_theta_final}
+\end{equation}
+
+\nota{¡Cuidado al estudiar en otros foros! Frecuentemente en la literatura se factoriza mal
+perdiendo dimensionalidad (pasan la \(L\) a dividir toda la raíz erróneamente). Esta es la
+expresión matemáticamente rigurosa.}
+
+\subsection{Ejemplo: Reflexión en Cilindro Transparente}
+\label{sec:cilindro}
+
+\begin{ejemplo}[Reflexión en Cilindro Transparente]
+Un cilindro transparente con un radio \(R = 2.00\,\text{m}\) tiene una \textbf{superficie de
+espejo} en su mitad derecha. Un rayo de luz que se desplaza en el aire incide sobre el lado
+izquierdo del cilindro. El rayo de luz incidente y el rayo de luz saliente son paralelos y distan
+\(d = 2.00\,\text{m}\). \textbf{Determine el índice de refracción} del material del cilindro.
+\end{ejemplo}
+
+\textbf{Demostración Completa:} De la figura anterior se observa que el ángulo de incidencia
+\(i\) es un ángulo externo al triángulo \(\Delta ACB\). Por lo cual:
+
+\begin{equation}
+  i = 2\theta
+  \label{eq:i_2theta}
+\end{equation}
+
+O bien:
+
+\begin{equation}
+  \theta = \frac{i}{2}
+  \label{eq:theta_medio}
+\end{equation}
+
+Además, en la figura geométrica también se observa que la altura total \(d\) se relaciona como:
+
+\begin{equation}
+  R\cdot\sin i = \frac{d}{2}
+  \label{eq:R_seni}
+\end{equation}
+
+De esta manera despejamos:
+
+\begin{equation}
+  \sin i = \frac{d}{2R}
+  \label{eq:seni}
+\end{equation}
+
+Por tanto:
+
+\begin{equation}
+  i = \sin^{-1}\!\left(\frac{d}{2R}\right) = \sin^{-1}\!\left(\frac{2.00\,\text{m}}{2(2.00\,\text{m})}\right)
+    = \sin^{-1}\!\left(\frac{1}{2}\right) = 30^{\circ}
+  \label{eq:calculo_i}
+\end{equation}
+
+\begin{equation}
+  \theta = i/2 = 15^{\circ}
+  \label{eq:calculo_theta}
+\end{equation}
+
+Aplicando la \textbf{segunda ley de Snell} en el punto de incidencia \(A\) (\(n_{\text{aire}} = 1\)):
+
+\begin{equation}
+  1\cdot\sin i = n\cdot\sin\theta
+  \label{eq:snell_cilindro}
+\end{equation}
+
+Despejando el índice de refracción:
+
+\begin{equation}
+  n = \frac{\sin i}{\sin\theta} = \frac{\sin(30^{\circ})}{\sin(15^{\circ})}
+  \label{eq:n_cilindro}
+\end{equation}
+
+\begin{equation}
+  \boxed{n \approx 1.932}
+  \label{eq:n_valor}
+\end{equation}
+
+% ============================================================
+\section*{Resumen de Ecuaciones}
+\label{sec:tabla_ecuaciones}
+% ============================================================
+
+\begin{center}
+\begin{longtable}{@{}clp{5.5cm}p{3cm}c@{}}
+\toprule
+\textbf{\#} & \textbf{Nombre} & \textbf{Ecuación} & \textbf{Variables} & \textbf{Sec.} \\
+\midrule
+\endhead
+1 & Energía del fotón & \(E = h \cdot f\) &
+  \(h=6.626\times10^{-34}\,\text{J·s}\), \(f\): frecuencia & \S\ref{sec:naturaleza_cuantica} \\[4pt]
+
+2 & Velocidad de Römer & \(c \approx \dfrac{300{,}000{,}000\,\text{km}}{22\times60\,\text{s}}\) &
+  \(c\): velocidad de la luz & \S\ref{sec:romer} \\[4pt]
+
+3 & Ley de Snell & \(n_1\sin\theta_1 = n_2\sin\theta_2\) &
+  \(n\): índice, \(\theta\): ángulo & \S\ref{sec:snell} \\[4pt]
+
+4 & Índice de refracción & \(n = c/v\) &
+  \(v\): velocidad en el medio & \S\ref{sec:snell} \\[4pt]
+
+5 & Ángulo crítico & \(\sin i_c = n_2/n_1\) &
+  \(i_c\): ángulo crítico & \S\ref{sec:reflexion_total} \\[4pt]
+
+6 & Longitud espejo & \(h = H/2\) &
+  \(H\): altura persona & \S\ref{sec:longitud_espejo} \\[4pt]
+
+7 & Ángulo emergente (espejos) & \(\beta = 180^{\circ} - 2\theta\) &
+  \(\theta\): ángulo entre espejos & \S\ref{sec:espejos_intersectados} \\[4pt]
+
+8 & Ángulo láser & \(\tan\theta = a/b\) &
+  \(a, b\): distancias geométricas & \S\ref{sec:laser_perpendicular} \\[4pt]
+
+9 & Profundidad aparente & \(z = \dfrac{3d\cos\theta_1}{\sqrt{7+9\cos^2\theta_1}}\) &
+  \(d\): prof. real, \(\theta_1\): ángulo refracción & \S\ref{sec:profundidad_aparente} \\[4pt]
+
+10 & Profundidad máxima (joya) & \(h = \dfrac{\sqrt{7}\,d}{6}\) &
+  \(d\): diámetro de la balsa & \S\ref{sec:joya_piscina} \\[4pt]
+
+11 & Seno refracción (cuarto cilindro) &
+  \(\displaystyle\sen\theta = \frac{L}{R^2}\!\left(\sqrt{n^2R^2-L^2}-\sqrt{R^2-L^2}\right)\) &
+  \(L\): altura incidencia, \(R\): radio & \S\ref{sec:cuarto_cilindro} \\[4pt]
+
+12 & Índice cilindro transparente & \(n = \sin i/\sin\theta\) &
+  \(i=30^{\circ}\), \(\theta=15^{\circ}\) para datos dados & \S\ref{sec:cilindro} \\
+
+\bottomrule
+\end{longtable}
+\end{center}
+
+\end{document}

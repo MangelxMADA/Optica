@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Optica - Fisica 3</title>
+<meta name="description" content="Apuntes interactivos de Optica Geometrica">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="chatbot.css">
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="page-wrap">
+
+<header class="topbar">
+<div class="logo"><iframe src="Simulaciones/logo_interactivo.html" class="logo-iframe" title="Logo de Optica" scrolling="no"></iframe> Optica</div>
+<div class="search-wrap"><i class="fas fa-search search-icon"></i><input type="text" id="search-input" placeholder="Buscar temas, ecuaciones..."><div class="search-results glass" id="search-results"></div></div>
+<div class="topbar-right">
+<div class="theme-toggle" id="theme-toggle" title="Cambiar tema"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></div>
+<div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</div>
+</header>
+
+<div class="menu-overlay" id="menu-overlay"></div>
+<aside class="side-menu" id="side-menu">
+<nav>
+<div class="menu-section">Navegacion</div>
+<a href="#" data-target="inicio"><i class="fas fa-home"></i> Inicio</a>
+<div class="menu-section">Temas</div>
+<a href="#" data-target="tema-1">1. Fundamentos y Naturaleza de la Luz</a>
+<a href="#" data-target="tema-2">2. Velocidad de la Luz</a>
+<a href="#" data-target="tema-3">3. Leyes de Snell y Refraccion</a>
+<a href="#" data-target="tema-4">4. Espejos Planos y Esfericos</a>
+<a href="#" data-target="tema-5">5. Dioptrios</a>
+<div class="menu-section">Recursos</div>
+<a href="#" data-target="materiales"><i class="fas fa-file-pdf"></i> Materiales</a>
+</nav>
+<div class="about-link"><a href="#" data-target="sobre-nosotros"><i class="fas fa-users"></i> Sobre Nosotros</a></div>
+</aside>
+
+<!-- ═══ INICIO ═══ -->
+<section class="section active" id="inicio">
+<div class="hero">
+<h1><span class="gradient-text">Optica Geometrica</span></h1>
+<p class="subtitle">Apuntes interactivos del curso de Fisica 3 — Universidad Tecnologica de Pereira</p>
+<div class="intro-card glass">
+<h3>La luz: entre ondas y particulas</h3>
+<p>La optica es la rama de la fisica que estudia el comportamiento de la luz. Desde las teorias de Newton y Huygens hasta la electrodinamica cuantica, comprender la luz ha sido uno de los grandes desafios cientificos. En estos apuntes exploramos la optica geometrica: reflexion, refraccion e imagenes formadas por espejos, lentes y superficies refractantes.</p>
+<p>La primera medicion de la velocidad de la luz fue realizada por Ole Romer en 1676 observando eclipses de Io, una luna de Jupiter. Descubrio que la luz tarda unos 22 minutos en cruzar la orbita terrestre, obteniendo $c \approx 227\,000$ km/s.</p>
+</div>
+<div class="quick-grid">
+<div class="quick-card" onclick="navigate('tema-1')"><div class="qc-num">Tema I</div><h4>Fundamentos</h4><p>Naturaleza de la luz</p></div>
+<div class="quick-card" onclick="navigate('tema-2')"><div class="qc-num">Tema II</div><h4>Velocidad de la Luz</h4><p>Experimentos historicos</p></div>
+<div class="quick-card" onclick="navigate('tema-3')"><div class="qc-num">Tema III</div><h4>Leyes de Snell</h4><p>Refraccion y reflexion total</p></div>
+<div class="quick-card" onclick="navigate('tema-4')"><div class="qc-num">Tema IV</div><h4>Espejos</h4><p>Planos y esfericos</p></div>
+<div class="quick-card" onclick="navigate('tema-5')"><div class="qc-num">Tema V</div><h4>Dioptrios</h4><p>Superficies refractantes</p></div>
+</div>
+<div class="scroll-hint"><i class="fas fa-chevron-down" style="color:var(--cyan)"></i></div>
+</div>
+</section>
+
+<!-- ═══ TEMA 1 ═══ -->
+<section class="section" id="tema-1">
+<div class="section-header"><span class="section-num">Tema I</span><h1>Fundamentos y Naturaleza de la Luz</h1></div>
+<div class="spectrum-divider" style="width:50%;margin-bottom:2rem"></div>
+<div class="topic-layout">
+<aside class="topic-sidebar"><div class="toc-title">Contenido</div><ul class="toc-list">
+<li><a href="#t1-fund">Fundamentos</a></li><li><a href="#t1-corp">Teoria Corpuscular</a></li>
+<li><a href="#t1-ond">Teoria Ondulatoria</a></li><li><a href="#t1-em">Teoria Electromagnetica</a></li>
+<li><a href="#t1-cuan">Naturaleza Cuantica</a></li><li><a href="#t1-sim">Simulacion</a></li>
+<li><a href="#t1-eq">Ecuaciones</a></li></ul></aside>
+<div class="topic-content"><div class="apa">
+<h2 id="t1-fund">Optica Geometrica: Fundamentos</h2>
+<p>La luz es una radiacion electromagnetica con longitud de onda entre $400$ y $700\,\text{nm}$. Su propagacion se rige por leyes geometricas que no dependen de la longitud de onda ni de la intensidad. La luz se propaga mediante <em>rayos</em> en linea recta en medios uniformes, relacionados por las leyes de reflexion y refraccion.</p>
+<div class="note">La optica geometrica es valida cuando $\lambda \ll d$ (dimension del obstaculo).</div>
+
+<h2 id="t1-corp">Teoría Corpuscular</h2>
+<p><strong>Isaac Newton (1642-1727)</strong> defendió fervientemente en su obra <em>Opticks</em> que la luz estaba compuesta por diminutos corpúsculos o partículas materiales. Estas partículas son emitidas por fuentes luminosas y viajan en línea recta a gran velocidad. Esta teoría explicaba de forma natural la propagación rectilínea (la formación de sombras nítidas) y la reflexión (como choques elásticos contra una superficie). Sin embargo, tenía grandes dificultades para explicar la difracción, la interferencia y predecía erróneamente que la luz viajaría más rápido en el agua que en el aire.</p>
+
+<h2 id="t1-ond">Teoría Ondulatoria</h2>
+<p>Contemporáneo a Newton, <strong>Christiaan Huygens (1629-1695)</strong> propuso que la luz era una onda mecánica longitudinal (similar al sonido) que requería de un medio sutil e invisible llamado <em>éter lumínico</em> para propagarse. Aunque inicialmente rechazada por el prestigio de Newton, esta teoría cobró fuerza en el siglo XIX cuando Thomas Young (experimento de la doble rendija) y Augustin-Jean Fresnel demostraron fenómenos de interferencia y difracción que solo las ondas pueden sufrir. En este modelo, la velocidad de la luz en el vacío es $c \approx 3 \times 10^8\,\text{m/s}$ y se caracteriza por la relación fundamental $\lambda = c/f$.</p>
+
+<h2 id="t1-em">Teoría Electromagnética</h2>
+<p>En 1864, <strong>James Clerk Maxwell</strong> unificó la electricidad y el magnetismo, prediciendo teóricamente la existencia de ondas electromagnéticas. Maxwell demostró que estas ondas viajan exactamente a la velocidad de la luz, concluyendo que la luz misma es una perturbación electromagnética de campos transversales mutuamente perpendiculares. Esta teoría eliminó la necesidad del éter mecánico. El espectro abarca desde ondas de radio ($\lambda \sim 10^2\,\text{m}$) hasta rayos gamma ($\lambda \sim 10^{-12}\,\text{m}$). Posteriormente, <strong>Heinrich Hertz</strong> verificó experimentalmente estas ondas.</p>
+<div class="eq-box" id="eq-maxwell"><span class="eq-label">(1.1)</span>$$c = \frac{1}{\sqrt{\varepsilon_0 \mu_0}} = 299\,792\,458\,\text{m/s}$$</div>
+
+<h2 id="t1-cuan">Naturaleza Cuántica y Síntesis</h2>
+<p>Para explicar el efecto fotoeléctrico (que la teoría ondulatoria no podía), <strong>Albert Einstein (1905)</strong> propuso que la luz está formada por "paquetes" discretos de energía llamados <strong>fotones</strong>. Retornando en cierto modo a una visión corpuscular, pero manteniendo propiedades de onda (frecuencia):</p>
+<div class="eq-box" id="eq-foton"><span class="eq-label">(1.2)</span>$$E = h \cdot f$$</div>
+<p>donde $h = 6.626 \times 10^{-34}\,\text{J}\cdot\text{s}$ es la constante de Planck.</p>
+<div class="synthesis"><strong>Síntesis (Dualidad Onda-Partícula).</strong> Hoy sabemos que la luz exhibe comportamientos tanto ondulatorios como corpusculares dependiendo de cómo se mida. La síntesis definitiva la proporcionó la Electrodinámica Cuántica (QED) de Feynman, Schwinger y Tomonaga, donde la luz se entiende como interacciones en un campo cuántico.</div>
+</div>
+
+<div class="sim-container" id="t1-sim" style="padding: 0; background: transparent; border: none; box-shadow: none; position: relative;">
+<button class="expand-btn" onclick="toggleSimFullscreen(this)"><i class="fas fa-expand"></i> Ampliar</button>
+<iframe src="Simulaciones/espectroscopia.html" allowfullscreen style="width: 100%; height: 850px; border: none; border-radius: var(--radius); display: block;"></iframe>
+</div>
+
+<h3 id="t1-eq">Tabla de Ecuaciones</h3>
+<table class="data-table"><thead><tr><th>#</th><th>Nombre</th><th>Ecuacion</th><th>Ref</th></tr></thead><tbody>
+<tr><td>1</td><td>Velocidad EM</td><td>$c = 1/\sqrt{\varepsilon_0\mu_0}$</td><td><a href="#eq-maxwell">Ir</a></td></tr>
+<tr><td>2</td><td>Energia del foton</td><td>$E = hf$</td><td><a href="#eq-foton">Ir</a></td></tr>
+<tr><td>3</td><td>Relacion de onda</td><td>$\lambda = c/f$</td><td><a href="#t1-ond">Ir</a></td></tr>
+</tbody></table>
+</div></div>
+</section>
+
+<!-- ═══ TEMA 2 ═══ -->
+<section class="section" id="tema-2">
+<div class="section-header"><span class="section-num">Tema II</span><h1>Medicion de la Velocidad de la Luz</h1></div>
+<div class="spectrum-divider" style="width:50%;margin-bottom:2rem"></div>
+<div class="topic-layout">
+<aside class="topic-sidebar"><div class="toc-title">Contenido</div><ul class="toc-list">
+<li><a href="#t2-rom">Romer</a></li><li><a href="#t2-fiz">Fizeau-Foucault</a></li>
+<li><a href="#t2-mic">Michelson</a></li><li><a href="#t2-sim">Simulacion</a></li>
+<li><a href="#t2-eq">Ecuaciones</a></li></ul></aside>
+<div class="topic-content"><div class="apa">
+<h2 id="t2-rom">Experimento de Romer (1676)</h2>
+<p><strong>Olaus Romer</strong> observo que los eclipses de Io (luna de Jupiter, periodo $\approx 42.5\,\text{h}$) se retrasaban hasta 22 minutos cuando la Tierra se alejaba de Jupiter.</p>
+<div class="eq-box" id="eq-romer"><span class="eq-label">(2.1)</span>$$c \approx \frac{300\,000\,000\,\text{km}}{22 \times 60\,\text{s}} \approx 227\,000\,\text{km/s}$$</div>
+<div class="synthesis"><strong>Sintesis.</strong> Aunque con un error del 25%, Romer demostro que la luz tiene velocidad finita.</div>
+
+<h2 id="t2-fiz">Experimento de Fizeau-Foucault (1849)</h2>
+<p><strong>Fizeau</strong> uso una rueda dentada giratoria y obtuvo $c \approx 3.13 \times 10^8\,\text{m/s}$. <strong>Foucault</strong> mejoro el metodo con un espejo giratorio y confirmo que $c_{\text{agua}} < c_{\text{aire}}$, refutando la teoria corpuscular.</p>
+
+<h2 id="t2-mic">Experimento de Michelson (1879)</h2>
+<p><strong>Albert Michelson</strong> (Nobel 1907) uso un espejo octagonal giratorio con un recorrido de $35.4\,\text{km}$. Obtuvo $c = 299\,796\,\text{km/s}$. El experimento Michelson-Morley (1887) sento las bases de la Relatividad Especial.</p>
+</div>
+
+<div class="sim-container" id="t2-sim" style="padding: 0; background: transparent; border: none; box-shadow: none; position: relative;">
+<button class="expand-btn" onclick="toggleSimFullscreen(this)"><i class="fas fa-expand"></i> Ampliar</button>
+<iframe src="Simulaciones/romer.html" allowfullscreen style="width: 100%; height: 850px; border: none; border-radius: var(--radius); display: block;"></iframe>
+</div>
+
+<h3 id="t2-eq">Tabla de Ecuaciones</h3>
+<table class="data-table"><thead><tr><th>#</th><th>Nombre</th><th>Ecuacion</th><th>Ref</th></tr></thead><tbody>
+<tr><td>1</td><td>Romer</td><td>$c \approx D/\Delta t$</td><td><a href="#eq-romer">Ir</a></td></tr>
+</tbody></table>
+</div></div>
+</section>
+
+<!-- ═══ TEMA 3 ═══ -->
+<section class="section" id="tema-3">
+<div class="section-header"><span class="section-num">Tema III</span><h1>Leyes de Snell y Refraccion</h1></div>
+<div class="spectrum-divider" style="width:50%;margin-bottom:2rem"></div>
+<div class="topic-layout">
+<aside class="topic-sidebar"><div class="toc-title">Contenido</div><ul class="toc-list">
+<li><a href="#t3-snell">Ley de Snell</a></li><li><a href="#t3-idx">Indice de Refraccion</a></li>
+<li><a href="#t3-total">Reflexion Total</a></li><li><a href="#t3-huy">Huygens-Fresnel</a></li>
+<li><a href="#t3-prob">Problemas</a></li><li><a href="#t3-sim">Simulacion</a></li>
+<li><a href="#t3-eq">Ecuaciones</a></li></ul></aside>
+<div class="topic-content"><div class="apa">
+<h2 id="t3-snell">Ley de Snell y la Controversia Histórica</h2>
+<p>La refracción es el cambio de dirección que experimenta un rayo al pasar de un medio a otro. Históricamente, la refracción fue el campo de batalla definitivo entre las teorías de la luz:</p>
+<ul>
+<li><strong>Según Newton (Teoría Corpuscular):</strong> Al acercarse a un medio más denso (como el agua), los corpúsculos de luz sufrían una fuerte atracción gravitatoria hacia el agua, acelerándose y desviándose hacia la normal. Esto implicaba que la luz viajaría <em>más rápido</em> en el agua que en el aire ($v_{agua} > c$).</li>
+<li><strong>Según Huygens (Teoría Ondulatoria):</strong> Consideraba que al pasar a un medio más denso, los frentes de onda encontraban mayor resistencia y se frenaban. Al viajar una parte del frente más lenta que la otra, el rayo se desviaba hacia la normal. Esto implicaba que la luz viajaría <em>más lento</em> en el agua ($v_{agua} < c$).</li>
+</ul>
+<p>En 1850, Léon Foucault midió la velocidad de la luz en el agua y demostró que era menor que en el aire, propinando el golpe final a la teoría corpuscular clásica. Geométricamente, el rayo incidente, reflejado, refractado y la normal están en un mismo plano, cumpliéndose la <strong>Ley de Snell</strong>:</p>
+<div class="eq-box" id="eq-snell"><span class="eq-label">(3.1)</span>$$n_1 \sin\theta_1 = n_2 \sin\theta_2$$</div>
+
+<h2 id="t3-idx">Índice de Refracción</h2>
+<div class="eq-box" id="eq-idx"><span class="eq-label">(3.2)</span>$$n = \frac{c}{v}$$</div>
+<table class="data-table"><thead><tr><th>Material</th><th>n</th></tr></thead><tbody>
+<tr><td>Vacío</td><td>1.000</td></tr><tr><td>Aire</td><td>1.0003</td></tr><tr><td>Agua</td><td>1.333</td></tr><tr><td>Vidrio</td><td>1.500</td></tr><tr><td>Diamante</td><td>2.417</td></tr>
+</tbody></table>
+<p>Cuando $n_1 < n_2$, la onda disminuye su velocidad y el rayo se acerca a la normal. Cuando $n_1 > n_2$, la onda se acelera y el rayo se aleja, pudiendo ocurrir reflexión total interna.</p>
+
+<h2 id="t3-total">Reflexion Total Interna</h2>
+<p>Cuando el angulo de incidencia alcanza el angulo critico $i_c$, toda la luz se refleja:</p>
+<div class="eq-box" id="eq-crit"><span class="eq-label">(3.3)</span>$$\sin(i_c) = \frac{n_2}{n_1}$$</div>
+<div class="note">Agua hacia aire: $i_c = \sin^{-1}(3/4) \approx 48.38°$. Base de las fibras opticas modernas.</div>
+
+<h2 id="t3-huy">Principio de Huygens-Fresnel</h2>
+<p>Cada punto de un frente de onda es fuente de ondas esfericas secundarias. Fresnel agrego la difraccion: la interferencia entre frentes secundarios origina patrones de maximos y minimos.</p>
+
+<h2 id="t3-prob">Problemas Resueltos</h2>
+<h3>Profundidad Aparente</h3>
+<p>Un pez a profundidad $d$ bajo agua ($n = 4/3$) visto a angulo $\theta_1$:</p>
+<div class="eq-box" id="eq-prof"><span class="eq-label">(3.4)</span>$$z = \frac{3d\cos\theta_1}{\sqrt{7 + 9\cos^2\theta_1}}$$</div>
+<h3>Joya Oculta</h3>
+<p>Profundidad maxima para que una balsa de diametro $d$ oculte una joya:</p>
+<div class="eq-box" id="eq-joya"><span class="eq-label">(3.5)</span>$$h = \frac{\sqrt{7}\,d}{6}$$</div>
+</div>
+
+<div class="sim-container" id="t3-sim" style="padding: 0; background: transparent; border: none; box-shadow: none; margin-bottom: 2rem; position: relative;">
+<button class="expand-btn" onclick="toggleSimFullscreen(this)"><i class="fas fa-expand"></i> Ampliar</button>
+<iframe src="Simulaciones/snell.html" allowfullscreen style="width: 100%; height: 850px; border: none; border-radius: var(--radius); display: block;"></iframe>
+</div>
+
+<div class="sim-container" id="t3-difraccion-sim" style="padding: 0; background: transparent; border: none; box-shadow: none; position: relative;">
+<button class="expand-btn" onclick="toggleSimFullscreen(this)"><i class="fas fa-expand"></i> Ampliar</button>
+<iframe src="Simulaciones/difraccion.html" allowfullscreen style="width: 100%; height: 850px; border: none; border-radius: var(--radius); display: block;"></iframe>
+</div>
+
+<h3 id="t3-eq">Tabla de Ecuaciones</h3>
+<table class="data-table"><thead><tr><th>#</th><th>Nombre</th><th>Ecuacion</th><th>Ref</th></tr></thead><tbody>
+<tr><td>1</td><td>Ley de Snell</td><td>$n_1\sin\theta_1 = n_2\sin\theta_2$</td><td><a href="#eq-snell">Ir</a></td></tr>
+<tr><td>2</td><td>Indice refraccion</td><td>$n = c/v$</td><td><a href="#eq-idx">Ir</a></td></tr>
+<tr><td>3</td><td>Angulo critico</td><td>$\sin i_c = n_2/n_1$</td><td><a href="#eq-crit">Ir</a></td></tr>
+<tr><td>4</td><td>Prof. aparente</td><td>$z = 3d\cos\theta_1/\sqrt{7+9\cos^2\theta_1}$</td><td><a href="#eq-prof">Ir</a></td></tr>
+<tr><td>5</td><td>Joya oculta</td><td>$h = \sqrt{7}\,d/6$</td><td><a href="#eq-joya">Ir</a></td></tr>
+</tbody></table>
+</div></div>
+</section>
+
+<!-- PLACEHOLDER: Temas 4-5, Materiales, Sobre Nosotros -->
+<section class="section" id="tema-4">
+<div class="section-header"><span class="section-num">Tema IV</span><h1>Espejos Planos y Esfericos</h1></div>
+<div class="spectrum-divider" style="width:50%;margin-bottom:2rem"></div>
+<div class="topic-layout">
+<aside class="topic-sidebar"><div class="toc-title">Contenido</div><ul class="toc-list">
+<li><a href="#t4-leyes">Leyes de Reflexion</a></li><li><a href="#t4-planos">Espejos Planos</a></li>
+<li><a href="#t4-trasl">Traslacion y Rotacion</a></li><li><a href="#t4-ang">Espejos Angulares</a></li>
+<li><a href="#t4-esf">Espejos Esfericos</a></li><li><a href="#t4-gauss">Gauss-Descartes</a></li>
+<li><a href="#t4-conc">Concavos y Convexos</a></li><li><a href="#t4-sim">Simulacion</a></li>
+<li><a href="#t4-eq">Ecuaciones</a></li></ul></aside>
+<div class="topic-content"><div class="apa">
+<h2 id="t4-leyes">Leyes de la Reflexión y Perspectivas Teóricas</h2>
+<p>El rayo incidente, la normal y el rayo reflejado están en un mismo plano. El ángulo de incidencia es igual al de reflexión:</p>
+<div class="eq-box" id="eq-refl"><span class="eq-label">(4.1)</span>$$i = i'$$</div>
+<p>Las distintas teorías ópticas interpretan este fenómeno de la siguiente manera:</p>
+<ul>
+<li><strong>Teoría Corpuscular:</strong> Un rebote elástico perfecto de partículas materiales contra una superficie impenetrable, cumpliendo la conservación del momento lineal en la dirección paralela a la superficie.</li>
+<li><strong>Teoría Ondulatoria:</strong> Los frentes de onda incidentes excitan los átomos de la superficie del espejo, los cuales reemiten ondas secundarias. La interferencia constructiva de estas ondas forma un nuevo frente reflejado con el mismo ángulo de inclinación.</li>
+<li><strong>Electrodinámica Cuántica (QED):</strong> Richard Feynman postuló que los fotones no viajan en línea recta estricta, sino que "exploran" todos los caminos posibles entre la fuente, el espejo y el observador. Las amplitudes de probabilidad de los caminos cercanos al ángulo $i=i'$ se refuerzan (interferencia constructiva), mientras que los demás caminos se cancelan mutuamente, dando como resultado el comportamiento clásico macroscópico dictado por el <strong>Principio de Fermat</strong>.</li>
+</ul>
+<div class="note"><strong>Principio de Fermat:</strong> "La luz siempre sigue el camino óptico que minimiza el tiempo de recorrido entre dos puntos". Esto es una consecuencia directa del enfoque cuántico de superposición de caminos.</div>
+
+<h2 id="t4-planos">Imagenes en Espejos Planos</h2>
+<p>La imagen formada por un espejo plano es <strong>virtual</strong>, derecha y de igual tamano. La distancia imagen es igual a la distancia objeto:</p>
+<div class="eq-box" id="eq-plano"><span class="eq-label">(4.2)</span>$$s = s'$$</div>
+
+<h2 id="t4-trasl">Traslacion y Rotacion</h2>
+<p>Si un espejo se desplaza una distancia $s$, la imagen se desplaza el doble:</p>
+<div class="eq-box" id="eq-trasl"><span class="eq-label">(4.3)</span>$$d = 2s$$</div>
+<p>Si un espejo gira un angulo $\theta$, el rayo reflejado gira el doble:</p>
+<div class="eq-box" id="eq-rot"><span class="eq-label">(4.4)</span>$$\delta = 2\theta$$</div>
+
+<h2 id="t4-ang">Espejos Angulares</h2>
+<p>Dos espejos formando un angulo $\theta$ producen $N$ imagenes:</p>
+<div class="eq-box" id="eq-ang"><span class="eq-label">(4.5)</span>$$N = \frac{360°}{\theta} \text{ (impar)} \quad \text{o} \quad N = \frac{360°}{\theta} - 1 \text{ (par)}$$</div>
+
+<h2 id="t4-esf">Espejos Esfericos</h2>
+<p>Un espejo esferico puede ser <strong>concavo</strong> (convergente, superficie interna) o <strong>convexo</strong> (divergente, superficie externa). Sus elementos son: centro de curvatura $C$, radio $R$, vertice $V$, foco $F$ y eje principal.</p>
+
+<h2 id="t4-gauss">Formula de Gauss-Descartes</h2>
+<p>Para rayos paraxiales, la relacion entre distancia objeto $p$, imagen $q$ y radio $r$:</p>
+<div class="eq-box" id="eq-gauss"><span class="eq-label">(4.6)</span>$$\frac{1}{p} + \frac{1}{q} = \frac{2}{r} = \frac{1}{f}$$</div>
+<p>donde $f = r/2$ es la distancia focal. El aumento lateral:</p>
+<div class="eq-box" id="eq-aum"><span class="eq-label">(4.7)</span>$$A = \frac{h_i}{h_o} = -\frac{q}{p}$$</div>
+<p>Si $A > 0$: imagen derecha (virtual). Si $A < 0$: imagen invertida (real).</p>
+
+<h2 id="t4-conc">Espejos Concavos y Convexos</h2>
+<p><strong>Concavos</strong>: 5 casos segun la posicion del objeto. El espejo actua como lupa cuando el objeto esta entre $F$ y $V$ (imagen virtual, derecha, ampliada).</p>
+<p><strong>Convexos</strong>: solo producen imagenes virtuales, derechas y reducidas. Ideales para espejos retrovisores y de seguridad por su amplio campo visual.</p>
+</div>
+
+<div class="sim-container" id="t4-sim" style="padding: 0; background: transparent; border: none; box-shadow: none; position: relative;">
+<button class="expand-btn" onclick="toggleSimFullscreen(this)"><i class="fas fa-expand"></i> Ampliar</button>
+<iframe src="Simulaciones/espejos.html" allowfullscreen style="width: 100%; height: 850px; border: none; border-radius: var(--radius); display: block;"></iframe>
+</div>
+
+<h3 id="t4-eq">Tabla de Ecuaciones</h3>
+<table class="data-table"><thead><tr><th>#</th><th>Nombre</th><th>Ecuacion</th><th>Ref</th></tr></thead><tbody>
+<tr><td>1</td><td>Ley de reflexion</td><td>$i = i'$</td><td><a href="#eq-refl">Ir</a></td></tr>
+<tr><td>2</td><td>Espejo plano</td><td>$s = s'$</td><td><a href="#eq-plano">Ir</a></td></tr>
+<tr><td>3</td><td>Traslacion</td><td>$d = 2s$</td><td><a href="#eq-trasl">Ir</a></td></tr>
+<tr><td>4</td><td>Rotacion</td><td>$\delta = 2\theta$</td><td><a href="#eq-rot">Ir</a></td></tr>
+<tr><td>5</td><td>Espejos angulares</td><td>$N = 360°/\theta$</td><td><a href="#eq-ang">Ir</a></td></tr>
+<tr><td>6</td><td>Gauss-Descartes</td><td>$1/p + 1/q = 1/f$</td><td><a href="#eq-gauss">Ir</a></td></tr>
+<tr><td>7</td><td>Aumento lateral</td><td>$A = -q/p$</td><td><a href="#eq-aum">Ir</a></td></tr>
+</tbody></table>
+</div></div>
+</section>
+<section class="section" id="tema-5">
+<div class="section-header"><span class="section-num">Tema V</span><h1>Dioptrios y Sistemas Opticos</h1></div>
+<div class="spectrum-divider" style="width:50%;margin-bottom:2rem"></div>
+<div class="topic-layout">
+<aside class="topic-sidebar"><div class="toc-title">Contenido</div><ul class="toc-list">
+<li><a href="#t5-def">Definicion</a></li><li><a href="#t5-fund">Ecuacion Fundamental</a></li>
+<li><a href="#t5-focal">Distancias Focales</a></li><li><a href="#t5-aum">Aumento Lateral</a></li>
+<li><a href="#t5-plano">Dioptrio Plano</a></li><li><a href="#t5-sim">Simulacion</a></li>
+<li><a href="#t5-eq">Ecuaciones</a></li></ul></aside>
+<div class="topic-content"><div class="apa">
+<h2 id="t5-def">Definicion de Dioptrio</h2>
+<p>Un dioptrio es una superficie refractante que separa dos medios transparentes con distintos indices de refraccion ($n_1$ y $n_2$). Un <strong>sistema optico</strong> es un conjunto de dioptrios (y/o espejos) y las reglas de refraccion/reflexion rigen su comportamiento. Los rayos forman <em>imagenes perfectas</em> cuando se cumple la aproximacion paraxial (angulos pequenos).</p>
+
+<h2 id="t5-fund">Ecuacion Fundamental del Dioptrio Esferico</h2>
+<p>Para rayos paraxiales que inciden sobre una superficie esferica de radio $r$ que separa dos medios $n_1$ y $n_2$, la relacion entre la posicion del objeto $p$ y la de la imagen $q$ es:</p>
+<div class="eq-box" id="eq-dioptrio"><span class="eq-label">(5.1)</span>$$\frac{n_1}{p} + \frac{n_2}{q} = \frac{n_2 - n_1}{r}$$</div>
+<div class="note">Convencion de signos: $p > 0$ frente al dioptrio (objeto real), $q > 0$ detras del dioptrio (imagen real), $r > 0$ si el centro de curvatura esta detras (convexo desde el medio 1).</div>
+
+<h2 id="t5-focal">Distancias Focales</h2>
+<p>La <strong>distancia focal objeto</strong> $f$ es la posicion $p$ para la cual la imagen se forma en el infinito ($q = \infty$):</p>
+<div class="eq-box" id="eq-fobj"><span class="eq-label">(5.2)</span>$$f = \frac{n_1 r}{n_2 - n_1}$$</div>
+<p>La <strong>distancia focal imagen</strong> $f'$ es la posicion $q$ para la cual el objeto esta en el infinito ($p = \infty$):</p>
+<div class="eq-box" id="eq-fimg"><span class="eq-label">(5.3)</span>$$f' = \frac{n_2 r}{n_2 - n_1}$$</div>
+<p>La relacion entre ambas distancias focales es $f'/f = n_2/n_1$.</p>
+
+<h2 id="t5-aum">Aumento Lateral</h2>
+<p>El aumento lateral $A$ para un dioptrio esferico indica la razon entre el tamano de la imagen y el objeto:</p>
+<div class="eq-box" id="eq-aum-diop"><span class="eq-label">(5.4)</span>$$A = -\frac{n_1 q}{n_2 p}$$</div>
+
+<h2 id="t5-plano">Dioptrio Plano</h2>
+<p>Un dioptrio plano es un caso especial donde el radio de curvatura tiende a infinito ($r \to \infty$). La ecuacion fundamental se reduce a:</p>
+<div class="eq-box" id="eq-diop-plano"><span class="eq-label">(5.5)</span>$$q = -\frac{n_2}{n_1} p$$</div>
+<p>Esta ecuacion explica el fenomeno de la <em>profundidad aparente</em>, donde los objetos bajo el agua parecen estar mas cerca de la superficie de lo que realmente estan.</p>
+</div>
+
+<div class="sim-container" id="t5-sim" style="padding: 0; background: transparent; border: none; box-shadow: none; position: relative;">
+<button class="expand-btn" onclick="toggleSimFullscreen(this)"><i class="fas fa-expand"></i> Ampliar</button>
+<iframe src="Simulaciones/dioptrio.html" allowfullscreen style="width: 100%; height: 850px; border: none; border-radius: var(--radius); display: block;"></iframe>
+</div>
+
+<h3 id="t5-eq">Tabla de Ecuaciones</h3>
+<table class="data-table"><thead><tr><th>#</th><th>Nombre</th><th>Ecuacion</th><th>Ref</th></tr></thead><tbody>
+<tr><td>1</td><td>Ecuacion dioptrio</td><td>$n_1/p + n_2/q = (n_2-n_1)/r$</td><td><a href="#eq-dioptrio">Ir</a></td></tr>
+<tr><td>2</td><td>Focal objeto</td><td>$f = n_1 r / (n_2 - n_1)$</td><td><a href="#eq-fobj">Ir</a></td></tr>
+<tr><td>3</td><td>Focal imagen</td><td>$f' = n_2 r / (n_2 - n_1)$</td><td><a href="#eq-fimg">Ir</a></td></tr>
+<tr><td>4</td><td>Aumento lateral</td><td>$A = -(n_1 q)/(n_2 p)$</td><td><a href="#eq-aum-diop">Ir</a></td></tr>
+<tr><td>5</td><td>Dioptrio plano</td><td>$q = -(n_2/n_1)p$</td><td><a href="#eq-diop-plano">Ir</a></td></tr>
+</tbody></table>
+</div></div>
+</section>
+
+<!-- ═══ MATERIALES ═══ -->
+<section class="section" id="materiales">
+<div class="section-header">
+<span class="section-num">Recursos</span>
+<h1>Materiales de Estudio</h1>
+<p>Descarga los documentos originales en formato PDF o visualiza su codigo fuente en LaTeX.</p>
+</div>
+<div class="spectrum-divider" style="width:40%;margin-bottom:2rem"></div>
+<div class="mat-toggle">
+<button class="active" data-type="pdf"><i class="fas fa-file-pdf"></i> Archivos PDF</button>
+<button data-type="tex"><i class="fas fa-code"></i> Codigo LaTeX</button>
+</div>
+
+<div class="materials-grid mat-view" id="mat-pdf">
+<div class="mat-card" onclick="openFileModal('pdf', 'Teoria Optica/PDF/optica_geometrica.pdf', 'Optica Geometrica')">
+<div class="mat-icon"><i class="fas fa-file-pdf"></i></div>
+<h3>Optica Geometrica</h3>
+<p>Fundamentos y velocidad de la luz</p>
+</div>
+<div class="mat-card" onclick="openFileModal('pdf', 'Teoria Optica/PDF/espejos_optica_geometrica.pdf', 'Espejos')">
+<div class="mat-icon"><i class="fas fa-file-pdf"></i></div>
+<h3>Espejos</h3>
+<p>Leyes de reflexion, espejos planos y esfericos</p>
+</div>
+<div class="mat-card" onclick="openFileModal('pdf', 'Teoria Optica/PDF/dioptrios.pdf', 'Dioptrios')">
+<div class="mat-icon"><i class="fas fa-file-pdf"></i></div>
+<h3>Dioptrios</h3>
+<p>Refraccion, superficies y sistemas opticos</p>
+</div>
+</div>
+
+<div class="materials-grid mat-view" id="mat-tex" style="display:none">
+<div class="mat-card" onclick="openFileModal('tex', 'Teoria Optica/Latex/optica_geometrica.tex', 'Optica Geometrica (.tex)')">
+<div class="mat-icon"><i class="fas fa-file-code"></i></div>
+<h3>Optica Geometrica (.tex)</h3>
+<p>Codigo fuente original</p>
+</div>
+<div class="mat-card" onclick="openFileModal('tex', 'Teoria Optica/Latex/espejos_optica_geometrica.tex', 'Espejos (.tex)')">
+<div class="mat-icon"><i class="fas fa-file-code"></i></div>
+<h3>Espejos (.tex)</h3>
+<p>Codigo fuente original</p>
+</div>
+<div class="mat-card" onclick="openFileModal('tex', 'Teoria Optica/Latex/dioptrios.tex', 'Dioptrios (.tex)')">
+<div class="mat-icon"><i class="fas fa-file-code"></i></div>
+<h3>Dioptrios (.tex)</h3>
+<p>Codigo fuente original</p>
+</div>
+</div>
+</section>
+
+<!-- ═══ SOBRE NOSOTROS ═══ -->
+<section class="section" id="sobre-nosotros">
+<div class="section-header">
+<span class="section-num">Creditos</span>
+<h1>Sobre Nosotros</h1>
+</div>
+<div class="spectrum-divider" style="width:30%;margin-bottom:2rem"></div>
+<div class="uni-card glass">
+<h2>Universidad Tecnologica de Pereira</h2>
+<div class="uni-sub"><i class="fas fa-book-open"></i> Curso: Fisica 3</div>
+<p>Este portal interactivo ha sido desarrollado como proyecto para el curso de Fisica 3. El objetivo es ofrecer un recurso moderno, interactivo y academicamente riguroso para facilitar el aprendizaje y la visualizacion de los fenomenos opticos abordados en la teoria.</p>
+</div>
+<div class="about-grid">
+<div class="about-card">
+<div class="about-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+<h3>Msc. Nestor Fabio Montoya Palacios</h3>
+<div class="role">Profesor Titular</div>
+<p>Docente encargado de impartir los conocimientos teoricos, supervisar la calidad academica y guiar el enfoque pedagogico de este proyecto y del curso.</p>
+</div>
+<div class="about-card">
+<div class="about-icon"><i class="fas fa-user-graduate"></i></div>
+<h3>Miguel Angel Delgado Acevedo</h3>
+<div class="role">Estudiante / Desarrollador</div>
+<p>Encargado de la sintesis del material y programacion interactiva de las simulaciones y el entorno web.</p>
+</div>
+<div class="about-card">
+<div class="about-icon"><i class="fas fa-user-graduate"></i></div>
+<h3>Andres Felipe Bernal Torres</h3>
+<div class="role">Estudiante / Investigador</div>
+<p>Co-responsable de la organizacion teorica, planteamiento de problemas y redaccion de la documentacion cientifica base en LaTeX.</p>
+</div>
+</div>
+</section>
+
+<footer class="footer"><div class="spectrum-divider" style="width:30%;margin-bottom:.8rem"></div><p>Optica Geometrica — Fisica 3 — Universidad Tecnologica de Pereira — 2026</p></footer>
+</div>
+
+<!-- ═══ FILE MODAL ═══ -->
+<div class="file-modal" id="file-modal">
+  <div class="file-modal-content glass">
+    <div class="file-modal-header">
+      <h3 id="file-modal-title">Documento</h3>
+      <button class="file-modal-close" onclick="closeFileModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="file-modal-body">
+      <iframe id="file-iframe" src="" style="width:100%; height:100%; border:none; display:none;"></iframe>
+      <div id="file-tex" style="width:100%; height:100%; overflow:auto; display:none; background:var(--bg); padding:1.5rem; text-align:left;">
+        <pre><code id="file-tex-code" class="language-latex" style="font-family:var(--font-mono); font-size:0.9rem; color:var(--text); white-space:pre-wrap;"></code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script src="chatbot.js"></script>
+</body>
+</html>

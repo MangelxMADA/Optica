@@ -1,0 +1,910 @@
+\documentclass[12pt, a4paper]{article}
+
+% === PAQUETES ===
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{physics}
+\usepackage[margin=2.5cm]{geometry}
+
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+% === ENTORNOS ===
+\theoremstyle{definition}
+\newtheorem{definicion}{Definición}[section]
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{ejemplo}{Ejemplo}[section]
+\newtheorem{observacion}{Observación}[section]
+
+% === ENCABEZADO ===
+\title{\textbf{Dioptrios: Óptica Geométrica de Superficies Refractantes}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Sistemas Ópticos}
+% ============================================================
+
+\begin{definicion}[Sistema óptico]
+En \textbf{óptica geométrica} se denomina \textit{sistema óptico} a un conjunto de
+superficies que separan medios con \textbf{distintos índices de refracción}. Estas
+superficies pueden ser \textbf{refractantes} o \textbf{espejos}.
+\end{definicion}
+
+Con frecuencia nos encontramos con sistemas formados por \textbf{superficies esféricas},
+con sus centros de curvatura situados sobre una misma recta llamada \textbf{eje del
+sistema} o \textbf{eje óptico}. A estos sistemas se les denomina \textit{sistemas ópticos
+centrados}.
+
+\subsection*{Clasificación}
+
+Los sistemas ópticos se clasifican según el tipo de superficies que los forman:
+
+\begin{itemize}
+  \item \textbf{Dióptricos:} formados \textbf{solo} por superficies refractantes.
+  \item \textbf{Catóptricos:} formados \textbf{solo} por espejos.
+  \item \textbf{Catadiáptricos:} formados por \textbf{ambos tipos} (refractantes y espejos).
+\end{itemize}
+
+\textit{\textbf{Síntesis.}} La clasificación tripartita de los sistemas ópticos refleja la
+dualidad física fundamental entre reflexión y refracción. La mayoría de los instrumentos
+ópticos modernos —telescopios catadióptricos como el Schmidt-Cassegrain, por ejemplo—
+explotan ambos fenómenos simultáneamente para minimizar aberraciones y reducir la longitud
+del tubo óptico. El estudio del dioptrio, forma más elemental de sistema dióptrico,
+constituye la base analítica de todos estos desarrollos.
+
+% ============================================================
+\section{El Dioptrio}
+% ============================================================
+
+\begin{definicion}[Dioptrio]
+Un \textbf{dioptrio} es el sistema óptico formado por \textbf{una sola superficie} que
+separa dos medios transparentes con \textbf{distinto índice de refracción}. Cualquier
+punto del dioptrio puede tomarse como eje óptico del sistema.
+\end{definicion}
+
+\subsection{Tipos de dioptrio}
+
+\begin{itemize}
+  \item \textbf{Dioptrio esférico:} superficie esférica que separa dos medios de diferente
+        índice de refracción. Según el signo del radio de curvatura: \textbf{convexo}
+        (\(r > 0\)) y \textbf{cóncavo} (\(r < 0\)).
+  \item \textbf{Dioptrio plano:} superficie plana que separa dos medios transparentes de
+        distinto índice de refracción.
+\end{itemize}
+
+\begin{observacion}
+El estudio del dioptrio esférico es fundamental porque en los espejos y en las lentes, los
+componentes de los instrumentos ópticos, la luz se comporta siguiendo leyes similares.
+\end{observacion}
+
+\subsection{Notación utilizada}
+
+A lo largo del desarrollo se emplea la siguiente notación estándar:
+
+\begin{itemize}
+  \item \(n_1\): índice del medio donde está el \textbf{objeto}
+  \item \(n_2\): índice del medio donde se forma la \textbf{imagen}
+  \item \(p\): distancia del objeto al vértice
+  \item \(q\): distancia de la imagen al vértice
+  \item \(r\): radio de curvatura de la superficie
+  \item \(\theta_1,\, \theta_2\): ángulos de incidencia y refracción
+\end{itemize}
+
+\textit{\textbf{Síntesis.}} La notación adoptada es la estándar anglosajona —heredada de
+la convención de Gauss— en la que el objeto, la imagen y el centro de curvatura se
+referencian todos respecto al vértice óptico \(O\). Esta elección minimiza la proliferación
+de signos negativos en los casos más frecuentes y unifica el tratamiento de dioptrios
+esféricos y planos bajo una única ecuación.
+
+% ============================================================
+\section{Refracción en una Superficie Esférica}
+% ============================================================
+
+Considérense dos medios transparentes con índices de refracción \(n_1\) y \(n_2\), donde
+la frontera entre los medios es una \textbf{superficie esférica de radio} \(r\).
+
+Se supondrá que el \textbf{objeto} se encuentra en el medio de índice \(n_1\), en el punto
+\(P\). Además, los rayos paraxiales que salen de \(P\) forman un ángulo pequeño con el eje
+y entre ellos. Todos los rayos que parten del punto objeto se refractan en la superficie
+esférica y los rayos refractados (o sus prolongaciones) se intersecan en un solo punto
+\(Q\), que es el \textbf{punto imagen}.
+
+\begin{definicion}[Tipos de imagen]
+\begin{itemize}
+  \item La imagen es una \textbf{imagen real} si está formada por la \textbf{intersección}
+        de los rayos refractados.
+  \item La imagen es una \textbf{imagen virtual} si está formada por la
+        \textbf{prolongación} de los rayos refractados.
+\end{itemize}
+\end{definicion}
+
+\begin{observacion}
+Al contrario de lo que sucede en los espejos esféricos, en los dioptrios esféricos las
+imágenes reales están detrás de la superficie esférica, y las imágenes virtuales se
+encuentran en frente.
+\end{observacion}
+
+\subsection*{Imagen real vs.\ imagen virtual}
+
+La siguiente tabla resume la diferencia entre espejos esféricos y dioptrios esféricos:
+
+\begin{center}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Característica} & \textbf{Espejo Esférico} & \textbf{Dioptrio Esférico} \\
+\midrule
+Imagen real    & Delante del espejo  & \textbf{Detrás} de la superficie  \\
+Imagen virtual & Detrás del espejo   & \textbf{Delante} de la superficie \\
+Fenómeno       & Reflexión           & Refracción                        \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Elementos del dioptrio esférico:}
+\(O\) = vértice óptico; \(C\) = centro de curvatura; \(p\) = distancia objeto;
+\(q\) = distancia imagen; \(r\) = radio de curvatura.
+
+\textit{\textbf{Síntesis.}} La inversión de la posición de las imágenes reales y virtuales
+respecto a los espejos no es un mero detalle de convenio: refleja el hecho físico de que
+la luz \textit{atraviesa} la superficie en lugar de reflejarse en ella. Esta asimetría
+obliga a reinterpretar cuidadosamente el signo de \(q\) al pasar de un sistema catóptrico
+a uno dióptrico.
+
+% ============================================================
+\section{Demostración de la Ecuación Fundamental}
+% ============================================================
+
+\subsection{Caso: Superficie convexa con \texorpdfstring{\(n_1 < n_2\)}{n1 < n2}
+            --- imagen real}
+
+Consideremos el caso en que \(n_1 < n_2\), utilizando la construcción geométrica que
+muestra un solo rayo \(\overrightarrow{PA}\) que al refractarse en la superficie esférica
+convexa de radio \(r\) intercepta al eje óptico en el punto \(Q\), que será la imagen real
+de \(P\).
+
+En la figura se identifican los siguientes elementos geométricos:
+\begin{itemize}
+  \item \(\theta_1\): ángulo de incidencia (entre el rayo \(\overrightarrow{PA}\) y la
+        normal \(N\) en el punto \(A\))
+  \item \(\theta_2\): ángulo de refracción (entre el rayo refractado y la normal)
+  \item \(\alpha_1\): ángulo que subtiende el segmento \(PA\) respecto al eje óptico
+  \item \(\alpha_2\): ángulo que subtiende el segmento \(AQ\) respecto al eje óptico
+  \item \(\beta\): ángulo en el centro de curvatura \(C\)
+  \item \(h\): altura perpendicular del punto \(A\) al eje óptico
+\end{itemize}
+
+\subsubsection*{Paso 1: Ley de Snell}
+
+Al aplicar la \textbf{ley de Snell} a los rayos incidente y refractado en el punto \(A\):
+
+\begin{equation}
+  n_1 \sin\theta_1 = n_2 \sin\theta_2
+  \label{eq:snell}
+\end{equation}
+
+\subsubsection*{Paso 2: Aproximación paraxial}
+
+Como los ángulos \(\theta_1\) y \(\theta_2\) son pequeños (rayos paraxiales), se puede
+usar la aproximación de \textbf{ángulos pequeños} (en radianes):
+\[
+  \sin\theta_1 \approx \theta_1 \qquad;\qquad \sin\theta_2 \approx \theta_2
+\]
+
+Con estas aproximaciones, la ley de Snell se simplifica a:
+
+\begin{equation}
+  n_1 \theta_1 = n_2 \theta_2
+  \label{eq:snell_paraxial}
+\end{equation}
+
+\begin{observacion}
+La aproximación paraxial es válida para rayos que viajan cerca del eje óptico. Esto
+simplifica enormemente el análisis, convirtiendo las funciones trigonométricas en funciones
+lineales.
+\end{observacion}
+
+\subsubsection*{Paso 3: Relaciones geométricas de los ángulos}
+
+Se utiliza la propiedad de que un \textbf{ángulo exterior} de cualquier triángulo es igual
+a la suma de los ángulos interiores no adyacentes.
+
+Al aplicar esta propiedad a los triángulos \(\triangle APC\) y \(\triangle CAQ\) se
+obtiene:
+
+\textit{En el triángulo \(\triangle APC\):} el ángulo \(\theta_1\) es exterior al
+triángulo (formado por la normal y el rayo incidente). Los ángulos interiores no
+adyacentes son \(\alpha_1\) y \(\beta\):
+
+\begin{equation}
+  \theta_1 = \alpha_1 + \beta
+  \label{eq:geo1}
+\end{equation}
+
+\textit{En el triángulo \(\triangle CAQ\):} el ángulo \(\beta\) es exterior al triángulo.
+Los ángulos interiores no adyacentes son \(\theta_2\) y \(\alpha_2\):
+
+\begin{equation}
+  \beta = \theta_2 + \alpha_2 \qquad \Longrightarrow \qquad \theta_2 = \beta - \alpha_2
+  \label{eq:geo2}
+\end{equation}
+
+\subsubsection*{Paso 4: Combinación de ecuaciones}
+
+Sustituyendo las ecuaciones \eqref{eq:geo1} y \eqref{eq:geo2} en la ley de Snell paraxial
+\eqref{eq:snell_paraxial}: \(n_1\theta_1 = n_2\theta_2\):
+
+\begin{align}
+  n_1(\alpha_1 + \beta) &= n_2(\beta - \alpha_2) \notag \\
+  n_1\alpha_1 + n_1\beta &= n_2\beta - n_2\alpha_2 \notag \\
+  n_1\alpha_1 + n_2\alpha_2 &= n_2\beta - n_1\beta \notag \\
+  n_1\alpha_1 + n_2\alpha_2 &= (n_2 - n_1)\beta
+  \label{eq:clave}
+\end{align}
+
+\begin{observacion}
+La ecuación \eqref{eq:clave} es el resultado clave de la geometría: relaciona los ángulos
+\(\alpha_1\), \(\alpha_2\) y \(\beta\) con los índices de refracción. El siguiente paso
+será expresar estos ángulos en función de las distancias \(p\), \(q\) y \(r\).
+\end{observacion}
+
+\subsubsection*{Paso 5: Expresiones geométricas de los ángulos}
+
+En la aproximación de ángulos pequeños: \(\tan\theta \approx \theta\). De la geometría,
+los ángulos \(\alpha_1\), \(\alpha_2\) y \(\beta\) pueden expresarse en función de la
+altura \(h\) del punto de incidencia \(A\) y las distancias al eje óptico:
+
+\begin{equation}
+  \alpha_1 \approx \tan\alpha_1 = \frac{h}{p}
+  \label{eq:a1}
+\end{equation}
+\begin{equation}
+  \alpha_2 \approx \tan\alpha_2 = \frac{h}{q}
+  \label{eq:a2}
+\end{equation}
+\begin{equation}
+  \beta \approx \tan\beta = \frac{h}{r}
+  \label{eq:beta}
+\end{equation}
+
+\subsubsection*{Paso 6: Sustitución final}
+
+Sustituyendo \eqref{eq:a1}, \eqref{eq:a2} y \eqref{eq:beta} en la ecuación
+\eqref{eq:clave}: \(n_1\alpha_1 + n_2\alpha_2 = (n_2 - n_1)\beta\), se obtiene:
+
+\[
+  n_1 \cdot \frac{h}{p} + n_2 \cdot \frac{h}{q} = (n_2 - n_1) \cdot \frac{h}{r}
+\]
+
+Factorizando \(h\) y dividiendo ambos miembros entre \(h\) (que es distinta de cero, pues
+\(A\) no está sobre el eje):
+
+\begin{equation}
+  \boxed{\frac{n_1}{p} + \frac{n_2}{q} = \frac{n_2 - n_1}{r}}
+  \label{eq:fundamental}
+\end{equation}
+
+Esta es la \textbf{Ecuación Fundamental del Dioptrio Esférico} (Ec.\ 4-30).
+
+% ============================================================
+\section{Casos Particulares de Demostración}
+% ============================================================
+
+\subsection{Caso: Superficie convexa con \texorpdfstring{\(n_1 > n_2\)}{n1 > n2}
+            --- imagen virtual}
+
+Cuando \(n_1 > n_2\), la luz pasa de un medio \textbf{más denso} a uno \textbf{menos
+denso}. Por la ley de Snell, el rayo refractado se aleja de la normal
+(\(\theta_2 > \theta_1\)). El rayo refractado no cruza el eje, pero su prolongación hacia
+atrás sí lo hace, formando una \textbf{imagen virtual}.
+
+La ley de Snell paraxial se mantiene:
+\[
+  n_1 \cdot \theta_1 = n_2 \cdot \theta_2
+\]
+
+De los triángulos \(\triangle APC\) y \(\triangle CAQ\) se obtiene:
+
+\[
+  \theta_1 = \alpha_1 + \beta \qquad\text{(igual que antes)}
+\]
+\[
+  \theta_2 = \alpha_2 + \beta \qquad\text{(ahora \(\theta_2\) es ángulo exterior en
+  \(\triangle CAQ\))}
+\]
+
+\begin{observacion}
+La diferencia clave: en el caso \(n_1 < n_2\) teníamos \(\beta = \theta_2 + \alpha_2\),
+pero ahora \(\theta_2 = \alpha_2 + \beta\) porque la posición de \(Q\) respecto a \(C\)
+ha cambiado.
+\end{observacion}
+
+\subsubsection*{Combinación de ecuaciones}
+
+Sustituyendo \(\theta_1 = \alpha_1 + \beta\) y \(\theta_2 = \alpha_2 + \beta\) en la ley
+de Snell paraxial \(n_1\theta_1 = n_2\theta_2\):
+
+\begin{align}
+  n_1(\alpha_1 + \beta) &= n_2(\alpha_2 + \beta) \notag \\
+  n_1\alpha_1 + n_1\beta &= n_2\alpha_2 + n_2\beta \notag \\
+  n_1\alpha_1 - n_2\alpha_2 &= n_2\beta - n_1\beta \notag \\
+  n_1\alpha_1 - n_2\alpha_2 &= (n_2 - n_1)\beta
+  \label{eq:clave_virtual}
+\end{align}
+
+\subsubsection*{Expresiones geométricas y convención de signos}
+
+En la aproximación de ángulos pequeños: \(\alpha_1 \approx h/p\), \(\alpha_2 \approx
+h/|q|\), \(\beta \approx h/r\). Dado que \(q < 0\) para imagen virtual, entonces
+\(|q| = -q\). Sustituyendo en \eqref{eq:clave_virtual} y dividiendo entre \(h\):
+
+\[
+  n_1 \cdot \frac{h}{p} - n_2 \cdot \frac{h}{|q|} = (n_2 - n_1) \cdot \frac{h}{r}
+  \qquad \Longrightarrow \qquad
+  \frac{n_1}{p} - \frac{n_2}{-q} = \frac{n_2 - n_1}{r}
+\]
+
+Es decir:
+
+\begin{equation}
+  \frac{n_1}{p} + \frac{n_2}{q} = \frac{n_2 - n_1}{r}
+  \label{eq:fundamental_virtual}
+\end{equation}
+
+\textbf{Resultado:} la misma ecuación \eqref{eq:fundamental} para ambos casos. La
+convención de signos (\(q > 0\) imagen real, \(q < 0\) imagen virtual) se encarga de
+distinguirlos.
+
+\subsection{Caso: Superficie cóncava con \texorpdfstring{\(n_1 < n_2\)}{n1 < n2}
+            --- imagen virtual}
+
+Un rayo \(\overrightarrow{PA}\) al refractarse en la superficie esférica cóncava
+\textbf{diverge alejándose del eje}, pero si se prolonga hacia atrás intercepta el eje en
+el punto \(Q\). De esta manera \(Q\) es la \textbf{imagen virtual} de \(P\).
+
+La ley de Snell en aproximación paraxial es \(n_1 \cdot \theta_1 = n_2 \cdot \theta_2\).
+
+De los triángulos \(\triangle APC\) y \(\triangle CAQ\) se obtiene (\(\beta\) es ángulo
+exterior en ambos):
+
+\[
+  \beta = \alpha_1 + \theta_1 \;\Rightarrow\; \theta_1 = \beta - \alpha_1 \qquad;\qquad
+  \beta = \alpha_2 + \theta_2 \;\Rightarrow\; \theta_2 = \beta - \alpha_2
+\]
+
+Sustituyendo en la ley de Snell paraxial \(n_1(\beta - \alpha_1) = n_2(\beta - \alpha_2)\)
+y desarrollando:
+
+\[
+  n_1\alpha_1 - n_2\alpha_2 = -(n_2 - n_1)\beta
+\]
+
+Aplicando las aproximaciones de ángulos pequeños
+(\(\alpha_1 \approx h/p\), \(\alpha_2 \approx h/q\), \(\beta \approx h/r\)) y dividiendo
+entre \(h\):
+
+\begin{equation}
+  \frac{n_1}{p} - \frac{n_2}{q} = -\frac{(n_2 - n_1)}{r}
+  \label{eq:concava_n1menor}
+\end{equation}
+
+\begin{observacion}
+Nota: si aplicamos la convención de signos (\(q < 0\) y \(r < 0\) para superficie cóncava),
+la ecuación vuelve a ser idéntica a la Ecuación Fundamental \eqref{eq:fundamental}:
+\(\dfrac{n_1}{p} + \dfrac{n_2}{q} = \dfrac{n_2-n_1}{r}\).
+\end{observacion}
+
+\subsection{Caso: Superficie cóncava con \texorpdfstring{\(n_1 > n_2\)}{n1 > n2}
+            --- imagen real}
+
+Como la luz pasa a un medio menos denso (\(n_1 > n_2\)), el rayo se aleja de la normal.
+Un rayo \(\overrightarrow{PA}\) al refractarse en la superficie esférica cóncava intercepta
+al eje óptico directo en el punto \(Q\). De esta manera \(Q\) es la \textbf{imagen real}
+de \(P\).
+
+La ley de Snell en aproximación paraxial se mantiene: \(n_1 \cdot \theta_1 = n_2 \cdot
+\theta_2\).
+
+De los triángulos \(\triangle APC\) y \(\triangle CAQ\) (\(\beta\) es ángulo exterior):
+
+\[
+  \beta = \alpha_1 + \theta_1 \;\Rightarrow\; \theta_1 = \beta - \alpha_1 \qquad;\qquad
+  \theta_2 = \alpha_2 + \beta \quad\text{(\(\theta_2\) es ángulo exterior en \(\triangle
+  CAQ\))}
+\]
+
+Sustituyendo en la ley de Snell: \(n_1(\beta - \alpha_1) = n_2(\alpha_2 + \beta)\).
+Desarrollando y reagrupando:
+
+\[
+  n_1\alpha_1 + n_2\alpha_2 = -(n_2 - n_1)\beta
+\]
+
+Aplicando \(\alpha_1 \approx h/p\), \(\alpha_2 \approx h/q\), \(\beta \approx h/r\) y
+dividiendo entre \(h\):
+
+\begin{equation}
+  \frac{n_1}{p} + \frac{n_2}{q} = \frac{(n_2 - n_1)}{r}
+  \label{eq:concava_n1mayor}
+\end{equation}
+
+\begin{observacion}
+Conclusión final: si usas la convención de signos (\(r < 0\) para superficie cóncava),
+\(q > 0\) por ser imagen real, llegas algebraicamente a la misma Ecuación Fundamental.
+\end{observacion}
+
+\textit{\textbf{Síntesis.}} Los cuatro casos de demostración —convexa/cóncava,
+\(n_1 < n_2\)/\(n_1 > n_2\)— producen la misma ecuación algebraica cuando se aplica
+rigurosamente la convención de signos. Esta universalidad no es trivial: es consecuencia
+directa de la linearidad de la aproximación paraxial combinada con una convención
+consistente. El resultado refleja la elegancia de la óptica gaussiana: una única expresión
+\eqref{eq:fundamental} gobierna cuatro geometrías aparentemente distintas.
+
+% ============================================================
+\section{Convención de Signos}
+% ============================================================
+
+La convención de signos para los dioptrios supone que el \textbf{frente} de la superficie
+es el lado desde el que se aproxima la luz.
+
+\begin{itemize}
+  \item \(p\) es \textbf{positivo} si el objeto está \textit{en frente} de la superficie
+        (\textbf{objeto real}).
+  \item \(p\) es \textbf{negativo} si el objeto está \textit{detrás} de la superficie
+        (\textbf{objeto virtual}).
+  \item \(q\) es \textbf{positivo} si la imagen está \textit{detrás} de la superficie
+        (\textbf{imagen real}).
+  \item \(q\) es \textbf{negativo} si la imagen está \textit{en frente} de la superficie
+        (\textbf{imagen virtual}).
+  \item \(r\) es \textbf{positivo} si el centro de curvatura está \textit{detrás} de la
+        superficie (\textbf{superficie convexa}).
+  \item \(r\) es \textbf{negativo} si el centro de curvatura está \textit{en frente} de la
+        superficie (\textbf{superficie cóncava}).
+\end{itemize}
+
+Bajo esta estricta convención, la ecuación generalizada (Ec.\ 4-34) es:
+
+\begin{equation}
+  \frac{n_1}{p} + \frac{n_2}{q} = \frac{n_2 - n_1}{r}
+  \label{eq:fundamental_general}
+\end{equation}
+
+\textit{\textbf{Síntesis.}} La convención de signos actúa como un ``codificador'' que
+transforma la información geométrica (dónde está el objeto, dónde se forma la imagen, hacia
+qué lado se curva la superficie) en información algebraica (el signo de \(p\), \(q\) y
+\(r\)). Una vez interiorizada, elimina la necesidad de analizar cada caso geométrico por
+separado.
+
+% ============================================================
+\section{Distancias Focales y Relación entre Focales}
+% ============================================================
+
+\subsection{Distancias focales}
+
+Si el objeto está en el infinito (\(p \to \infty\)), la imagen se forma en el
+\textbf{foco imagen} \(f'\):
+
+\begin{equation}
+  \frac{n_2}{f'} = \frac{n_2 - n_1}{r} \qquad\Longrightarrow\qquad
+  f' = \frac{n_2 \cdot r}{n_2 - n_1}
+  \label{eq:foco_imagen}
+\end{equation}
+
+Si la imagen está en el infinito (\(q \to \infty\)), el objeto está en el
+\textbf{foco objeto} \(f\):
+
+\begin{equation}
+  \frac{n_1}{f} = \frac{n_2 - n_1}{r} \qquad\Longrightarrow\qquad
+  f = \frac{n_1 \cdot r}{n_2 - n_1}
+  \label{eq:foco_objeto}
+\end{equation}
+
+\subsection{Relación entre focales}
+
+Dividiendo las expresiones de \(f'\) y \(f\):
+
+\begin{equation}
+  \frac{f'}{f} = \frac{\dfrac{n_2 \cdot r}{n_2 - n_1}}{\dfrac{n_1 \cdot r}{n_2 - n_1}}
+  = \frac{n_2}{n_1}
+  \label{eq:relacion_focales}
+\end{equation}
+
+\begin{observacion}
+Obsérvese que las distancias focales \textbf{no son iguales}: \(f'/f = n_2/n_1\). Esto es
+diferente a los espejos esféricos, donde ambas focales son iguales.
+\end{observacion}
+
+\textit{\textbf{Síntesis.}} La asimetría \(f' \neq f\) en los dioptrios refleja el hecho
+de que la velocidad de la luz es distinta a ambos lados de la superficie. En un espejo, el
+mismo medio está en ambos lados, de modo que \(f' = f\). En el dioptrio, los focos objeto
+e imagen miden efectivamente la ``distancia óptica'' en medios con velocidades diferentes,
+por lo que su cociente recoge exactamente la relación de índices.
+
+% ============================================================
+\section{Aumento Lateral de un Dioptrio}
+% ============================================================
+
+Para obtener el \textbf{aumento lateral} \(A\) de un dioptrio se utilizan dos rayos
+principales a partir del objeto \(P\) de altura \(h\):
+
+\begin{itemize}
+  \item \textbf{Rayo por el centro (naranja):} se dirige hacia el centro de curvatura
+        \(C\). Por ser normal a la superficie, no se desvía.
+  \item \textbf{Rayo al vértice (azul):} incide exactamente en el vértice óptico \(O\).
+        Allí la normal es el propio eje del sistema. Se refracta cruzando al otro rayo en
+        \(Q\), formando la imagen de altura \(h'\).
+\end{itemize}
+
+\subsection{Geometría en el vértice}
+
+Considerando únicamente el rayo refractado en el vértice \(O\), evaluamos los dos
+triángulos rectángulos correspondientes formados con el eje (\(\triangle PAO\) y
+\(\triangle BOQ\)):
+
+\[
+  \tan\alpha_1 = \frac{h}{p} \qquad;\qquad \tan\alpha_2 = -\frac{h'}{q}
+\]
+
+(El signo negativo en \(\alpha_2\) refleja que la imagen está invertida geométricamente.)
+
+De acuerdo con la ley de Snell aplicada en el punto \(O\) (donde el eje es la normal
+recta):
+\[
+  n_1 \cdot \sin\alpha_1 = n_2 \cdot \sin\alpha_2
+\]
+
+Si los ángulos de incidencia son suficientemente pequeños (rayos cercanos al eje):
+\[
+  \tan\alpha_1 \approx \sin\alpha_1 \qquad\text{y}\qquad \tan\alpha_2 \approx \sin\alpha_2
+\]
+
+Por lo tanto:
+\[
+  n_1 \tan\alpha_1 = n_2 \tan\alpha_2 \qquad\Longrightarrow\qquad
+  n_1 \left(\frac{h}{p}\right) = n_2 \left(-\frac{h'}{q}\right)
+\]
+
+\subsection{Expresión final del aumento}
+
+El aumento lateral se define por la proporción de alturas \(A = h'/h\). Despejando:
+
+\begin{equation}
+  \boxed{A = \frac{h'}{h} = -\frac{n_1 q}{n_2 p}}
+  \label{eq:aumento}
+\end{equation}
+
+\begin{observacion}
+El signo negativo inherente indica que si la imagen es real (\(q > 0\)), el aumento resulta
+negativo y la imagen estará invertida respecto al objeto.
+\end{observacion}
+
+\textit{\textbf{Síntesis.}} La fórmula del aumento lateral \eqref{eq:aumento} codifica
+simultáneamente tres informaciones: el módulo (\(|A|\)) indica cuánto se amplifica o
+reduce la imagen; el signo indica si está invertida (\(A < 0\)) o derecha (\(A > 0\)); y
+la presencia de \(n_1/n_2\) muestra que el aumento depende no solo de la geometría
+(\(q/p\)), sino también de los medios ópticos.
+
+% ============================================================
+\section{Superficies Refractoras Planas}
+% ============================================================
+
+Si la superficie refractora es plana, el radio de curvatura es infinito matemáticamente
+(\(r \to \infty\)). Bajo esta condición, la Ecuación Fundamental \eqref{eq:fundamental_general}
+se reduce drásticamente porque su lado derecho se aproxima a cero:
+
+\[
+  \frac{n_1}{p} + \frac{n_2}{q} = \frac{n_2 - n_1}{\infty} = 0
+  \qquad\Longrightarrow\qquad \frac{n_1}{p} = -\frac{n_2}{q}
+\]
+
+O bien, resolviendo de forma explícita para la distancia de la imagen \(q\):
+
+\begin{equation}
+  \boxed{q = -\left(\frac{n_2}{n_1}\right)p}
+  \label{eq:dioptrio_plano}
+\end{equation}
+
+\subsubsection*{Análisis de posición e imagen}
+
+De la ecuación \eqref{eq:dioptrio_plano} vemos que el signo de \(q\) siempre es opuesto
+al de \(p\).
+
+\begin{observacion}
+La imagen formada por una superficie refractante plana está siempre en el mismo lado de la
+superficie que el objeto original. Constituye siempre una \textbf{imagen virtual}.
+\end{observacion}
+
+En el caso típico en que \(n_1 > n_2\) (como mirar agua desde el aire), donde se forma una
+imagen virtual entre el objeto y la superficie. Si \(n_1 < n_2\), la imagen sigue siendo
+virtual, pero se forma a la izquierda (más profunda) del objeto original.
+
+\begin{observacion}
+Dato interesante: si combinas la fórmula del aumento lateral \eqref{eq:aumento} con el
+valor de \(q\) obtenido aquí \eqref{eq:dioptrio_plano}, se cancelan las variables y se
+descubre que \(A = +1\). Es decir, la imagen en un dioptrio plano se ve del mismo tamaño
+y nunca invertida.
+\end{observacion}
+
+\textit{\textbf{Síntesis.}} El dioptrio plano es, paradójicamente, el caso más cotidiano
+de dioptrio: toda interfaz plana entre medios ópticos distintos —la superficie de una
+piscina, el vidrio de un acuario, la córnea en contacto con el aire— actúa como dioptrio
+plano. Su consecuencia más llamativa es la ilusión de profundidad reducida: un objeto a
+profundidad real \(h\) parece estar a profundidad aparente \((n_2/n_1)\,h\), siempre menor
+cuando se mira desde el medio menos denso.
+
+% ============================================================
+\section{Problemas Resueltos}
+% ============================================================
+
+\begin{ejemplo}[Varilla de vidrio en el aire (Ejemplo 4-18)]
+Una varilla de vidrio cilíndrica en el aire tiene un índice de refracción de \(n = 1{,}52\).
+Se puló un extremo para formar una superficie semiesférica con radio \(r = 2{,}00\) cm.
+
+\begin{itemize}
+  \item[\textbf{a)}] Calcule la distancia de la imagen de un objeto pequeño situado sobre
+        el eje de la varilla, a 8,00 cm a la izquierda del vértice.
+  \item[\textbf{b)}] Obtenga el aumento lateral.
+\end{itemize}
+
+\textit{Solución (Parte a):}
+
+Identificamos los valores bajo la convención de signos:
+\begin{itemize}
+  \item \(n_1 = 1{,}00\) (el objeto está en el aire)
+  \item \(n_2 = 1{,}52\) (la luz ingresa al vidrio)
+  \item \(p = +8{,}00\) cm (objeto en frente de la superficie)
+  \item \(r = +2{,}00\) cm (superficie convexa, centro detrás del vértice)
+\end{itemize}
+
+Aplicando la Ecuación Fundamental \eqref{eq:fundamental_general}:
+
+\[
+  \frac{1}{8\;\text{cm}} + \frac{1{,}52}{q} = \frac{1{,}52 - 1}{2\;\text{cm}}
+\]
+
+Despejando \(q\):
+
+\begin{align*}
+  \frac{1{,}52}{q} &= \frac{0{,}52}{2} - \frac{1}{8} = 0{,}26 - 0{,}125 = 0{,}135\;\text{cm}^{-1} \\
+  q &= +11{,}3\;\text{cm} \quad \textbf{(Imagen real)}
+\end{align*}
+
+\textit{Solución (Parte b):}
+
+Calculamos el aumento lateral con la fórmula \eqref{eq:aumento}:
+
+\[
+  A = -\frac{n_1 q}{n_2 p} = -\frac{1}{1{,}52}\left(\frac{11{,}3\;\text{cm}}{8\;\text{cm}}\right)
+  = -0{,}929
+\]
+
+El valor \(A = -0{,}929\) indica que la imagen es un poco más pequeña que el objeto
+original y que la imagen está \textbf{invertida}. Por ejemplo, si el objeto fuera una
+flechita de 1,00 mm apuntando hacia arriba, la imagen sería una flechita de aprox.\ 0,93
+mm apuntando hacia abajo.
+\end{ejemplo}
+
+\begin{ejemplo}[Varilla de vidrio sumergida en agua (Ejemplo 4-19)]
+Se sumerge en agua (índice de refracción \(n_1 = 1{,}33\)) la varilla de vidrio del
+ejemplo anterior tal como se muestra. Las demás magnitudes tienen los mismos valores que
+en el caso anterior. Obtenga la distancia de imagen y el aumento lateral.
+
+\textit{Solución (Parte a):}
+
+\begin{itemize}
+  \item \(n_1 = 1{,}33\) (el objeto ahora está en el agua)
+  \item \(n_2 = 1{,}52\) (la luz ingresa al vidrio)
+  \item \(p = +8{,}00\) cm (distancia del objeto al vértice convexo)
+  \item \(r = +2{,}00\) cm (se mantiene la geometría del radio)
+\end{itemize}
+
+\[
+  \frac{1{,}33}{8\;\text{cm}} + \frac{1{,}52}{q} = \frac{(1{,}52 - 1{,}33)}{+2\;\text{cm}}
+\]
+
+\[
+  0{,}16625 + \frac{1{,}52}{q} = 0{,}095
+\]
+
+\[
+  \frac{1{,}52}{q} = 0{,}095 - 0{,}16625 = -0{,}07125\;\text{cm}^{-1}
+\]
+
+\[
+  q = -21{,}3\;\text{cm} \quad \textbf{(Imagen virtual)}
+\]
+
+\textit{Solución (Parte b):}
+
+\[
+  A = -\frac{1{,}33}{1{,}52}\left(\frac{-21{,}3\;\text{cm}}{8\;\text{cm}}\right) = +2{,}32
+\]
+
+Al cambiar de aire a agua, hemos reducido drásticamente la potencia refractiva de la
+superficie porque la diferencia de índices \((1{,}52 - 1{,}33)\) es mucho menor. Como
+resultado, la superficie ya no logró enfocar los rayos y formó una imagen virtual, la cual
+no está invertida y ahora se ve más del doble de grande \((2{,}32\times)\).
+\end{ejemplo}
+
+\begin{ejemplo}[Superficie cóncava (Ejemplo 4-20)]
+El extremo izquierdo de una larga varilla de vidrio (\(n = 1{,}50\)) se esmerila para
+formar una \textbf{superficie hemisférica cóncava} de radio \(r = 4{,}00\) cm. Un objeto
+en forma de flecha de 3,0 mm de altura se sitúa sobre el eje a 16,0 cm del vértice.
+Calcule la posición, la altura de la imagen, y determine si es derecha o invertida.
+
+\textit{Solución (Parte a: Posición):}
+
+\begin{itemize}
+  \item \(n_1 = 1{,}00\) (Aire), \(n_2 = 1{,}50\) (Vidrio)
+  \item \(p = +16{,}0\) cm (objeto en frente del dioptrio)
+  \item \(r = -4{,}00\) cm (superficie CÓNCAVA: centro de curvatura en el frente, \(r\)
+        negativo)
+\end{itemize}
+
+\[
+  \frac{1}{16\;\text{cm}} + \frac{1{,}5}{q} = \frac{(1{,}5 - 1)}{-4\;\text{cm}}
+\]
+
+\[
+  \frac{1{,}5}{q} = -0{,}125 - 0{,}0625 = -0{,}1875\;\text{cm}^{-1}
+\]
+
+\[
+  q = -8{,}00\;\text{cm} \quad \textbf{(Imagen virtual)}
+\]
+
+\textit{Solución (Parte b: Aumento):}
+
+\[
+  A = -\frac{1}{1{,}5}\left(\frac{-8{,}00\;\text{cm}}{16{,}0\;\text{cm}}\right)
+  = -\frac{1}{1{,}5}(-0{,}5) = +\frac{1}{3} \approx +0{,}333
+\]
+
+Como \(A\) es positivo, la imagen es \textbf{derecha}. Su altura final será:
+\[
+  h' = A \cdot h = \left(\frac{1}{3}\right)(3{,}0\;\text{mm}) = 1{,}0\;\text{mm}
+\]
+
+El signo negativo en \(q\) confirma que la imagen es virtual (se forma a la izquierda, en
+el medio de índice menor). El signo positivo en \(A\) demuestra matemáticamente que la
+imagen es derecha (apuntando hacia arriba, igual que el objeto) pero reducida exactamente
+a un tercio de la original.
+\end{ejemplo}
+
+\begin{ejemplo}[El ojo del pez --- Pecera (Ejemplo 4-21)]
+Un pez dentro de una pecera esférica observa un gato situado en el exterior. La pecera
+tiene un diámetro de 80,0 cm (\(r = 40\) cm). Los índices del aire y agua son 1,00 y
+1,33. La distancia del vértice de la pecera al gato es \(p = 50{,}0\) cm.
+
+Determina: \textbf{a)} la posición de la imagen del gato respecto al vértice de la pecera;
+\textbf{b)} el aumento lateral de la imagen sugerido matemáticamente.
+
+\textit{Solución (Parte a: Posición):}
+
+Aplicando la Convención de Signos (la luz viaja desde el gato hacia el pez):
+\begin{itemize}
+  \item \(n_1 = 1{,}00\) (Aire, desde donde viene la luz del objeto gato)
+  \item \(n_2 = 1{,}33\) (Agua, hacia donde va la luz)
+  \item \(p = +50{,}0\) cm (el objeto gato está en frente del vértice)
+  \item \(r = +40{,}0\) cm (al ser convexa para la luz entrante del gato, el centro de
+        curvatura \(C\) se encuentra detrás del vértice)
+\end{itemize}
+
+\[
+  \frac{1}{50\;\text{cm}} + \frac{1{,}33}{q} = \frac{(1{,}33 - 1)}{+40\;\text{cm}}
+\]
+
+\[
+  0{,}020 + \frac{1{,}33}{q} = 0{,}00825
+\]
+
+\[
+  \frac{1{,}33}{q} = 0{,}00825 - 0{,}020 = -0{,}01175\;\text{cm}^{-1}
+\]
+
+\[
+  q \approx -113{,}2\;\text{cm} \quad \textbf{(Imagen virtual)}
+\]
+
+\textit{Solución (Parte b: Aumento):}
+
+Usamos la Ecuación \eqref{eq:aumento} evaluando con el \(q\) negativo recién obtenido:
+
+\[
+  A = -\frac{n_1 q}{n_2 p} = -\frac{1}{1{,}33}\left(\frac{-113{,}2\;\text{cm}}{50{,}0\;\text{cm}}\right)
+  = +1{,}70
+\]
+
+Como \(q\) es negativo, la imagen del gato se forma a 113,2 cm a la izquierda del vidrio
+(mucho más atrás de donde está el gato real en 50 cm). El aumento lateral es \(+1{,}70\),
+es decir, la imagen es \textbf{derecha} y un 70\% más grande. Para el pobre pececito,
+¡el gato se ve como un enorme monstruo de aspecto virtual!
+\end{ejemplo}
+
+\begin{ejemplo}[Profundidad aparente --- La moneda en la piscina (Ejemplo clásico)]
+Analizamos la profundidad aparente de una piscina que contiene agua (índice
+\(n_1 = 1{,}33 \approx 4/3\)) de altura real \(h\), si se mira directamente desde arriba
+desde el aire (\(n_2 = 1{,}00\)).
+
+Como la superficie del agua es perfectamente \textbf{plana}, podemos utilizar directamente
+la simplificación del dioptrio plano \eqref{eq:dioptrio_plano} evaluada con los valores
+del problema donde la distancia del objeto \(P\) es la profundidad geométrica real de la
+piscina (\(p = h\)):
+
+\begin{itemize}
+  \item \(n_1 = 4/3\) (Agua, el medio donde origina la luz la moneda)
+  \item \(n_2 = 1\) (Aire, hacia donde llega la luz a nuestros ojos)
+  \item \(p = h\) (Profundidad real)
+\end{itemize}
+
+\[
+  q = -\left(\frac{n_2}{n_1}\right)p = -\left(\frac{1}{4/3}\right)h = -\left(\frac{3}{4}\right)h
+\]
+
+\begin{equation}
+  \boxed{q = -\frac{3}{4}\,h}
+  \label{eq:profundidad_aparente}
+\end{equation}
+
+\textbf{Conclusión de diseño:} la profundidad aparente calculada \(\left(-\frac{3}{4}h\right)\)
+es solamente las tres cuartas partes de la profundidad real de la piscina.
+
+La distancia de la imagen resultó negativa. De acuerdo con las reglas de signos, esto
+significa que la imagen es virtual y se forma obligatoriamente en el lado entrante de la
+superficie plana (es decir, sumergida en el mismo medio del objeto), dándonos la famosa
+ilusión óptica de la poca profundidad.
+\end{ejemplo}
+
+\textit{\textbf{Síntesis.}} Los cinco ejemplos resueltos ilustran la versatilidad de la
+ecuación fundamental \eqref{eq:fundamental_general}: un mismo formalismo algebraico
+describe desde la microscopía (varilla de vidrio) hasta la percepción visual en la vida
+cotidiana (piscina, acuario). La clave pedagógica es que el trabajo se concentra en la
+correcta asignación de signos; la aritmética es secundaria. El signo de \(q\) al final
+actúa como veredicto físico: real o virtual, dentro o fuera, invertida o derecha.
+
+% ============================================================
+\section*{Ecuaciones Clave}
+% ============================================================
+
+\begin{center}
+\begin{tabular}{@{}clll@{}}
+\toprule
+\textbf{\#} & \textbf{Descripción} & \textbf{Ecuación} & \textbf{Ref.} \\
+\midrule
+1 & Ley de Snell (paraxial) &
+  \(\displaystyle n_1\theta_1 = n_2\theta_2\) &
+  \eqref{eq:snell_paraxial} \\[6pt]
+2 & Ecuación fundamental del dioptrio esférico &
+  \(\displaystyle \dfrac{n_1}{p} + \dfrac{n_2}{q} = \dfrac{n_2 - n_1}{r}\) &
+  \eqref{eq:fundamental_general} \\[10pt]
+3 & Foco imagen &
+  \(\displaystyle f' = \dfrac{n_2\, r}{n_2 - n_1}\) &
+  \eqref{eq:foco_imagen} \\[10pt]
+4 & Foco objeto &
+  \(\displaystyle f = \dfrac{n_1\, r}{n_2 - n_1}\) &
+  \eqref{eq:foco_objeto} \\[10pt]
+5 & Relación entre focales &
+  \(\displaystyle \dfrac{f'}{f} = \dfrac{n_2}{n_1}\) &
+  \eqref{eq:relacion_focales} \\[10pt]
+6 & Aumento lateral &
+  \(\displaystyle A = -\dfrac{n_1\, q}{n_2\, p}\) &
+  \eqref{eq:aumento} \\[10pt]
+7 & Dioptrio plano &
+  \(\displaystyle q = -\dfrac{n_2}{n_1}\,p\) &
+  \eqref{eq:dioptrio_plano} \\[10pt]
+8 & Profundidad aparente &
+  \(\displaystyle q_{\text{ap}} = -\dfrac{n_2}{n_1}\,h\) &
+  \eqref{eq:profundidad_aparente} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}

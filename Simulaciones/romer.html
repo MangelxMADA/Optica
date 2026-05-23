@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experimento de Römer — Velocidad de la Luz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0e1a;--card:rgba(15,23,42,0.85);--border:rgba(100,116,139,0.2);--text:#e2e8f0;--text2:#94a3b8;--accent:#f59e0b;--accent2:#f97316;--blue:#3b82f6;--radius:14px;--glow:0 0 30px rgba(245,158,11,0.12)}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+h1{font-size:1.7rem;font-weight:700;background:linear-gradient(135deg,#f59e0b,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin:1.2rem 0 .4rem}
+h2{font-size:1.05rem;font-weight:600;color:var(--accent);margin:1rem 0 .5rem;display:flex;align-items:center;gap:.5rem}
+h2::before{content:'';width:4px;height:1.1em;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:2px}
+.app{max-width:1300px;margin:0 auto;padding:1rem}
+.subtitle{text-align:center;color:var(--text2);font-size:.88rem;margin-bottom:1rem}
+.grid{display:grid;grid-template-columns:280px 1fr;gap:1rem;align-items:start}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--glow)}
+.ctrl{display:flex;flex-direction:column;gap:.6rem}
+label{font-size:.8rem;color:var(--text2);font-weight:500}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(245,158,11,0.5);cursor:pointer}
+.val{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--accent);text-align:right}
+canvas{width:100%;border-radius:var(--radius);display:block;background:#000}
+.formula-box{background:rgba(15,23,42,0.95);border:1px solid var(--border);border-radius:10px;padding:.8rem;margin:.4rem 0;text-align:center;overflow-x:auto}
+.info{font-size:.78rem;color:var(--text2);line-height:1.55;margin-top:.5rem}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media(max-width:600px){.two-col{grid-template-columns:1fr}}
+.result-box{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:10px;padding:.8rem;text-align:center;margin:.5rem 0}
+.result-box .big{font-size:1.4rem;font-weight:700;color:var(--accent);font-family:'JetBrains Mono',monospace}
+.btn{padding:.5rem 1rem;border:1px solid var(--border);background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(249,115,22,0.15));color:#fff;border-radius:99px;cursor:pointer;font-size:.82rem;font-weight:500;transition:all .3s;text-align:center}
+.btn:hover{background:linear-gradient(135deg,rgba(245,158,11,0.4),rgba(249,115,22,0.3));box-shadow:0 0 20px rgba(245,158,11,0.2)}
+.timeline{font-size:.75rem;color:var(--text2);line-height:1.7;margin-top:.5rem}
+.timeline b{color:var(--accent)}
+.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:.7rem;font-weight:600;background:rgba(245,158,11,0.15);color:var(--accent);border:1px solid rgba(245,158,11,0.25)}
+.speed-bar{height:8px;border-radius:4px;margin:.3rem 0;background:rgba(255,255,255,0.05);overflow:hidden;position:relative}
+.speed-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .5s}
+</style>
+</head>
+<body>
+<div class="app">
+<h1>🔭 Experimento de Römer (1676)</h1>
+<p class="subtitle">Primera medición de la velocidad de la luz — Eclipses de Ío y Júpiter</p>
+<div class="grid">
+<div class="card ctrl">
+<h2>Controles</h2>
+<label>Posición de la Tierra (ángulo orbital °)</label>
+<input type="range" id="earthAngle" min="0" max="360" step="1" value="0" oninput="update()">
+<div class="val" id="earthAngleVal">0°</div>
+<label>Velocidad de animación</label>
+<input type="range" id="speed" min="0.1" max="3" step="0.1" value="1" oninput="document.getElementById('speedVal').textContent=this.value+'x'">
+<div class="val" id="speedVal">1x</div>
+<label>Diámetro órbita terrestre (UA)</label>
+<input type="range" id="orbitDiam" min="1.5" max="3.5" step="0.1" value="2.0" oninput="update()">
+<div class="val" id="orbitDiamVal">2.0 UA</div>
+<div style="display:flex;gap:.5rem;margin-top:.3rem">
+<div class="btn" onclick="toggleAnim()" id="btnAnim">▶ Animar</div>
+<div class="btn" onclick="resetSim()">↻ Reset</div>
+</div>
+<div class="info" id="posInfo"></div>
+<div class="result-box">
+<div style="font-size:.72rem;color:var(--text2)">Retraso calculado</div>
+<div class="big" id="delayVal">0 s</div>
+</div>
+<div class="result-box">
+<div style="font-size:.72rem;color:var(--text2)">Velocidad de la luz estimada</div>
+<div class="big" id="cVal">— m/s</div>
+<div class="speed-bar"><div class="speed-fill" id="speedBar" style="width:0%"></div></div>
+<div style="font-size:.65rem;color:var(--text2)" id="errorPct"></div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:1rem">
+<div class="card">
+<h2>Sistema Solar — Vista Superior</h2>
+<canvas id="orbitCanvas" height="420"></canvas>
+<p class="info" style="text-align:center" id="canvasDesc">La Tierra orbita al Sol; Ío orbita a Júpiter. El retraso en los eclipses depende de la distancia Tierra-Júpiter.</p>
+</div>
+<div class="two-col">
+<div class="card">
+<h2>Fórmulas del Experimento</h2>
+<div class="formula-box" id="f1"></div>
+<p class="info">Retraso máximo observado por Römer: la luz recorre el diámetro de la órbita terrestre.</p>
+<div class="formula-box" id="f2"></div>
+<p class="info">Velocidad de la luz = distancia adicional / retraso temporal medido.</p>
+<div class="formula-box" id="f3"></div>
+<p class="info">Valor de Römer (1676): c ≈ 2.14 × 10⁸ m/s — error ~29% respecto al valor real.</p>
+<div class="formula-box" id="f4"></div>
+</div>
+<div class="card">
+<h2>Contexto Histórico</h2>
+<div class="timeline">
+<b>1610</b> — Galileo descubre las lunas de Júpiter<br>
+<b>1668</b> — Cassini publica tablas de eclipses de Ío<br>
+<b>1676</b> — Ole Römer predice un retraso de 10 min en el eclipse de Ío del 9 de noviembre<br>
+<b>1676</b> — Römer presenta sus resultados a la Académie Royale de París<br>
+<b>1679</b> — Huygens usa los datos de Römer para estimar c ≈ 2.3 × 10⁸ m/s<br>
+<b>1728</b> — Bradley confirma la finitud de c mediante aberración estelar<br>
+<b>1849</b> — Fizeau mide c = 3.15 × 10⁸ m/s con método terrestre<br>
+<b>1983</b> — Valor exacto definido: c = 299 792 458 m/s
+</div>
+<h2 style="margin-top:1rem">Datos Clave</h2>
+<div class="info">
+<b style="color:var(--accent)">Ío:</b> Periodo orbital = 1.769 días = 42.46 h<br>
+<b style="color:var(--accent)">Júpiter:</b> Distancia media al Sol = 5.2 UA<br>
+<b style="color:var(--accent)">Tierra:</b> Radio orbital medio = 1 UA = 1.496 × 10⁸ km<br>
+<b style="color:var(--accent)">Retraso máximo:</b> Δt ≈ 16.6 min (valor real) vs 22 min (Römer)<br>
+<b style="color:var(--accent)">ΔD máximo:</b> 2 UA = 2.992 × 10⁸ km (diámetro órbita terrestre)
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+const C_REAL=299792458;
+const UA=1.496e11;
+const SOL_X=0,SOL_Y=0;
+const JUPITER_DIST=5.2;
+const IO_PERIOD=1.769;
+const IO_RADIUS=0.0028;
+let animating=false,animId=null,earthDeg=0;
+
+function getEarthPos(deg){
+  const r=1,rad=deg*Math.PI/180;
+  return{x:r*Math.cos(rad),y:r*Math.sin(rad)};
+}
+function getJupiterPos(){return{x:JUPITER_DIST,y:0};}
+function dist(a,b){return Math.sqrt((a.x-b.x)**2+(a.y-b.y)**2);}
+
+function update(){
+  earthDeg=parseFloat(document.getElementById('earthAngle').value);
+  const diam=parseFloat(document.getElementById('orbitDiam').value);
+  document.getElementById('earthAngleVal').textContent=Math.round(earthDeg)+'°';
+  document.getElementById('orbitDiamVal').textContent=diam.toFixed(1)+' UA';
+  const earth=getEarthPos(earthDeg);
+  const jup=getJupiterPos();
+  const d=dist(earth,jup);
+  const dOpp=JUPITER_DIST-1;
+  const dConj=JUPITER_DIST+1;
+  const extraDist=(d-dOpp)*UA;
+  const delay=extraDist/C_REAL;
+  const maxDelay=(dConj-dOpp)*UA/C_REAL;
+  document.getElementById('delayVal').textContent=delay.toFixed(1)+' s ('+( delay/60).toFixed(2)+' min)';
+  const romerDelay=22*60;
+  const diamKm=diam*1.496e8;
+  const cEst=diamKm*1000/(romerDelay);
+  const cCalc=(dConj-dOpp)*UA/maxDelay;
+  const userC=(diam*UA)/romerDelay;
+  document.getElementById('cVal').textContent=(userC/1e6).toFixed(1)+' × 10⁶ m/s';
+  const pct=Math.abs(userC-C_REAL)/C_REAL*100;
+  document.getElementById('errorPct').textContent='Error vs valor real: '+pct.toFixed(1)+'%';
+  document.getElementById('speedBar').style.width=Math.min(100,userC/C_REAL*100)+'%';
+  const posName=earthDeg<10||earthDeg>350?'Oposición (más cerca)':
+    Math.abs(earthDeg-180)<10?'Conjunción (más lejos)':
+    earthDeg<180?'Cuadratura (alejándose)':'Cuadratura (acercándose)';
+  document.getElementById('posInfo').innerHTML=
+    '<b>Posición:</b> '+posName+'<br><b>Distancia T-J:</b> '+d.toFixed(3)+' UA<br><b>Dist. extra vs oposición:</b> '+((d-dOpp)*1.496e8).toFixed(0)+' km';
+  drawOrbits();
+  renderFormulas(diam);
+}
+
+function drawOrbits(){
+  const cv=document.getElementById('orbitCanvas');
+  cv.width=cv.parentElement.clientWidth-40;
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  const cx=W*0.38,cy=H*0.5,scale=Math.min(W,H)*0.07;
+  // background
+  const bg=ctx.createRadialGradient(cx,cy,0,cx,cy,H);
+  bg.addColorStop(0,'#0d1117');bg.addColorStop(1,'#080c14');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  // stars
+  for(let i=0;i<60;i++){ctx.fillStyle=`rgba(255,255,255,${Math.random()*0.4+0.1})`;ctx.beginPath();ctx.arc(Math.random()*W,Math.random()*H,Math.random()*1.2,0,Math.PI*2);ctx.fill();}
+  // Earth orbit
+  ctx.strokeStyle='rgba(59,130,246,0.25)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.arc(cx,cy,scale,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+  // Jupiter orbit
+  ctx.strokeStyle='rgba(245,158,11,0.15)';ctx.lineWidth=1;ctx.setLineDash([6,6]);
+  ctx.beginPath();ctx.arc(cx,cy,JUPITER_DIST*scale,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+  // Sun
+  const sg=ctx.createRadialGradient(cx,cy,0,cx,cy,12);
+  sg.addColorStop(0,'#fff7b0');sg.addColorStop(0.5,'#fbbf24');sg.addColorStop(1,'rgba(251,191,36,0)');
+  ctx.fillStyle=sg;ctx.beginPath();ctx.arc(cx,cy,12,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fbbf24';ctx.beginPath();ctx.arc(cx,cy,5,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(255,250,200,0.7)';ctx.font='bold 9px Inter';ctx.textAlign='center';ctx.fillText('Sol',cx,cy+20);
+  // Earth
+  const e=getEarthPos(earthDeg);
+  const ex=cx+e.x*scale,ey=cy-e.y*scale;
+  ctx.fillStyle='#3b82f6';ctx.beginPath();ctx.arc(ex,ey,6,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(59,130,246,0.3)';ctx.beginPath();ctx.arc(ex,ey,10,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#93c5fd';ctx.font='bold 9px Inter';ctx.fillText('Tierra',ex,ey-14);
+  // Jupiter
+  const jx=cx+JUPITER_DIST*scale,jy=cy;
+  ctx.fillStyle='#d97706';ctx.beginPath();ctx.arc(jx,jy,10,0,Math.PI*2);ctx.fill();
+  const jg=ctx.createRadialGradient(jx-2,jy-2,0,jx,jy,10);
+  jg.addColorStop(0,'#fbbf24');jg.addColorStop(1,'#b45309');
+  ctx.fillStyle=jg;ctx.beginPath();ctx.arc(jx,jy,10,0,Math.PI*2);ctx.fill();
+  // Jupiter bands
+  ctx.strokeStyle='rgba(180,83,9,0.4)';ctx.lineWidth=1;
+  for(let i=-2;i<=2;i++){ctx.beginPath();ctx.moveTo(jx-8,jy+i*3);ctx.lineTo(jx+8,jy+i*3);ctx.stroke();}
+  ctx.fillStyle='#fcd34d';ctx.font='bold 9px Inter';ctx.fillText('Júpiter',jx,jy-16);
+  // Io orbit around Jupiter
+  const ioAngle=(Date.now()/1000*2)%(Math.PI*2);
+  const ioR=18;
+  ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.lineWidth=0.5;
+  ctx.beginPath();ctx.arc(jx,jy,ioR,0,Math.PI*2);ctx.stroke();
+  const iox=jx+ioR*Math.cos(ioAngle),ioy=jy+ioR*Math.sin(ioAngle);
+  ctx.fillStyle='#fef3c7';ctx.beginPath();ctx.arc(iox,ioy,3,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(254,243,199,0.7)';ctx.font='8px Inter';ctx.fillText('Ío',iox+6,ioy-6);
+  // Shadow cone (eclipse zone)
+  ctx.fillStyle='rgba(0,0,0,0.3)';
+  ctx.beginPath();ctx.moveTo(jx+10,jy);ctx.lineTo(jx+45,jy-8);ctx.lineTo(jx+45,jy+8);ctx.closePath();ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font='7px Inter';ctx.fillText('sombra',jx+30,jy+16);
+  // Light path line Earth-Jupiter
+  ctx.strokeStyle='rgba(245,158,11,0.3)';ctx.lineWidth=1;ctx.setLineDash([3,5]);
+  ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(jx,jy);ctx.stroke();ctx.setLineDash([]);
+  // Distance label
+  const mx=(ex+jx)/2,my=(ey+jy)/2;
+  const d=dist(e,getJupiterPos());
+  ctx.fillStyle='rgba(245,158,11,0.8)';ctx.font='bold 10px JetBrains Mono';
+  ctx.fillText(d.toFixed(2)+' UA',mx,my-8);
+  // Labels: opposition/conjunction markers
+  ctx.fillStyle='rgba(59,130,246,0.4)';ctx.font='8px Inter';
+  ctx.fillText('Oposición',cx+scale+2,cy+10);
+  ctx.fillText('Conjunción',cx-scale-2,cy+10);
+  // Io eclipse indicator
+  const behindJupiter=Math.abs(Math.cos(ioAngle)+1)<0.3;
+  if(behindJupiter){
+    ctx.fillStyle='rgba(239,68,68,0.7)';ctx.font='bold 9px Inter';
+    ctx.fillText('★ ECLIPSE',jx+35,jy-10);
+  }
+}
+
+function renderFormulas(diam){
+  try{
+    katex.render('\\Delta t_{\\max} = \\frac{2 \\, \\text{UA}}{c} = \\frac{2 \\times 1.496 \\times 10^{11}}{2.998 \\times 10^8} \\approx 998 \\; \\text{s} \\approx 16.6 \\; \\text{min}',
+      document.getElementById('f1'),{displayMode:true,throwOnError:false});
+    katex.render('c = \\frac{\\Delta D}{\\Delta t} = \\frac{D_{\\text{conj}} - D_{\\text{opos}}}{\\Delta t_{\\text{observado}}}',
+      document.getElementById('f2'),{displayMode:true,throwOnError:false});
+    katex.render('c_{\\text{Römer}} = \\frac{'+diam.toFixed(1)+'\\; \\text{UA}}{22 \\; \\text{min}} = \\frac{'+(diam*1.496e8).toFixed(0)+'\\; \\text{km}}{1320 \\; \\text{s}} \\approx '+ ((diam*1.496e11/1320)/1e6).toFixed(1)+'\\times 10^{6} \\; \\text{m/s}',
+      document.getElementById('f3'),{displayMode:true,throwOnError:false});
+    katex.render('c_{\\text{real}} = 299\\,792\\,458 \\; \\text{m/s} \\quad (\\text{exacto, definición SI 1983})',
+      document.getElementById('f4'),{displayMode:true,throwOnError:false});
+  }catch(e){}
+}
+
+function toggleAnim(){
+  animating=!animating;
+  document.getElementById('btnAnim').textContent=animating?'⏸ Pausar':'▶ Animar';
+  if(animating)animLoop();
+  else if(animId){cancelAnimationFrame(animId);animId=null;}
+}
+function animLoop(){
+  if(!animating)return;
+  const spd=parseFloat(document.getElementById('speed').value);
+  earthDeg=(earthDeg+spd*0.3)%360;
+  document.getElementById('earthAngle').value=earthDeg;
+  update();
+  animId=requestAnimationFrame(animLoop);
+}
+function resetSim(){
+  animating=false;document.getElementById('btnAnim').textContent='▶ Animar';
+  if(animId){cancelAnimationFrame(animId);animId=null;}
+  document.getElementById('earthAngle').value=0;
+  document.getElementById('orbitDiam').value=2.0;
+  document.getElementById('speed').value=1;
+  document.getElementById('speedVal').textContent='1x';
+  update();
+}
+window.addEventListener('DOMContentLoaded',()=>{update();});
+window.addEventListener('resize',()=>{update();});
+</script>
+</body>
+</html>

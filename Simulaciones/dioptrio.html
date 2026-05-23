@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dióptrio Esférico - Simulación Interactiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0e1a;--card:rgba(15,23,42,0.85);--border:rgba(100,116,139,0.2);--text:#e2e8f0;--text2:#94a3b8;--accent:#818cf8;--accent2:#06b6d4;--radius:14px;--glow:0 0 30px rgba(99,102,241,0.15)}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+h1{font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,#818cf8,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin:1.2rem 0 .5rem}
+h2{font-size:1.05rem;font-weight:600;color:var(--accent);margin:1rem 0 .5rem;display:flex;align-items:center;gap:.5rem}
+h2::before{content:'';width:4px;height:1.1em;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:2px}
+.app{max-width:1360px;margin:0 auto;padding:1rem}
+.grid{display:grid;grid-template-columns:280px 1fr;gap:1rem;align-items:start}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--glow)}
+.ctrl{display:flex;flex-direction:column;gap:.55rem}
+label{font-size:.8rem;color:var(--text2);font-weight:500}
+select,input[type=range]{width:100%;padding:.4rem;background:rgba(30,41,59,0.9);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;outline:none}
+select:focus{border-color:var(--accent)}
+input[type=range]{-webkit-appearance:none;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));padding:0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(99,102,241,0.5);cursor:pointer}
+.val{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);text-align:right}
+canvas{width:100%;border-radius:var(--radius);display:block;cursor:crosshair;background:#060a14}
+.formula-box{background:rgba(15,23,42,0.95);border:1px solid var(--border);border-radius:10px;padding:.8rem;margin:.4rem 0;text-align:center;overflow-x:auto}
+.subtitle{text-align:center;color:var(--text2);font-size:.9rem;margin-bottom:1rem}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media(max-width:600px){.two-col{grid-template-columns:1fr}}
+.data-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);font-size:.8rem}
+.data-label{color:var(--text2)}.data-val{font-family:'JetBrains Mono',monospace;color:var(--accent)}
+.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:.7rem;font-weight:600;margin:2px}
+.badge-real{background:rgba(34,197,94,0.2);color:#4ade80;border:1px solid rgba(34,197,94,0.3)}
+.badge-virtual{background:rgba(251,191,36,0.2);color:#fbbf24;border:1px solid rgba(251,191,36,0.3)}
+.badge-inf{background:rgba(239,68,68,0.2);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.btn{padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:rgba(30,41,59,0.9);color:var(--text);font-size:.8rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;justify-content:center}
+.btn:hover{border-color:var(--accent);background:rgba(99,102,241,0.15)}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap}
+.zoom-ctrl{display:flex;align-items:center;gap:6px}
+.zoom-ctrl .btn{padding:4px 12px;font-size:1rem;font-weight:700}
+.info{font-size:.78rem;color:var(--text2);line-height:1.5;margin-top:.5rem}
+</style>
+</head>
+<body>
+<div class="app" id="appRoot">
+<h1>🔮 Dióptrio Esférico</h1>
+<p class="subtitle">Simulación interactiva · Refracción en superficie esférica, trazado de rayos y fórmulas</p>
+<div class="grid">
+<div class="card ctrl">
+<h2>Controles</h2>
+<label>n₁ (medio objeto): <span class="val" id="n1Val">1.00</span></label>
+<input type="range" id="n1slider" min="1.00" max="2.50" step="0.01" value="1.00">
+<label>n₂ (medio imagen): <span class="val" id="n2Val">1.50</span></label>
+<input type="range" id="n2slider" min="1.00" max="2.50" step="0.01" value="1.50">
+<label>Radio de curvatura R: <span class="val" id="rVal">150</span></label>
+<input type="range" id="Rslider" min="50" max="400" step="5" value="150">
+<label>Altura del objeto h: <span class="val" id="hVal">50</span></label>
+<input type="range" id="Hslider" min="10" max="120" step="5" value="50">
+<div class="btn-row" style="margin-top:6px">
+<button class="btn" id="btnReset">↺ Reiniciar</button>
+<button class="btn" id="btnSnap">📷 Captura</button>
+</div>
+<div class="zoom-ctrl" style="margin-top:4px">
+<button class="btn" id="btnZin">+</button>
+<span class="val" id="zoomVal">100%</span>
+<button class="btn" id="btnZout">−</button>
+<button class="btn" id="btnZrst">⊙</button>
+</div>
+<h2>Datos Ópticos</h2>
+<div id="results"></div>
+<div id="statusMsg" class="info"></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:1rem">
+<div class="card"><h2>Diagrama de Rayos</h2>
+<canvas id="mc" height="500"></canvas>
+<p class="info" style="margin-top:6px">🖱️ Arrastra la punta de la flecha (objeto). Scroll para zoom.</p>
+</div>
+<div class="two-col">
+<div class="card"><h2>Fórmulas del Dióptrio</h2>
+<div class="formula-box" id="f1"></div>
+<div class="formula-box" id="f2"></div>
+<div class="formula-box" id="f3"></div>
+<div class="formula-box" id="f4"></div>
+</div>
+<div class="card"><h2>Propiedades de la Imagen</h2>
+<div id="imgProps"></div>
+<h2>Convención de Signos</h2>
+<div class="info">
+<b>R > 0:</b> centro de curvatura en el lado de transmisión<br>
+<b>R < 0:</b> centro de curvatura en el lado del objeto<br>
+<b>s > 0:</b> objeto real (frente a la superficie)<br>
+<b>s' > 0:</b> imagen real (lado de transmisión)<br>
+<b>s' < 0:</b> imagen virtual (mismo lado que objeto)<br>
+<b>M > 0:</b> imagen derecha · <b>M < 0:</b> imagen invertida
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+const C=document.getElementById('mc'),X=C.getContext('2d');
+let zoom=1,panX=0,panY=0,objX=-200,objHpx=50,dragging=false;
+let W,H,OX,OY;
+function el(id){return document.getElementById(id)}
+
+el('n1slider').oninput=update; el('n2slider').oninput=update;
+el('Rslider').oninput=update; el('Hslider').oninput=update;
+el('btnReset').onclick=function(){objX=-200;zoom=1;panX=0;panY=0;
+  el('n1slider').value=1;el('n2slider').value=1.5;el('Rslider').value=150;el('Hslider').value=50;update()};
+el('btnSnap').onclick=function(){html2canvas(el('appRoot'),{backgroundColor:'#0a0e1a'}).then(function(c){
+  var a=document.createElement('a');a.download='dioptrio_captura.png';a.href=c.toDataURL();a.click()})};
+el('btnZin').onclick=function(){zoom=Math.min(zoom*1.2,5);update()};
+el('btnZout').onclick=function(){zoom=Math.max(zoom/1.2,0.3);update()};
+el('btnZrst').onclick=function(){zoom=1;panX=0;panY=0;update()};
+
+function resize(){C.width=C.parentElement.clientWidth-40;C.height=500;W=C.width;H=C.height;OX=W*0.45;OY=H/2;update()}
+window.addEventListener('resize',resize);
+window.addEventListener('DOMContentLoaded',function(){resize();renderFormulas()});
+
+function getPos(e){var r=C.getBoundingClientRect();
+  var cx=(e.clientX||e.touches[0].clientX)-r.left;
+  var cy=(e.clientY||e.touches[0].clientY)-r.top;
+  return{x:(cx-OX-panX)/zoom,y:(cy-OY-panY)/zoom}}
+C.addEventListener('mousedown',function(e){var p=getPos(e);
+  var dx=p.x-objX,dy=p.y-(-objHpx);
+  if(Math.sqrt(dx*dx+dy*dy)<25){dragging=true;C.style.cursor='grabbing'}});
+C.addEventListener('mousemove',function(e){if(!dragging)return;var p=getPos(e);
+  objX=Math.min(-15,p.x);objHpx=Math.max(10,Math.abs(p.y));
+  el('Hslider').value=Math.round(objHpx);update()});
+C.addEventListener('mouseup',function(){dragging=false;C.style.cursor='crosshair'});
+C.addEventListener('mouseleave',function(){dragging=false;C.style.cursor='crosshair'});
+C.addEventListener('wheel',function(e){e.preventDefault();
+  var f=e.deltaY<0?1.1:0.9;zoom=Math.max(0.3,Math.min(5,zoom*f));update()},{passive:false});
+C.addEventListener('touchstart',function(e){if(e.touches.length===1){var p=getPos(e);
+  var dx=p.x-objX,dy=p.y-(-objHpx);if(Math.sqrt(dx*dx+dy*dy)<35){dragging=true;e.preventDefault()}}});
+C.addEventListener('touchmove',function(e){if(!dragging)return;e.preventDefault();var p=getPos(e);
+  objX=Math.min(-15,p.x);objHpx=Math.max(10,Math.abs(p.y));el('Hslider').value=Math.round(objHpx);update()});
+C.addEventListener('touchend',function(){dragging=false});
+
+// Physics: n1/s + n2/s' = (n2-n1)/R
+function calcDiopter(n1,n2,R,s){
+  var denom=(n2-n1)/R - n1/s;
+  if(Math.abs(denom)<1e-6) return{sp:Infinity,M:Infinity,atLimit:true};
+  var sp=n2/denom;
+  var M=-(n1*sp)/(n2*s);
+  var real=sp>0;
+  return{sp:sp,M:M,hi:M*objHpx,real:real,atLimit:false};
+}
+
+// Drawing helpers
+function toS(x,y){return{x:OX+panX+x*zoom,y:OY+panY+y*zoom}}
+function drawLine(x1,y1,x2,y2,col,w,dash){
+  var a=toS(x1,y1),b=toS(x2,y2);
+  X.strokeStyle=col;X.lineWidth=w||2;X.setLineDash(dash||[]);
+  X.beginPath();X.moveTo(a.x,a.y);X.lineTo(b.x,b.y);X.stroke();X.setLineDash([])}
+function drawDash(x1,y1,x2,y2,col,w){drawLine(x1,y1,x2,y2,col,w||1,[6,4])}
+function drawArrow(x1,y1,x2,y2,col,w){
+  drawLine(x1,y1,x2,y2,col,w);
+  var a=toS(x2,y2),b=toS(x1,y1);
+  var ang=Math.atan2(a.y-b.y,a.x-b.x),sz=10;
+  X.fillStyle=col;X.beginPath();X.moveTo(a.x,a.y);
+  X.lineTo(a.x-sz*Math.cos(ang-0.4),a.y-sz*Math.sin(ang-0.4));
+  X.lineTo(a.x-sz*Math.cos(ang+0.4),a.y-sz*Math.sin(ang+0.4));
+  X.closePath();X.fill()}
+function drawPt(x,y,col,r,label,ox,oy){
+  var p=toS(x,y);X.beginPath();X.arc(p.x,p.y,(r||5)*zoom,0,Math.PI*2);X.fillStyle=col;X.fill();
+  if(label){X.fillStyle=col;X.font='bold 12px Inter';X.textAlign='center';
+    X.fillText(label,p.x+(ox||0),p.y+(oy||-12))}}
+
+// Draw spherical surface
+function drawSurface(R){
+  var arcH=Math.min(H*0.8/zoom,Math.abs(R)*1.6);
+  var halfAng=Math.asin(Math.min(arcH/(2*Math.abs(R)),0.95));
+  var steps=80;
+  // Surface at x=0, center of curvature at x=R
+  X.strokeStyle='rgba(200,210,230,0.9)';X.lineWidth=3;X.beginPath();
+  for(var i=0;i<=steps;i++){
+    var a=-halfAng+2*halfAng*i/steps;
+    var px=R-R*Math.cos(a), py=R*Math.sin(a);
+    var s=toS(px,py);
+    if(i===0)X.moveTo(s.x,s.y);else X.lineTo(s.x,s.y)}
+  X.stroke();
+  // hatching
+  X.strokeStyle='rgba(148,163,184,0.25)';X.lineWidth=1;
+  for(var i=0;i<=steps;i+=4){
+    var a=-halfAng+2*halfAng*i/steps;
+    var px=R-R*Math.cos(a),py=R*Math.sin(a);
+    var s=toS(px,py);
+    X.beginPath();X.moveTo(s.x,s.y);X.lineTo(s.x+6,s.y-5);X.stroke()}
+}
+
+// Refract a ray at the spherical surface
+// Given incoming ray from (rx,ry) hitting surface at (hx,hy), compute refracted direction
+function refractAtSurface(rx,ry,hx,hy,R,n1,n2){
+  // Normal at hit point: from center C=(R,0) to hit point
+  var nx=hx-R, ny=hy-0;
+  var nl=Math.sqrt(nx*nx+ny*ny); nx/=nl; ny/=nl;
+  // Incident direction
+  var dx=hx-rx, dy=hy-ry;
+  var dl=Math.sqrt(dx*dx+dy*dy); dx/=dl; dy/=dl;
+  // Make normal point against incident ray
+  var dot=dx*nx+dy*ny;
+  if(dot>0){nx=-nx;ny=-ny;dot=-dot}
+  // Snell: n1*sin(theta1)=n2*sin(theta2)
+  var ratio=n1/n2;
+  var disc=1-ratio*ratio*(1-dot*dot);
+  if(disc<0) return null; // total internal reflection
+  var cosT2=Math.sqrt(disc);
+  var tx=ratio*dx+(ratio*dot+cosT2)*(-nx);  // Wait, let me redo
+  // Actually: t = ratio*d + (ratio*cos_i - cos_t)*n
+  // where n points from medium2 to medium1 (against incoming ray)
+  var tx2=ratio*dx+(ratio*(-dot)-cosT2)*nx;
+  var ty2=ratio*dy+(ratio*(-dot)-cosT2)*ny;
+  var tl=Math.sqrt(tx2*tx2+ty2*ty2);tx2/=tl;ty2/=tl;
+  return{dx:tx2,dy:ty2};
+}
+
+// Find intersection of ray from (rx,ry) in direction (dx,dy) with sphere centered at (R,0) radius |R|
+function hitSphere(rx,ry,ddx,ddy,R){
+  var cx=R,cy=0,rad=Math.abs(R);
+  var ox=rx-cx,oy=ry-cy;
+  var a2=ddx*ddx+ddy*ddy;
+  var b2=2*(ox*ddx+oy*ddy);
+  var c2=ox*ox+oy*oy-rad*rad;
+  var disc=b2*b2-4*a2*c2;
+  if(disc<0)return null;
+  var sq=Math.sqrt(disc);
+  var t1=(-b2-sq)/(2*a2), t2=(-b2+sq)/(2*a2);
+  var t=t1>0.1?t1:(t2>0.1?t2:null);
+  if(t===null)return null;
+  return{x:rx+ddx*t,y:ry+ddy*t,t:t};
+}
+
+function update(){
+  var n1=parseFloat(el('n1slider').value);
+  var n2=parseFloat(el('n2slider').value);
+  var R=parseInt(el('Rslider').value);
+  objHpx=parseInt(el('Hslider').value);
+  el('n1Val').textContent=n1.toFixed(2);
+  el('n2Val').textContent=n2.toFixed(2);
+  el('rVal').textContent=R;
+  el('hVal').textContent=objHpx;
+  el('zoomVal').textContent=Math.round(zoom*100)+'%';
+
+  var s=Math.abs(objX); // object distance (positive)
+  var res=calcDiopter(n1,n2,R,s);
+
+  // Clear & draw background
+  C.width=C.width;
+  var bg=X.createRadialGradient(OX,OY,50,OX,OY,W);
+  bg.addColorStop(0,'#0f1629');bg.addColorStop(1,'#060a14');
+  X.fillStyle=bg;X.fillRect(0,0,W,H);
+
+  // Media shading
+  var sv=toS(0,0);
+  // Left medium (n1) - subtle blue tint
+  X.fillStyle='rgba(99,102,241,0.04)';
+  X.fillRect(0,0,sv.x,H);
+  // Right medium (n2) - subtle cyan tint
+  X.fillStyle='rgba(6,182,212,0.04)';
+  X.fillRect(sv.x,0,W-sv.x,H);
+  // Labels for media
+  X.font='11px Inter';X.textAlign='center';
+  X.fillStyle='rgba(129,140,248,0.5)';X.fillText('n₁ = '+n1.toFixed(2),sv.x-70*zoom,30);
+  X.fillStyle='rgba(6,182,212,0.5)';X.fillText('n₂ = '+n2.toFixed(2),sv.x+70*zoom,30);
+
+  // Grid
+  X.strokeStyle='rgba(148,163,184,0.06)';X.lineWidth=1;
+  var gs=50*zoom;
+  for(var gx=OX%gs;gx<W;gx+=gs){X.beginPath();X.moveTo(gx,0);X.lineTo(gx,H);X.stroke()}
+  for(var gy=OY%gs;gy<H;gy+=gs){X.beginPath();X.moveTo(0,gy);X.lineTo(W,gy);X.stroke()}
+
+  // Optical axis
+  drawLine(-W,0,W,0,'rgba(148,163,184,0.25)',1);
+  var axP=toS(0,0);
+  X.fillStyle='rgba(148,163,184,0.3)';X.font='10px Inter';X.textAlign='left';
+  X.fillText('Eje óptico',axP.x+10,axP.y+14);
+
+  // Spherical surface
+  drawSurface(R);
+
+  // Mark V (vertex at 0,0) and C (center of curvature at R,0)
+  drawPt(0,0,'#e2e8f0',4,'V',0,-14);
+  drawPt(R,0,'#f87171',4,'C',0,-14);
+
+  // Focal points: f1 = n1*R/(n2-n1), f2 = n2*R/(n2-n1)
+  var dn=n2-n1;
+  var f1,f2;
+  if(Math.abs(dn)>0.001){
+    f1=n1*R/dn; // object focal length (front)
+    f2=n2*R/dn; // image focal length (back)
+    drawPt(-f1,0,'#f59e0b',5,'F₁',-2,-14);
+    drawPt(f2,0,'#fb923c',5,'F₂',2,-14);
+  }
+
+  // Object arrow
+  drawArrow(objX,0,objX,-objHpx,'#4ade80',2.5);
+  drawPt(objX,-objHpx,'#4ade80',4,'Objeto',0,-14);
+
+  // === RAY TRACING ===
+  if(!res.atLimit){
+    var sp=res.sp, M=res.M;
+    var imgX=sp, imgY=-res.hi; // image position
+    var tipX=objX, tipY=-objHpx;
+
+    // RAY 1: Parallel to axis from object tip → hits surface → refracts through F2
+    // Hits surface where y=tipY on the sphere
+    var hit1=hitSphere(tipX,tipY,1,0,R);
+    if(hit1){
+      drawLine(tipX,tipY,hit1.x,hit1.y,'#f97316',2);
+      var ref1=refractAtSurface(tipX,tipY,hit1.x,hit1.y,R,n1,n2);
+      if(ref1){
+        var ext=500;
+        drawArrow(hit1.x,hit1.y,hit1.x+ref1.dx*ext,hit1.y+ref1.dy*ext,'#f97316',2);
+        if(!res.real){
+          // extend backwards for virtual image
+          drawDash(hit1.x,hit1.y,hit1.x-ref1.dx*ext,hit1.y-ref1.dy*ext,'rgba(249,115,22,0.25)',1);
+        }
+      }
+    }
+
+    // RAY 2: From tip through center of curvature (no refraction - hits normal)
+    var dx2=R-tipX, dy2=0-tipY;
+    var len2=Math.sqrt(dx2*dx2+dy2*dy2);
+    var hit2=hitSphere(tipX,tipY,dx2/len2,dy2/len2,R);
+    if(hit2){
+      drawLine(tipX,tipY,hit2.x,hit2.y,'#a855f7',2);
+      // This ray hits surface along normal, so it continues straight
+      drawArrow(hit2.x,hit2.y,hit2.x+dx2/len2*500,hit2.y+dy2/len2*500,'#a855f7',2);
+    }
+
+    // RAY 3: From tip aimed at vertex → refracts using small angle (like thin prism)
+    var dx3=0-tipX, dy3=0-tipY;
+    var len3=Math.sqrt(dx3*dx3+dy3*dy3);
+    drawLine(tipX,tipY,0,0,'#06b6d4',2);
+    // At vertex, normal is along x-axis. Use Snell's law
+    var sinI=Math.abs(tipY)/Math.sqrt(tipX*tipX+tipY*tipY);
+    var sinR2=n1*sinI/n2;
+    if(Math.abs(sinR2)<=1){
+      var angI=Math.atan2(-tipY,-tipX); // angle of incoming ray
+      // For small angles at vertex, refracted angle from axis
+      var angR=Math.asin(sinR2);
+      // Direction: the ray bends toward axis if n2>n1
+      var refAng;
+      if(tipY<0){ // object above axis
+        refAng=angR; // goes down-right
+        var rdx=Math.cos(refAng), rdy=Math.sin(refAng);
+      } else {
+        refAng=-angR;
+        var rdx=Math.cos(refAng), rdy=Math.sin(refAng);
+      }
+      // More precise: use actual Snell refraction at vertex
+      var ref3=refractAtSurface(tipX,tipY,0,0,R,n1,n2);
+      if(ref3){
+        drawArrow(0,0,ref3.dx*500,ref3.dy*500,'#06b6d4',2);
+        if(!res.real){
+          drawDash(0,0,-ref3.dx*500,-ref3.dy*500,'rgba(6,182,212,0.25)',1);
+        }
+      }
+    }
+
+    // Image arrow
+    if(Math.abs(sp)<2000){
+      var imgCol=res.real?'#fbbf24':'rgba(251,191,36,0.6)';
+      if(!res.real){
+        X.setLineDash([6,4]);drawArrow(imgX,0,imgX,imgY,imgCol,2.5);X.setLineDash([]);
+      } else {
+        drawArrow(imgX,0,imgX,imgY,imgCol,2.5);
+      }
+      var lo=imgY<0?-14:18;
+      drawPt(imgX,imgY,imgCol,5,'Imagen',0,lo);
+    }
+  }
+
+  // Legend
+  X.font='11px Inter';X.textAlign='left';var ly=H-60;
+  X.fillStyle='#f97316';X.fillRect(10,ly,20,3);X.fillText('Rayo paralelo al eje',36,ly+4);
+  X.fillStyle='#a855f7';X.fillRect(10,ly+16,20,3);X.fillText('Rayo por centro C',36,ly+20);
+  X.fillStyle='#06b6d4';X.fillRect(10,ly+32,20,3);X.fillText('Rayo por vértice',36,ly+36);
+
+  // Results panel
+  var h='';
+  h+='<div class="data-row"><span class="data-label">n₁</span><span class="data-val">'+n1.toFixed(2)+'</span></div>';
+  h+='<div class="data-row"><span class="data-label">n₂</span><span class="data-val">'+n2.toFixed(2)+'</span></div>';
+  h+='<div class="data-row"><span class="data-label">R</span><span class="data-val">'+R+' u</span></div>';
+  if(Math.abs(dn)>0.001){
+    h+='<div class="data-row"><span class="data-label">f₁ (objeto)</span><span class="data-val">'+(n1*R/dn).toFixed(1)+' u</span></div>';
+    h+='<div class="data-row"><span class="data-label">f₂ (imagen)</span><span class="data-val">'+(n2*R/dn).toFixed(1)+' u</span></div>';
+  }
+  h+='<div class="data-row"><span class="data-label">s (objeto)</span><span class="data-val">'+s.toFixed(1)+' u</span></div>';
+  if(!res.atLimit&&Math.abs(res.sp)<9999){
+    h+='<div class="data-row"><span class="data-label">s\' (imagen)</span><span class="data-val">'+res.sp.toFixed(1)+' u</span></div>';
+    h+='<div class="data-row"><span class="data-label">M (aumento)</span><span class="data-val">'+res.M.toFixed(3)+'</span></div>';
+    h+='<div class="data-row"><span class="data-label">h\' (alt. img)</span><span class="data-val">'+(res.M*objHpx).toFixed(1)+' u</span></div>';
+  }
+  el('results').innerHTML=h;
+
+  // Status
+  var msg='';
+  if(res.atLimit) msg='<span class="badge badge-inf">∞ Imagen en el infinito</span>';
+  else if(res.real) msg='<span class="badge badge-real">✓ Imagen Real</span><br>Imagen '+(Math.abs(res.M)>1?'aumentada':'reducida')+', '+(res.M<0?'invertida':'derecha');
+  else msg='<span class="badge badge-virtual">◇ Imagen Virtual</span><br>Imagen '+(Math.abs(res.M)>1?'aumentada':'reducida')+', '+(res.M>0?'derecha':'invertida');
+  el('statusMsg').innerHTML=msg;
+
+  // Image properties
+  var ip='';
+  if(!res.atLimit&&Math.abs(res.sp)<9999){
+    ip+='<div class="data-row"><span class="data-label">Naturaleza</span><span class="data-val">'+(res.real?'Real':'Virtual')+'</span></div>';
+    ip+='<div class="data-row"><span class="data-label">Orientación</span><span class="data-val">'+(res.M<0?'Invertida':'Derecha')+'</span></div>';
+    ip+='<div class="data-row"><span class="data-label">Tamaño</span><span class="data-val">'+(Math.abs(res.M)>1.01?'Aumentada':Math.abs(res.M)<0.99?'Reducida':'Igual')+'</span></div>';
+    ip+='<div class="data-row"><span class="data-label">|M|</span><span class="data-val">'+Math.abs(res.M).toFixed(3)+'</span></div>';
+    ip+='<div class="data-row"><span class="data-label">Posición s\'</span><span class="data-val">'+(res.sp>0?'Transmisión (real)':'Incidencia (virtual)')+'</span></div>';
+  } else if(res.atLimit){
+    ip+='<div class="data-row"><span class="data-label">Imagen</span><span class="data-val">En el infinito</span></div>';
+  }
+  el('imgProps').innerHTML=ip;
+}
+
+function renderFormulas(){
+  try{
+    katex.render('\\frac{n_1}{s}+\\frac{n_2}{s\'}=\\frac{n_2-n_1}{R}',el('f1'),{displayMode:true,throwOnError:false});
+    katex.render('M=-\\frac{n_1\\,s\'}{n_2\\,s}=\\frac{h\'}{h}',el('f2'),{displayMode:true,throwOnError:false});
+    katex.render('f_1=\\frac{n_1 R}{n_2-n_1}\\qquad f_2=\\frac{n_2 R}{n_2-n_1}',el('f3'),{displayMode:true,throwOnError:false});
+    katex.render('s\'=\\frac{n_2\\,s\\,R}{(n_2-n_1)\\,s-n_1\\,R}',el('f4'),{displayMode:true,throwOnError:false});
+  }catch(e){}
+}
+</script>
+</body>
+</html>

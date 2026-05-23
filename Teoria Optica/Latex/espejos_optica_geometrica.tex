@@ -1,0 +1,605 @@
+\documentclass[12pt, a4paper]{article}
+
+% === PAQUETES ===
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{physics}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumerate}
+\usepackage[hidelinks]{hyperref}
+\usepackage{array}
+
+% === ENTORNOS ===
+\theoremstyle{definition}
+\newtheorem{definicion}{Definición}[section]
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{ejemplo}{Ejemplo}[section]
+\newtheorem{observacion}{Observación}[section]
+
+% === ENCABEZADO ===
+\title{\textbf{Óptica Geométrica: Espejos Planos y Esféricos}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+
+% ===========================================================
+\section{Introducción: La Reflexión de la Luz}
+% ===========================================================
+
+La \textbf{reflexión de la luz} es uno de los fenómenos ópticos más fundamentales. Cuando un rayo incide sobre una superficie pulida, cambia de dirección siguiendo leyes precisas.
+
+\begin{definicion}[Espejo plano]
+Un \textbf{espejo plano} es una superficie reflectante perfectamente plana. La imagen que produce tiene propiedades fascinantes que se estudian mediante la óptica geométrica.
+\end{definicion}
+
+En este documento se estudian los siguientes temas:
+\begin{itemize}
+  \item Formación de imágenes en espejos planos
+  \item Traslación de espejos
+  \item Rotación de espejos
+  \item Espejos angulares
+  \item Espejos esféricos: cóncavos y convexos
+\end{itemize}
+
+% ===========================================================
+\section{Leyes de la Reflexión}
+% ===========================================================
+
+\subsection{Primera Ley}
+
+El \textbf{rayo incidente}, la \textbf{normal} a la superficie en el punto de incidencia y el \textbf{rayo reflejado} se encuentran en un mismo plano.
+
+\subsection{Segunda Ley}
+
+El ángulo de incidencia \(i\) es igual al ángulo de reflexión \(i'\):
+
+\begin{equation}
+  i = i'
+  \label{eq:reflexion}
+\end{equation}
+
+\begin{observacion}
+``La luz siempre sigue el camino que minimiza el tiempo de recorrido'' (Principio de Fermat).
+\end{observacion}
+
+\subsection{Reflexión Especular vs.\ Difusa}
+
+\begin{itemize}
+  \item \textbf{Especular:} superficies lisas (espejos); los rayos reflejados son paralelos entre sí.
+  \item \textbf{Difusa:} superficies rugosas; los rayos se dispersan en múltiples direcciones.
+\end{itemize}
+
+\textit{\textbf{Síntesis.}} Las dos leyes de la reflexión, junto con el Principio de Fermat, constituyen la base de toda la óptica geométrica especular. La distinción entre reflexión especular y difusa explica por qué solo ciertas superficies forman imágenes nítidas: solo aquellas con rugosidad mucho menor que la longitud de onda de la luz incidente se comportan como espejos perfectos.
+
+% ===========================================================
+\section{Imágenes en Espejos Planos}
+% ===========================================================
+
+Dado un objeto, estudiemos el problema de encontrar la imagen dada por un espejo plano.
+
+Sea el objeto \(A\) situado a una distancia \(s\) del espejo. El rayo \(\overline{AO}\) es normal al espejo y \(\overline{AP}\) incide con ángulo \(i\). Los rayos reflejados divergen; prolongándolos detrás del espejo se cortan en \(A'\) a distancia \(s'\).
+
+\subsection{Demostración}
+
+\begin{enumerate}
+  \item \(\theta = i\) por ser ángulos alternos internos.
+  \item \(\varphi = i'\) por ser ángulos correspondientes.
+  \item Como \(i = i'\) (ley de reflexión) \(\Rightarrow \theta = \varphi\).
+  \item Los triángulos \(\Delta AOP\) y \(\Delta A'OP\) son congruentes.
+\end{enumerate}
+
+\begin{equation}
+  s = s'
+  \label{eq:imagen_plano}
+\end{equation}
+
+\begin{center}
+  \textit{La imagen está a la misma distancia del espejo que el objeto.}
+\end{center}
+
+\textit{\textbf{Síntesis.}} La imagen formada por un espejo plano es \textbf{virtual} (se forma detrás del espejo), \textbf{derecha} (la misma orientación que el objeto) y de \textbf{igual tamaño}. La congruencia de los triángulos \(\Delta AOP\) y \(\Delta A'OP\) es consecuencia directa de la igualdad de ángulos garantizada por la segunda ley de la reflexión.
+
+% ===========================================================
+\section{Traslación del Espejo}
+% ===========================================================
+
+\subsection{Espejos Móviles}
+
+Analicemos el desplazamiento que experimenta la imagen de un objeto cuando el espejo se mueve.
+
+Cuando un espejo se mueve una cantidad \(s\), el desplazamiento de la imagen \(d\) es el \textbf{doble} del desplazamiento del espejo:
+
+\begin{equation}
+  d = 2s
+  \label{eq:traslacion}
+\end{equation}
+
+\subsection{Demostración}
+
+\begin{enumerate}
+  \item \(\overline{OE} = \overline{EI} \Rightarrow \overline{OI} = 2 \cdot \overline{OE}\)
+  \item \(\overline{OE'} = \overline{E'I'} \Rightarrow \overline{OI'} = 2 \cdot \overline{OE'}\)
+  \item \(d = \overline{II'} = 2\overline{OE'} - 2\overline{OE} = 2(\overline{OE'} - \overline{OE}) = 2s\)
+\end{enumerate}
+
+\begin{observacion}
+Si te alejas de un espejo a \(60\) km/h, tu imagen parece alejarse a \(120\) km/h, porque \(d = 2s\).
+\end{observacion}
+
+\textit{\textbf{Síntesis.}} El factor \(2\) en la ecuación~\eqref{eq:traslacion} tiene una interpretación elegante: la imagen debe recorrer el doble de distancia porque tanto la distancia objeto–espejo como la distancia espejo–imagen cambian simultáneamente al mover el espejo. Este resultado tiene aplicaciones directas en interferometría (interferómetro de Michelson) y en el diseño de galvanómetros de espejo.
+
+% ===========================================================
+\section{Rotación del Espejo}
+% ===========================================================
+
+Si un espejo plano gira un ángulo \(\theta\), el ángulo girado por el rayo reflejado \(\delta\) es el \textbf{doble} del ángulo girado por el espejo:
+
+\begin{equation}
+  \delta = 2\theta
+  \label{eq:rotacion}
+\end{equation}
+
+\subsection{Demostración}
+
+\begin{enumerate}
+  \item Al rotar el espejo \(\theta\), las normales giran el mismo ángulo.
+  \item \(\delta = \angle AOB - \angle AOC = 2i - 2i'\)
+  \item \(\delta = 2(i - i') = 2\theta\)
+\end{enumerate}
+
+\textit{\textbf{Síntesis.}} La relación \(\delta = 2\theta\) es la base del funcionamiento de instrumentos de medición de alta precisión como el galvanómetro de espejo y el telémetro óptico. Al duplicar el ángulo de desviación del rayo, se amplifica la señal angular, permitiendo medir deflexiones muy pequeñas con gran sensibilidad.
+
+% ===========================================================
+\section{Espejos Angulares}
+% ===========================================================
+
+Cuando se tienen dos espejos planos que forman cierto ángulo \(\theta\), y se coloca un punto luminoso \(O\) entre ambos, el sistema produce varias imágenes.
+
+\subsection{Número de Imágenes}
+
+\begin{equation}
+  N = \begin{cases}
+    \dfrac{360°}{\theta} & \text{si } \dfrac{360°}{\theta} \text{ es impar} \\[10pt]
+    \dfrac{360°}{\theta} - 1 & \text{si } \dfrac{360°}{\theta} \text{ es par}
+  \end{cases}
+  \label{eq:espejos_angulares}
+\end{equation}
+
+\subsection{Tabla de valores}
+
+\begin{center}
+\begin{tabular}{@{}cccccccc@{}}
+\toprule
+\(\theta\) & \(120°\) & \(90°\) & \(72°\) & \(60°\) & \(45°\) & \(36°\) & \(30°\) \\
+\midrule
+\(N\)      & 2        & 3       & 4       & 5       & 7       & 9       & 11      \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{ejemplo}
+Para \(\theta = 60°\): \(\frac{360}{60} = 6\) (par) \(\Rightarrow N = 5\).
+
+Para \(\theta = 72°\): \(\frac{360}{72} = 5\) (impar) \(\Rightarrow N = 5\).
+\end{ejemplo}
+
+\textit{\textbf{Síntesis.}} La fórmula~\eqref{eq:espejos_angulares} refleja la simetría discreta del sistema. Cuando \(360°/\theta\) es entero, las imágenes se distribuyen uniformemente sobre una circunferencia imaginaria centrada en el vértice. La distinción par/impar surge porque, en el caso par, una imagen se formaría exactamente en la bisectriz, superponiéndose con otra, por lo que se cuenta una vez menos.
+
+% ===========================================================
+\section{Espejos Esféricos}
+% ===========================================================
+
+Un espejo esférico es un sistema óptico constituido por una porción de superficie esférica recubierta por un material reflectante. Si la superficie reflectora está situada en la cara interior de la esfera, el espejo es \textbf{cóncavo}; si está en la cara exterior, se denomina \textbf{convexo}.
+
+\subsection{Características Ópticas Fundamentales}
+
+\begin{enumerate}
+  \item \textbf{Centro de curvatura} \(C\): Es el centro de la superficie esférica que constituye el espejo.
+  \item \textbf{Radio de curvatura} \(R\): Es el radio de dicha superficie.
+  \item \textbf{Vértice} \(V\): Coincide con el centro geométrico del espejo.
+  \item \textbf{Eje principal:} Es la recta que une el centro de curvatura \(C\) con el vértice \(V\).
+  \item \textbf{Foco} \(F\): Es el punto del eje por el que pasan o donde convergen todos los rayos reflejados que inciden paralelamente al eje. En los espejos esféricos se encuentra en el punto medio entre el centro de curvatura y el vértice.
+\end{enumerate}
+
+\subsection{Tipos de Espejos Esféricos}
+
+\begin{itemize}
+  \item \textbf{Cóncavos (Convergentes):} Superficie reflectante curvada hacia adentro. Hacen que los rayos de luz paralelos converjan en un punto focal frente al espejo. Pueden formar imágenes reales o virtuales.
+  \item \textbf{Convexos (Divergentes):} Superficie reflectante curvada hacia afuera. Hacen que los rayos de luz paralelos diverjan como si provinieran de un foco virtual detrás del espejo. Siempre forman imágenes virtuales y de menor tamaño.
+\end{itemize}
+
+% ===========================================================
+\section{Fórmula de Gauss-Descartes}
+% ===========================================================
+
+\subsection{Convenciones de Signo}
+
+El centro de curvatura \(C\) es el centro de la superficie y \(V\) el polo del casquete. La línea por \(V\) y \(C\) es el \textbf{eje principal}. Tomando el origen en el vértice \(V\), las distancias a la derecha son positivas y a la izquierda negativas.
+
+\subsection{Desarrollo}
+
+Supongamos la fuente \(P\). El rayo \(PA\) se refleja como rayo \(AQ\) y, como los ángulos de incidencia y reflexión son iguales, por el teorema del ángulo externo en \(\Delta ACP\) y \(\Delta AQC\):
+
+\begin{align}
+  \beta &= i + \alpha_1 \implies \alpha_1 = \beta - i \label{eq:gauss1} \\
+  \alpha_2 &= i + \beta \label{eq:gauss2}
+\end{align}
+
+De las dos ecuaciones anteriores se concluye:
+
+\begin{equation}
+  \alpha_1 + \alpha_2 = 2\beta
+  \label{eq:gauss3}
+\end{equation}
+
+Suponiendo rayos \textbf{paraxiales} (ángulos pequeños: \(\overline{VP} \approx 0\)):
+
+\begin{align}
+  \alpha_1 &\approx \tan\alpha_1 = \frac{h}{VP - VB} \approx \frac{h}{VP} = \frac{h}{p} \nonumber \\
+  \alpha_2 &\approx \tan\alpha_2 = \frac{h}{VQ - VB} \approx \frac{h}{VQ} = \frac{h}{q} \nonumber \\
+  \beta    &\approx \tan\beta    = \frac{h}{VC - VB} \approx \frac{h}{VC} = \frac{h}{r} \nonumber
+\end{align}
+
+Sustituyendo en~\eqref{eq:gauss3} y cancelando el factor común \(h\), se obtiene la \textbf{fórmula de Descartes}:
+
+\begin{equation}
+  \frac{1}{p} + \frac{1}{q} = \frac{2}{r}
+  \label{eq:descartes}
+\end{equation}
+
+Para el caso en que el rayo incidente es paralelo (\(p = \infty\)), la ecuación se convierte en \(1/q = 2/r\), y la imagen cae en el \textbf{foco} \(F\) a distancia focal \(f\):
+
+\begin{equation}
+  f = \frac{r}{2} \implies \frac{1}{p} + \frac{1}{q} = \frac{1}{f}
+  \label{eq:focal}
+\end{equation}
+
+\textit{\textbf{Síntesis.}} La ecuación~\eqref{eq:focal} es la piedra angular de la óptica geométrica de espejos esféricos. Su derivación bajo la aproximación paraxial pone de manifiesto la limitación fundamental de los espejos esféricos reales: para rayos no paraxiales, la fórmula deja de ser válida y aparece la \textit{aberración esférica}. Los espejos parabólicos eliminan esta aberración exactamente, lo que explica su uso en telescopios astronómicos.
+
+% ===========================================================
+\section{Aumento Lateral}
+% ===========================================================
+
+El \textbf{aumento lateral} \(A\) en un espejo esférico indica qué tan grande o pequeña es la imagen en comparación con el objeto original:
+
+\begin{equation}
+  A = \frac{h_i}{h_o}
+  \label{eq:aumento_def}
+\end{equation}
+
+Haciendo uso de la geometría de los rayos (específicamente el rayo que incide en el vértice) y la relación de los triángulos semejantes:
+
+\begin{equation}
+  \tan\theta = \frac{h_o}{p} = -\frac{h_i}{q}
+  \label{eq:triangulos}
+\end{equation}
+
+Reescribiendo esta expresión, el aumento lateral se puede calcular utilizando las distancias del objeto \((p)\) y la imagen \((q)\):
+
+\begin{equation}
+  A = \frac{h_i}{h_o} = -\frac{q}{p}
+  \label{eq:aumento}
+\end{equation}
+
+\subsection{Interpretación del Signo y Valor}
+
+El símbolo y la magnitud de \(A\) contienen información vital sobre la naturaleza visual de la imagen:
+
+\paragraph{Orientación (El Signo):}
+\begin{enumerate}
+  \item Si \(A > 0\): La imagen es \textbf{derecha} (orientada en la misma dirección que el objeto). Siempre es \textbf{virtual}.
+  \item Si \(A < 0\): La imagen es \textbf{invertida} (de cabeza). Siempre es \textbf{real}.
+\end{enumerate}
+
+\paragraph{Tamaño (El Valor Absoluto):}
+\begin{enumerate}
+  \item Si \(|A| > 1\): Ampliada (ej.\ si \(A = -2\), es invertida y doble de grande).
+  \item Si \(|A| < 1\): Reducida.
+  \item Si \(|A| = 1\): De igual tamaño.
+\end{enumerate}
+
+\textit{\textbf{Síntesis.}} Las ecuaciones~\eqref{eq:descartes} y~\eqref{eq:aumento} conforman el sistema completo de la óptica paraxial de espejos esféricos. El signo negativo en~\eqref{eq:aumento} garantiza la consistencia con la convención de signos: una imagen real (\(q > 0\)) produce \(A < 0\) (invertida), mientras que una imagen virtual (\(q < 0\)) produce \(A > 0\) (derecha).
+
+% ===========================================================
+\section{Espejos Cóncavos}
+% ===========================================================
+
+\begin{definicion}[Espejo cóncavo]
+Los \textbf{espejos cóncavos} son aquellos espejos esféricos donde la parte reflectante se encuentra en la superficie interna de la esfera. Reflejan la luz haciéndola converger en un punto focal, por lo que también se les llama \textbf{espejos convergentes}.
+\end{definicion}
+
+La distancia focal \(f\) se considera \textbf{positiva} para los espejos cóncavos y \textbf{negativa} para los espejos convexos.
+
+\subsection{Rayos Notables}
+
+Existen determinados rayos de luz que al incidir en un espejo esférico siempre se reflejan del mismo modo. Utilizándolos se puede comprender cómo se forman las imágenes:
+
+\begin{enumerate}
+  \item \textbf{Rayo paralelo al eje principal:} Su rayo reflejado pasa por el foco.
+  \item \textbf{Rayo focal:} Incide pasando por el foco; se refleja paralelo al eje principal.
+  \item \textbf{Rayo central:} Incide pasando por el centro; el rayo reflejado coincide con el incidente.
+  \item \textbf{Rayo incidente dirigido hacia el vértice:} El rayo reflejado es simétrico respecto al rayo incidente.
+\end{enumerate}
+
+\subsection{Naturaleza de la Imagen}
+
+La posición de la imagen es el punto donde se interceptan los rayos reflejados (\textbf{imagen real}) o sus prolongaciones (\textbf{imagen virtual}). Cuando la imagen es real \(q > 0\) y la imagen se encuentra dentro del campo del espejo (a la derecha del vértice); si la imagen es virtual, \(q < 0\) y la imagen se encontrará fuera del campo del espejo (a la izquierda del vértice).
+
+\subsection{Formación de Imágenes: Cinco Casos}
+
+Consideremos un objeto frente a un espejo cóncavo. Dependiendo de su distancia respecto al centro y al foco, las imágenes cambian. Analizamos los cinco casos principales:
+
+\paragraph{Caso 1: Objeto más allá de \(C\).}
+El objeto está posicionado entre el centro de curvatura y el infinito.
+\begin{enumerate}
+  \item Naturaleza: \textbf{Real}.
+  \item Orientación: \textbf{Invertida} (\(A < 0\)).
+  \item Tamaño: \textbf{Menor} (\(|A| < 1\)).
+  \item Posición: Entre \(C\) y \(F\).
+\end{enumerate}
+
+\paragraph{Caso 2: Objeto en el centro \(C\).}
+\begin{itemize}
+  \item Naturaleza: Real \,|\, Orientación: Invertida \,|\, Tamaño: Igual (\(|A| = 1\)).
+  \item La imagen se forma exactamente debajo del objeto en el mismo centro de curvatura.
+\end{itemize}
+
+\paragraph{Caso 3: Objeto entre \(C\) y \(F\).}
+\begin{itemize}
+  \item Naturaleza: Real \,|\, Orientación: Invertida \,|\, Tamaño: Mayor (\(|A| > 1\)).
+  \item Se forma a la izquierda del centro \(C\); es más grande y retrocede hacia el infinito a medida que el objeto avanza.
+\end{itemize}
+
+\paragraph{Caso 4: Objeto en el Foco \(F\).}
+\textbf{¡No se forma imagen!} Los rayos reflejados por el espejo salen completamente paralelos entre sí. Teóricamente se dice que la imagen se forma en el infinito, por lo cual nuestros ojos no son capaces de percibir una imagen enfocada.
+
+\paragraph{Caso 5: Objeto entre \(F\) y \(V\).}
+Al situarse entre el foco y el vértice, el espejo cóncavo actúa como \textbf{lupa}.
+\begin{enumerate}
+  \item Naturaleza: \textbf{Virtual} (se forma con prolongaciones de rayos detrás).
+  \item Orientación: \textbf{Derecha} (\(A > 0\)).
+  \item Tamaño: \textbf{Mayor tamaño} (\(A > 1\)).
+  \item Posición: A la izquierda del vértice.
+\end{enumerate}
+
+\begin{observacion}[El Campo Real]
+El campo está constituido por la región de espacio \textbf{frente} al espejo de donde vienen los rayos. Las imágenes reales e invertidas habitan la región física (frente al espejo), mientras que las imágenes virtuales siempre se perciben ilusoriamente a través de la frontera visual que es la superficie de vidrio (detrás del espejo).
+\end{observacion}
+
+\textit{\textbf{Síntesis.}} Los cinco casos del espejo cóncavo ilustran un comportamiento continuo: a medida que el objeto se acerca desde el infinito, la imagen real se aleja del foco hacia el infinito (pasando por el centro), desaparece en \(F\), y reaparece como imagen virtual ampliada detrás del espejo. Este comportamiento es la base del diseño de lupas, telescopios reflectores, faros y espejos dentales.
+
+% ===========================================================
+\section{Espejos Convexos}
+% ===========================================================
+
+\begin{definicion}[Espejo convexo]
+Los \textbf{espejos convexos} son aquellos espejos esféricos donde la parte reflectante se encuentra en la superficie \textbf{externa} de la esfera. También se les llama \textbf{espejos divergentes}.
+\end{definicion}
+
+Los espejos convexos \textbf{solamente producen imágenes virtuales}; además, estas imágenes siempre son de menor tamaño que el objeto.
+
+\subsection{Foco Virtual}
+
+Las prolongaciones de los rayos reflejados convergen detrás del espejo. Por este motivo, la distancia focal \(f\) se considera \textbf{negativa}.
+
+\subsection{Rayos Notables}
+
+Al igual que en los cóncavos, existen rayos notables para espejos convexos que permiten hallar las imágenes trazando sus prolongaciones detrás del espejo:
+
+\begin{enumerate}
+  \item \textbf{Rayo paralelo al eje principal:} La \textbf{prolongación} del rayo reflejado pasa por el foco.
+  \item \textbf{Rayo focal:} Incide dirigiéndose hacia el foco; se refleja paralelo al eje principal.
+  \item \textbf{Rayo central:} Incide dirigiéndose hacia el centro; el rayo reflejado coincide con el incidente.
+  \item \textbf{Rayo incidente dirigido hacia el vértice:} El rayo reflejado es simétrico respecto al rayo incidente.
+\end{enumerate}
+
+\textit{\textbf{Síntesis.}} La invariancia de las imágenes virtuales, derechas y reducidas en los espejos convexos los hace ideales para aplicaciones que requieren un campo visual amplio: espejos retrovisores, espejos de seguridad en tiendas y curvas de carretera. La pérdida de tamaño se compensa con la ganancia en ángulo de visión, que es siempre mayor que el del espejo equivalente plano.
+
+% ===========================================================
+\section{Aplicaciones y Ejemplos Resueltos}
+% ===========================================================
+
+\subsection{Espejo Odontológico}
+
+\begin{ejemplo}[El Dentista]
+Un dentista usa un espejo para examinar un diente. El diente se encuentra a \(1{,}00\) cm en frente del espejo y la imagen se forma \(10{,}0\) cm detrás del espejo.
+
+Determine:
+\begin{enumerate}[(a)]
+  \item El radio de curvatura del espejo.
+  \item El aumento de la imagen.
+\end{enumerate}
+\end{ejemplo}
+
+\paragraph{Solución y Análisis.}
+Identificamos primero que la imagen está ampliada (caso clásico para ver el diente de cerca), por tanto el espejo \textbf{debe ser cóncavo}. Además, la imagen está \textit{detrás} del espejo, así que es \textbf{virtual} y la distancia de la imagen \(q\) debe ser negativa:
+
+\[
+  p = 1{,}00 \text{ cm}, \qquad q = -10{,}0 \text{ cm}
+\]
+
+Utilizando la ecuación de Descartes \(\dfrac{1}{f} = \dfrac{1}{p} + \dfrac{1}{q}\), despejamos la distancia focal \(f\):
+
+\begin{equation}
+  f = \frac{p \cdot q}{p + q} = \frac{(1 \text{ cm})(-10 \text{ cm})}{1 \text{ cm} - 10 \text{ cm}} = 1{,}11 \text{ cm}
+  \label{eq:dental_f}
+\end{equation}
+
+\textbf{(a)} El radio de curvatura es:
+\begin{equation}
+  R = 2 \cdot f = 2(1{,}11 \text{ cm}) = 2{,}22 \text{ cm}
+  \label{eq:dental_R}
+\end{equation}
+
+\textbf{(b)} El aumento del espejo es:
+\begin{equation}
+  A = -\frac{q}{p} = -\frac{(-10 \text{ cm})}{1 \text{ cm}} = 10
+  \label{eq:dental_A}
+\end{equation}
+
+Un aumento de \(10\) significa que la imagen del diente es \textbf{derecha} (\(A > 0\)) y se ve \textbf{diez veces más grande} (\(|A| = 10\)).
+
+% -----------------------------------------------------------
+\subsection{Espejo y Pantalla}
+% -----------------------------------------------------------
+
+\begin{ejemplo}[Problema de la Pantalla]
+Con un espejo esférico se forma, sobre una pantalla colocada a \(5{,}00\) m del objeto, una imagen con un tamaño cinco veces el del objeto.
+
+\begin{enumerate}[(a)]
+  \item Describa el tipo de espejo requerido.
+  \item ¿Dónde, en relación con el objeto, debe colocarse el espejo?
+\end{enumerate}
+\end{ejemplo}
+
+\paragraph{Solución al inciso (a).}
+Para que la imagen se pueda \textbf{proyectar} sobre una pantalla física, debe ser \textbf{real}. Solo los \textbf{espejos cóncavos} pueden formar imágenes reales. Además, como la imagen es mayor que el objeto (\(|A| = 5\)), el objeto obligatoriamente está entre el \textbf{centro de curvatura y el foco}.
+
+El aumento del espejo al formarse una imagen real (invertida) es:
+\[
+  A = \frac{h_i}{h_o} = \frac{-5h_o}{h_o} = -5
+\]
+
+\paragraph{Solución al inciso (b).}
+Utilizando la ecuación de aumento, determinamos la relación entre distancia de la imagen \((q)\) y el objeto \((p)\):
+
+\begin{equation}
+  A = -\frac{q}{p} = -5 \implies q = 5 \cdot p
+  \label{eq:pantalla1}
+\end{equation}
+
+La distancia entre el objeto y la imagen en la pantalla es \(d = 5{,}00\) m:
+
+\begin{align}
+  p + d = q &\implies d = q - p \nonumber \\
+  d = 5p - p &\implies d = 4 \cdot p \label{eq:pantalla2}
+\end{align}
+
+Sabiendo que \(d = 4 \cdot p\) y que la pantalla está a \(5{,}00\) m del objeto, despejamos la posición \(p\) del espejo:
+
+\begin{equation}
+  p = \frac{d}{4} = \frac{5{,}00 \text{ m}}{4} = 1{,}25 \text{ m}
+  \label{eq:pantalla_p}
+\end{equation}
+
+\textbf{R/.} El espejo debe colocarse exactamente a \(1{,}25\) m frente al objeto.
+
+La ubicación exacta de la pantalla donde se forma la imagen será:
+\begin{equation}
+  q = 5 \cdot p = 5(1{,}25 \text{ m}) = 6{,}25 \text{ m}
+  \label{eq:pantalla_q}
+\end{equation}
+
+La distancia focal del espejo requerido:
+\begin{equation}
+  f = \frac{p \cdot q}{p + q} = \frac{(1{,}25 \text{ m})(6{,}25 \text{ m})}{1{,}25 \text{ m} + 6{,}25 \text{ m}} = \frac{7{,}8125 \text{ m}^2}{7{,}5 \text{ m}} \approx 1{,}042 \text{ m}
+  \label{eq:pantalla_f}
+\end{equation}
+
+El radio de curvatura que debe tener el espejo:
+\begin{equation}
+  R = 2 \cdot f = 2(1{,}042 \text{ m}) \approx 2{,}083 \text{ m}
+  \label{eq:pantalla_R}
+\end{equation}
+
+\begin{observacion}[Conclusión Práctica]
+Este montaje permite amplificar la luz proveniente de un objeto y proyectarla como un ``cine'' sobre una pantalla a cinco metros de distancia. Usando simplemente geometría y un espejo con casi \(2{,}1\) m de curvatura, se logra ampliar la proyección un \(500\%\) en el mundo real.
+\end{observacion}
+
+% -----------------------------------------------------------
+\subsection{El Rectángulo}
+% -----------------------------------------------------------
+
+\begin{ejemplo}[Problema del Rectángulo]
+Un rectángulo de \(10\) cm \(\times\) \(20\) cm se coloca de forma que su borde izquierdo está a \(40\) cm a la derecha de un espejo cóncavo de \(20\) cm de radio de curvatura.
+
+Dibuje la imagen formada por el espejo. ¿Cuál es el área de la imagen?
+\end{ejemplo}
+
+\paragraph{Paso 1: Foco.}
+Como el radio de curvatura es de \(20\) cm, calculamos la distancia focal \(f\):
+\begin{equation}
+  f = \frac{R}{2} = \frac{20 \text{ cm}}{2} = 10 \text{ cm}
+  \label{eq:rect_f}
+\end{equation}
+
+\paragraph{Paso 2: Trazado de Rayos.}
+Para hallar la imagen de la figura rectangular completa, se utilizan los rayos de luz incidentes provenientes de los extremos superiores de la figura: el segmento \(ad\) (a 40 cm) y el segmento \(be\) (a 60 cm).
+
+\paragraph{Análisis Gráfico.}
+El punto más lejano proyectará una imagen más cercana al foco, y el punto más cercano proyectará una imagen más lejana. Esto deforma el rectángulo convirtiéndolo en un \textbf{trapecio invertido}.
+
+\paragraph{Cálculos Exactos.}
+
+\textbf{1. Imagen del segmento \(ad\) (Borde Izquierdo):}
+
+Se encuentra a \(p_1 = 40\) cm con altura \(h_{o1} = 10\) cm. Calculamos la posición \(q_1\) de su imagen:
+\begin{equation}
+  q_1 = \frac{p_1 \cdot f}{p_1 - f} = \frac{(40)(10)}{40 - 10} = 13{,}33 \text{ cm}
+  \label{eq:rect_q1}
+\end{equation}
+
+Su altura proyectada \(h_1\) (según el aumento):
+\begin{equation}
+  h_1 = -\left(\frac{q_1}{p_1}\right)h_{o1} = -\left(\frac{13{,}33}{40}\right)(10) \approx -3{,}33 \text{ cm}
+  \label{eq:rect_h1}
+\end{equation}
+
+\textbf{2. Imagen del segmento \(be\) (Borde Derecho):}
+
+Sumando la longitud del objeto (20 cm) a la posición inicial, se ubica a \(p_2 = 40 + 20 = 60\) cm. Calculamos \(q_2\):
+\begin{equation}
+  q_2 = \frac{p_2 \cdot f}{p_2 - f} = \frac{(60)(10)}{60 - 10} = 12 \text{ cm}
+  \label{eq:rect_q2}
+\end{equation}
+
+Y su nueva altura \(h_2\):
+\begin{equation}
+  h_2 = -\left(\frac{q_2}{p_2}\right)h_{o2} = -\left(\frac{12}{60}\right)(10) = -2 \text{ cm}
+  \label{eq:rect_h2}
+\end{equation}
+
+\paragraph{Área de la Imagen.}
+Como analizamos en el gráfico, la figura que en un principio era un rectángulo perfecto, al ser reflejada por el espejo cóncavo, se deforma transformándose en un \textbf{trapezoide}.
+
+Para hallar el área del trapecio formado, tomamos las alturas obtenidas (en valor absoluto) como las bases del trapecio \((h_1, h_2)\), y la diferencia de posiciones \(\Delta q = q_1 - q_2\) como su altura central:
+
+\begin{equation}
+  A = \frac{(h_1 + h_2)(q_1 - q_2)}{2} = \frac{(3{,}333 + 2)(13{,}333 - 12)}{2} \text{ cm}^2 \approx 3{,}56 \text{ cm}^2
+  \label{eq:rect_area}
+\end{equation}
+
+\textit{\textbf{Síntesis.}} El ejemplo del rectángulo ilustra una propiedad fundamental de los espejos esféricos: la \textbf{distorsión geométrica}. A diferencia de los espejos planos, que preservan la forma de los objetos, los espejos esféricos producen imágenes en las que distintos puntos del objeto se mapean a distintos aumentos. Esto es consecuencia directa de la no linealidad de la ecuación de Descartes y constituye la base física de la aberración de coma en óptica.
+
+% ===========================================================
+\section*{Ecuaciones Clave}
+% ===========================================================
+\addcontentsline{toc}{section}{Ecuaciones clave}
+
+\begin{center}
+\begin{tabular}{@{}clll@{}}
+\toprule
+\textbf{\#} & \textbf{Descripción} & \textbf{Ecuación} & \textbf{Variables} \\
+\midrule
+1 & Ley de reflexión & \(i = i'\) & \(i\): ángulo de incidencia, \(i'\): ángulo de reflexión \\
+2 & Imagen en espejo plano & \(s = s'\) & \(s\): distancia objeto, \(s'\): distancia imagen \\
+3 & Traslación de espejo & \(d = 2s\) & \(d\): desplaz.\ imagen, \(s\): desplaz.\ espejo \\
+4 & Rotación de espejo & \(\delta = 2\theta\) & \(\delta\): giro rayo reflejado, \(\theta\): giro espejo \\
+5 & Espejos angulares & \(N = 360°/\theta\) ó \(N-1\) & \(N\): número de imágenes, \(\theta\): ángulo entre espejos \\
+6 & Fórmula de Descartes & \(\dfrac{1}{p}+\dfrac{1}{q}=\dfrac{2}{r}\) & \(p\): dist.\ objeto, \(q\): dist.\ imagen, \(r\): radio curvatura \\
+7 & Distancia focal & \(f = r/2\) & \(f\): distancia focal \\
+8 & Ecuación del espejo & \(\dfrac{1}{p}+\dfrac{1}{q}=\dfrac{1}{f}\) & Forma estándar \\
+9 & Aumento lateral & \(A = -q/p\) & \(A\): aumento, signo indica orientación \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}
